@@ -1,0 +1,1 @@
+Attempt to rewrite Spin.js in pure JavaScript.
