@@ -210,23 +210,35 @@
      *
      * @name spin.getPanel
      * @function
-     * @param {Number|String|HTMLElement} elt
+     * @param {HTMLElement|String|Number} elt
      * @returns {HTMLElement}
-     * @throws 'panel not found'
+     * @throws {Error} 'bad function call'
+     * @throws {Error} 'panel not found'
      */
     spin.getPanel = getPanel = function (elt) {
+        if (!arguments.length
+            || (
+                !isElement(elt)
+                && (!isString(elt) || !elt.trim())
+                && (!isNumber(elt) || !isFinite(elt))
+            )) {
+            throw new Error('bad function call');
+        }
+
         if (isNumber(elt)) {
             elt = el.panels.childNodes[elt];
         }
         else if (isString(elt)) {
             elt = doc.getElementById(elt);
         }
+
         while (isElement(elt)) {
             if (isPanel(elt)) {
                 return elt;
             }
             elt = elt.parentNode;
         }
+
         throw new Error('panel not found');
     };
 

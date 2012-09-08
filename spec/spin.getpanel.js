@@ -12,29 +12,40 @@ describe('spin.getPanel(elt)', function () {
         expect(spin.getPanel(elt)).toBe(panel);
     });
 
-    it('Throws an error if panel cannot be found', function () {
+    it('Throws an error if elt is not valid', function () {
+        var badCallErr = new Error('bad function call');
 
-        var notFound = new Error('panel not found');
-
-        function getPanel(arg) {
+        function badCall(arg) {
             return spin.getPanel.bind({}, arg);
         }
 
-        expect(getPanel()).toThrow(notFound);
-        expect(getPanel(null)).toThrow(notFound);
-        expect(getPanel(false)).toThrow(notFound);
-        expect(getPanel(true)).toThrow(notFound);
-        expect(getPanel(-200)).toThrow(notFound);
-        expect(getPanel(200)).toThrow(notFound);
-        expect(getPanel(NaN)).toThrow(notFound);
-        expect(getPanel(Infinity)).toThrow(notFound);
-        expect(getPanel([])).toThrow(notFound);
-        expect(getPanel({})).toThrow(notFound);
-        expect(getPanel('unknown_id')).toThrow(notFound);
-        expect(getPanel('')).toThrow(notFound);
-        expect(getPanel('   ')).toThrow(notFound);
-        expect(getPanel(document.body)).toThrow(notFound);
-        expect(getPanel(document.documentElement)).toThrow(notFound);
-        expect(getPanel(function (){})).toThrow(notFound);
+        expect(badCall()).toThrow(badCallErr);
+        expect(badCall(null)).toThrow(badCallErr);
+        expect(badCall(undefined)).toThrow(badCallErr);
+        expect(badCall(false)).toThrow(badCallErr);
+        expect(badCall(true)).toThrow(badCallErr);
+        expect(badCall('')).toThrow(badCallErr);
+        expect(badCall('   ')).toThrow(badCallErr);
+        expect(badCall({})).toThrow(badCallErr);
+        expect(badCall([])).toThrow(badCallErr);
+        expect(badCall(function () {})).toThrow(badCallErr);
+        expect(badCall(Infinity)).toThrow(badCallErr);
+        expect(badCall(-Infinity)).toThrow(badCallErr);
+        expect(badCall(NaN)).toThrow(badCallErr);
+    });
+
+    it('Throws an error if the corresponding panel is not found', function () {
+
+        var notFoundErr = new Error('panel not found');
+
+        function notFound(arg) {
+            return spin.getPanel.bind({}, arg);
+        }
+        // These are valid calls but we expect them to fail
+        expect(notFound(-200)).toThrow(notFoundErr);
+        expect(notFound(200)).toThrow(notFoundErr);
+        expect(notFound('unknown_id')).toThrow(notFoundErr);
+        expect(notFound(document.body)).toThrow(notFoundErr);
+        expect(notFound(document.documentElement)).toThrow(notFoundErr);
     });
 });
