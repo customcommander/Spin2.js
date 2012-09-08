@@ -217,7 +217,7 @@
      * spin.getPanel('elementID');
      *
      * @example
-     * // Previous example could be rewritting like this
+     * // Previous example could be rewritten like this
      * spin.getPanel(document.getElementById('elementID'));
      *
      * @name spin.getPanel
