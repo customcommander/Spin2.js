@@ -208,6 +208,18 @@
     /**
      * Returns corresponding panel.
      *
+     * @example
+     * // Returns the third panel (zero based index)
+     * spin.getPanel(2);
+     *
+     * @example
+     * // Returns the panel that contains that element
+     * spin.getPanel('elementID');
+     *
+     * @example
+     * // Previous example could be rewritting like this
+     * spin.getPanel(document.getElementById('elementID'));
+     *
      * @name spin.getPanel
      * @function
      * @param {HTMLElement|String|Number} elt
