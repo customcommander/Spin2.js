@@ -1,3 +1,13 @@
+function panelTitle(panel, retNode) {
+    var node = panel.querySelector('.spin-title');
+    return retNode ? node : node.innerHTML;
+}
+
+function panelContent(panel, retNode) {
+    var node = panel.querySelector('.spin-panel-bd');
+    return retNode ? node : node.innerHTML;
+}
+
 function triggerEvent(type, el) {
     var ev = document.createEvent('Event');
     ev.initEvent(type, true, true);
