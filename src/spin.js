@@ -153,20 +153,38 @@
      *
      * @name window.spin
      * @function
-     * @param {Object} [o] key/value pairs object
-     * @returns {HTMLElement} panel
-     * @throws {Error} If called with an argument that is not an object
+     * @param {Object} [cfg] Settings for the new panel
+     * @param {String} [cfg.content] Panel content (html)
+     * @param {String} [cfg.title] Panel title
+     * @returns {HTMLElement}
+     * @throws {Error} If cfg is passed and is not an object.
+     *                 If content is passed and is not a string.
+     *                 If title is passed and is not a string.
      */
-    win.spin = spin = function (o){
+    win.spin = spin = function (cfg){
         var panel;
 
-        if (!arguments.length) o = {};
-        if (!isObject(o)) throw new Error('bad function call');
+        if (!arguments.length) {
+            cfg = {};
+        }
 
-        if (!isString(o.title)) o.title = '';
-        if (!isString(o.content) && !isElement(o.content)) o.content = '';
+        if (
+            !isObject(cfg)
+            || (cfg.hasOwnProperty('content') && !isString(cfg.content))
+            || (cfg.hasOwnProperty('title') && !isString(cfg.title)) 
+            ) {
+            throw new Error('bad function call');
+        }
 
-        panel = appendPanel(o);
+        if (!cfg.content) {
+            cfg.content = '';
+        }
+
+        if (!cfg.title) {
+            cfg.title = '';
+        }
+
+        panel = appendPanel(cfg);
 
         return panel;
     };
@@ -310,11 +328,7 @@
 
             //When request finishes
             spin.xhrLoader.xhr.addEventListener('load', function () {
-                spin({
-                    title: 'foo',
-                    content: this.responseText,
-                    referrer: el
-                });
+                spin({ content: this.responseText });
             }, false);
 
             spin.xhrLoader.xhr.addEventListener('error', function () {
