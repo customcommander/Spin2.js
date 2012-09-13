@@ -147,9 +147,21 @@
 
         return el.panels.appendChild(panel);
     }
-    
+
     /**
-     * Appends a new panel and returns it
+     * Appends a new panel and returns it.
+     *
+     * @example
+     * // Adds an empty panel (no content, no title)
+     * spin();
+     *
+     * @example
+     * // Adds a panel with content and title
+     * spin({ content: '<p>Hello World!</p>', title: 'Hi' });
+     *
+     * @example
+     * // Adds a panel with content only
+     * spin({ content: '<p>Hello Again!</p>' });
      *
      * @name window.spin
      * @function
@@ -157,9 +169,9 @@
      * @param {String} [cfg.content] Panel content (html)
      * @param {String} [cfg.title] Panel title
      * @returns {HTMLElement}
-     * @throws {Error} If cfg is passed and is not an object.
-     *                 If content is passed and is not a string.
-     *                 If title is passed and is not a string.
+     * @throws {Error} If cfg is passed and is not an object,
+     *                 or if content is passed and is not a string,
+     *                 or if title is passed and is not a string.
      */
     win.spin = spin = function (cfg){
         var panel;
