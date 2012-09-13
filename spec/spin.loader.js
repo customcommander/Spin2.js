@@ -1,13 +1,13 @@
 // Expected behaviour for spin.loader
-describe('spin.loader()', function () {
+describe('spin.loader([fn])', function () {
 
-    describe('If called with no argument', function () {
+    describe('If fn is not passed', function () {
         it('Returns the current loader', function () {
             expect(spin.loader()).toBe(spin.xhrLoader);
         });
     });
 
-    describe('If argument is a function', function (){
+    describe('If fn is passed', function (){
 
         // Make sure we restore the default loader after the tests
         afterEach(function () {
@@ -30,9 +30,9 @@ describe('spin.loader()', function () {
         });
     });
 
-    describe('If argument is not a function', function () {
+    describe('If fn is passed and is not a function', function () {
 
-        it('Throws a "bad function call" error', function () {
+        it('Throws an error', function () {
             var err = new Error("bad function call");
 
             function loader(arg) {
