@@ -4,6 +4,27 @@ describe('spin.moveTo(elt)', function () {
 
     var panels; // Reference to #spin-panels
 
+    // Possible visibility states for a panel during of after animation
+    var visibility = {
+        visible:     10,
+        hidden:      11
+    };
+
+    // Possible directions for the animation
+    var dir = {
+        left:        20,
+        right:       21
+    };
+
+    // Possible states for a panel during or after animation
+    var state = {
+        full:        31,
+        big:         32,
+        small:       33,
+        hiddenLeft:  34,
+        hiddenRight: 35
+    };
+
     beforeEach(function () {
 
         panels = panels || document.getElementById('spin-panels');
@@ -33,7 +54,7 @@ describe('spin.moveTo(elt)', function () {
          */
         this.addMatchers({
 
-            toBecomeSmall: function (visible, dir, state) {
+            toBecomeSmall: function () {
 
             },
 
