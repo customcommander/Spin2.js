@@ -127,6 +127,7 @@
 
         // Panel CSS Class
         panel.classList.add('spin-panel');
+        panel.classList.add('spin-hiddenright');
 
         // Panel Title
         panel.getElementsByClassName('spin-title')[0].innerHTML = o.title;
@@ -139,11 +140,11 @@
         }
 
         // Panel Position
-        if (!el.panels.childNodes.length){
-            panel.style.cssText = 'left:0px;width:'+win.innerWidth+'px;';
-        } else {
-            panel.style.cssText = 'left:'+win.innerWidth+'px;';
-        }
+        // if (!el.panels.childNodes.length){
+        //     panel.style.cssText = 'left:0px;width:'+win.innerWidth+'px;';
+        // } else {
+        //     panel.style.cssText = 'left:'+win.innerWidth+'px;';
+        // }
 
         return el.panels.appendChild(panel);
     }

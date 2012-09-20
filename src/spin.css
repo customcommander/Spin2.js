@@ -290,3 +290,21 @@ Error Panel
     -moz-background-origin: content, border;
     background-origin: content-box, border-box;
 }
+
+#spin-panels:not(.spin-moveleft) .spin-hiddenright {
+    left: 100%;
+}
+
+#spin-panels:not(.spin-moveleft) .spin-full {
+    left: 0%;
+    width: 100%;
+}
+
+#spin-panels.spin-moveleft .spin-hiddenright.spin-full {
+    -moz-animation: spin-hrfull 0.5s ease-in-out;
+}
+
+@-moz-keyframes spin-hrfull {
+    from: { left: 100%; width: 0%; }
+    to: { left: 0%; width: 100%;}
+}

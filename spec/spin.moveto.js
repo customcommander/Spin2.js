@@ -2,8 +2,6 @@
 // to "elt". This is thoroughly tested in spin.getpanel.js already.
 describe('spin.moveTo(elt)', function () {
 
-    var panels; // Reference to #spin-panels
-
     // Possible visibility states for a panel during of after animation
     var visibility = {
         visible:     10,
@@ -27,8 +25,6 @@ describe('spin.moveTo(elt)', function () {
 
     beforeEach(function () {
 
-        panels = panels || document.getElementById('spin-panels');
-
         /*
          * When moving forward or backward css classes are set
          * on #spin-panels during the animation.
@@ -36,16 +32,13 @@ describe('spin.moveTo(elt)', function () {
         this.addMatchers({
 
             toMoveLeft: function () {
-                return this.actual.className == 'spin-moveleft';
+                var cl = this.actual.classList;
+                return cl.contains('spin-moveleft') && !cl.contains('spin-moveright');
             },
 
             toMoveRight: function () {
-                return this.actual.className == 'spin-moveright';
-            },
-
-            toHaveMoved: function () {
-                // When animation has finished these classes shouldn't be there anymore
-                return this.actual.className == '';
+                var cl = this.actual.classList;
+                return cl.contains('spin-moveright') && !cl.contains('spin-moveleft');
             }
         });
 
@@ -54,20 +47,27 @@ describe('spin.moveTo(elt)', function () {
          */
         this.addMatchers({
 
-            toBecomeSmall: function () {
+            toGetIn: function () {
+                var cl = this.actual.classList;
+                return cl.contains('spin-in') && !cl.contains('spin-out');
+            },
 
+            toGetOut: function () {
+                var cl = this.actual.classList;
+                return cl.contains('spin-out') && !cl.contains('spin-in');
+            },
+
+            toBecomeSmall: function (curVis, curSt, dir) {
             },
 
             toBecomeBig: function () {
 
             },
 
-            toBecomeFull: function () {
-
+            toBecomeFull: function (curv, curs, d) {
             },
 
             toBecomeHiddenLeft: function () {
-
             },
 
             toBecomeHiddenRight: function () {
@@ -79,22 +79,57 @@ describe('spin.moveTo(elt)', function () {
          * Panel expectation after the animation
          */
         this.addMatchers({
+            toBeSmall: function (final) {
 
-            toBeSmall: function () {
-
+                return this.actual.className == 'spin-small';
             },
             toBeBig: function () {
-
+                return this.actual.className == 'spin-big';
             },
-            toBeFull: function () {
-
+            toBeFull: function (prevv, prevs, dir) {
+                return this.actual.className == 'spin-full';
             },
             toBeHiddenLeft: function () {
-
+                return this.actual.className == 'spin-hiddenleft';
             },
             toBeHiddenRight: function () {
-
+                return this.actual.className == 'spin-hiddenright';
             }
         });
     }); // beforEach
+
+    xdescribe('Automations', function () {
+
+        var panels,
+            home;
+
+        it('Home panel loads', function () {
+            runs(function () {
+                panels = document.getElementById('spin-panels');
+                while (panels.lastChild) {
+                    panels.removeChild(panels.lastChild);
+                }
+                spin.loader()(document.body);
+            });
+
+            waitsFor(function () {
+                home = panels.firstChild;
+                return home;
+            }, 'panel is not available', 1000);
+
+            runs(function () {
+                expect(home).toBeHiddenRight();
+                expect(home).toMoveLeft();
+                expect(home).toBecomeFull();
+            });
+
+            waitsFor(pause(1000));
+
+            runs(function () {
+                expect(home).toBeFull();
+            });
+        });
+    });
+
+
 });// describe
