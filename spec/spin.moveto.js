@@ -2,76 +2,57 @@
 // to "elt". This is thoroughly tested in spin.getpanel.js already.
 describe('spin.moveTo(elt)', function () {
 
-    // Possible visibility states for a panel during of after animation
-    var visibility = {
-        visible:     10,
-        hidden:      11
-    };
+    var states = [
+         'spin-hiddenleft'
+        ,'spin-hiddenright'
+        ,'spin-small'
+        ,'spin-big'
+        ,'spin-full'
+    ];
 
-    // Possible directions for the animation
-    var dir = {
-        left:        20,
-        right:       21
-    };
+    var animations = [
+         'spin-hiddenright-small'
+        ,'spin-hiddenright-big'
+        ,'spin-hiddenright-full'
+        ,'spin-hiddenleft-small'
+        ,'spin-hiddenleft-big'
+        ,'spin-hiddenleft-full'
+        ,'spin-big-small'
+        ,'spin-big-hiddenright'
+        ,'spin-small-hiddenleft'
+        ,'spin-small-big'
+        ,'spin-small-full'
+        ,'spin-full-hiddenleft'
+    ];
 
-    // Possible states for a panel during or after animation
-    var state = {
-        full:        31,
-        big:         32,
-        small:       33,
-        hiddenLeft:  34,
-        hiddenRight: 35
-    };
+    function classCheck(panel, cls, all) {
+        var cl = panel.classList,
+            exclude = all.filter(function (cur) { return cur != cls; });
+        return cl.contains(cls)
+            && !exclude.some(function (cur) {
+                return cl.contains(cur); });
+    }
 
     beforeEach(function () {
-
-        /*
-         * When moving forward or backward css classes are set
-         * on #spin-panels during the animation.
-         */
-        this.addMatchers({
-
-            toMoveLeft: function () {
-                var cl = this.actual.classList;
-                return cl.contains('spin-moveleft') && !cl.contains('spin-moveright');
-            },
-
-            toMoveRight: function () {
-                var cl = this.actual.classList;
-                return cl.contains('spin-moveright') && !cl.contains('spin-moveleft');
-            }
-        });
 
         /*
          * Panel expectations during the animation
          */
         this.addMatchers({
-
-            toGetIn: function () {
-                var cl = this.actual.classList;
-                return cl.contains('spin-in') && !cl.contains('spin-out');
+            toBecomeSmall: function (curState) {
+                return classCheck(this.actual, curState + '-small', animations);
             },
-
-            toGetOut: function () {
-                var cl = this.actual.classList;
-                return cl.contains('spin-out') && !cl.contains('spin-in');
+            toBecomeBig: function (curState) {
+                return classCheck(this.actual, curState + '-big', animations);
             },
-
-            toBecomeSmall: function (curVis, curSt, dir) {
+            toBecomeFull: function (curState) {
+                return classCheck(this.actual, curState + '-full', animations);
             },
-
-            toBecomeBig: function () {
-
+            toBecomeHiddenLeft: function (curState) {
+                return classCheck(this.actual, curState + '-hiddenleft', animations);
             },
-
-            toBecomeFull: function (curv, curs, d) {
-            },
-
-            toBecomeHiddenLeft: function () {
-            },
-
-            toBecomeHiddenRight: function () {
-
+            toBecomeHiddenRight: function (curState) {
+                return classCheck(this.actual, curState + '-hiddenright', animations);
             }
         });
 
@@ -79,54 +60,163 @@ describe('spin.moveTo(elt)', function () {
          * Panel expectation after the animation
          */
         this.addMatchers({
-            toBeSmall: function (final) {
-
-                return this.actual.className == 'spin-small';
+            toBeSmall: function () {
+                return classCheck(this.actual, 'spin-small', states);
             },
             toBeBig: function () {
-                return this.actual.className == 'spin-big';
+                return classCheck(this.actual, 'spin-big', states);
             },
-            toBeFull: function (prevv, prevs, dir) {
-                return this.actual.className == 'spin-full';
+            toBeFull: function () {
+                return classCheck(this.actual, 'spin-full', states);
             },
             toBeHiddenLeft: function () {
-                return this.actual.className == 'spin-hiddenleft';
+                return classCheck(this.actual, 'spin-hiddenleft', states);
             },
             toBeHiddenRight: function () {
-                return this.actual.className == 'spin-hiddenright';
+                return classCheck(this.actual, 'spin-hiddenright', states);
             }
         });
     }); // beforEach
 
-    xdescribe('Automations', function () {
+    describe('Use Case', function () {
 
-        var panels,
-            home;
+        var panels = {};
 
         it('Home panel loads', function () {
             runs(function () {
-                panels = document.getElementById('spin-panels');
-                while (panels.lastChild) {
-                    panels.removeChild(panels.lastChild);
+                var el = document.getElementById('spin-panels');
+                while (el.lastChild) {
+                    el.removeChild(el.lastChild);
                 }
                 spin.loader()(document.body);
             });
 
             waitsFor(function () {
-                home = panels.firstChild;
-                return home;
+                panels.home = document.getElementById('spin-panels').firstChild;
+                return panels.home;
             }, 'panel is not available', 1000);
 
             runs(function () {
-                expect(home).toBeHiddenRight();
-                expect(home).toMoveLeft();
-                expect(home).toBecomeFull();
+                expect(panels.home).toBeHiddenRight();
+                expect(panels.home).toBecomeFull('spin-hiddenright');
             });
 
             waitsFor(pause(1000));
 
             runs(function () {
-                expect(home).toBeFull();
+                expect(panels.home).toBeFull();
+            });
+        });
+
+        it('Go to "Hammersmith & City Line"', function () {
+            waitsFor(pause(1000));
+
+            runs(function () {
+                clickNav('hammersmithandcity');
+            });
+
+            waitsFor(function () {
+                panels.hammersmithAndCity = panels.home.nextSibling;
+                return panels.hammersmithAndCity;
+            }, 'panel is not available', 1000);
+
+            runs(function () {
+                expect(panels.home).toBeFull();
+                expect(panels.home).toBecomeSmall('spin-full');
+                expect(panels.hammersmithAndCity).toBeHiddenRight();
+                expect(panels.hammersmithAndCity).toBecomeBig('spin-hiddenright');
+            });
+
+            waitsFor(pause(2000));
+
+            runs(function () {
+                expect(panels.home).toBeSmall();
+                expect(panels.hammersmithAndCity).toBeBig();
+            });
+        });
+
+        it('Go to "Moorgate"', function () {
+            waitsFor(pause(1000));
+
+            runs(function () {
+                clickNav('moorgate');
+            });
+
+            waitsFor(function () {
+                panels.moorgate = panels.hammersmithAndCity.nextSibling;
+                return panels.moorgate;
+            });
+
+            runs(function () {
+                expect(panels.home).toBecomeHiddenLeft('spin-small');
+                expect(panels.hammersmithAndCity).toBecomeSmall('spin-big');
+                expect(panels.moorgate).toBeHiddenRight();
+                expect(panels.moorgate).toBecomeBig('spin-hiddenright');
+            });
+
+            waitsFor(pause(2000));
+
+            runs(function () {
+                expect(panels.home).toBeHiddenLeft();
+                expect(panels.hammersmithAndCity).toBeSmall();
+                expect(panels.moorgate).toBeBig();
+            });
+        });
+
+        it('Go back to "Hammersmith & City Line"', function () {
+            waitsFor(pause(1000));
+
+            runs(function () {
+                spin.moveTo(panels.hammersmithAndCity);
+                expect(panels.hammersmithAndCity).toBecomeBig('spin-small');
+                expect(panels.home).toBecomeSmall('spin-hiddenleft');
+                expect(panels.moorgate).toBecomeHiddenRight('spin-big');
+            });
+
+            waitsFor(pause(2000));
+
+            runs(function () {
+                expect(panels.home).toBeSmall();
+                expect(panels.hammersmithAndCity).toBeBig();
+                expect(panels.moorgate).toBeHiddenRight();
+            });
+        });
+
+        it('Go back to home', function () {
+
+            waitsFor(pause(1000));
+
+            runs(function () {
+                spin.moveTo(panels.home);
+                expect(panels.home).toBecomeFull('spin-small');
+                expect(panels.hammersmithAndCity).toBecomeHiddenRight('spin-big');
+            });
+
+            waitsFor(pause(2000));
+
+            runs(function () {
+                expect(panels.home).toBeFull();
+                expect(panels.hammersmithAndCity).toBeHiddenRight();
+            });
+        });
+
+        it('Go straight to "Moorgate"', function () {
+
+            waitsFor(pause(1000));
+
+            runs(function () {
+                spin.moveTo(panels.moorgate);
+                expect(panels.home).toBecomeHiddenLeft('spin-full');
+                expect(panels.hammersmithAndCity).toBecomeSmall('spin-hiddenright');
+                expect(panels.moorgate).toBecomeBig('spin-hiddenright');
+            });
+
+            waitsFor(pause(2000));
+
+            runs(function () {
+                expect(panels.home).toBeHiddenLeft();
+                expect(panels.hammersmithAndCity).toBeSmall();
+                expect(panels.moorgate).toBeBig();
             });
         });
     });
