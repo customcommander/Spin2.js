@@ -146,7 +146,9 @@
         //     panel.style.cssText = 'left:'+win.innerWidth+'px;';
         // }
 
-        return el.panels.appendChild(panel);
+        doc.getElementById('spin-panels').appendChild(panel);
+        // while (el.panels.lastChild != panel);
+        return panel;
     }
 
     /**
@@ -199,6 +201,7 @@
 
         panel = appendPanel(cfg);
 
+        moveTo(panel);
         return panel;
     };
 
@@ -295,9 +298,84 @@
      * @throws 'panel not found'
      */
     spin.moveTo = moveTo = function (elt) {
-        var panel = getPanel(elt);
-        return panel;
+        var ret,
+            panel,
+            states,
+            nextState,
+            helpr;
+
+        ret = panel = getPanel(elt);
+
+        helpr = {
+            state: function (panel) {
+                var cl = panel.classList;
+                if (cl.contains('spin-hiddenright')) return 'hiddenright';
+                if (cl.contains('spin-big')) return 'big';
+                if (cl.contains('spin-small')) return 'small';
+                if (cl.contains('spin-full')) return 'full';
+                if (cl.contains('spin-hiddenleft')) return 'hiddenleft';
+            },
+            isHiddenLeft: function (panel) {
+                return panel.classList.contains('spin-hiddenleft');
+            },
+            isHiddenRight: function (panel) {
+                return panel.classList.contains('spin-hiddenright');
+            },
+            move: function (panel, next) {
+                var cur = this.state(panel);
+                if ((cur == 'hiddenright' || cur == 'hiddenleft')
+                    && (next == 'hiddenright' || next == 'hiddenleft')) {
+                    panel.classList.remove('spin-' + cur);
+                    panel.classList.add('spin-' + next);
+                }
+                else {
+                    panel.classList.add('spin-' + cur + '-' + next);
+                }
+            }
+        };
+
+        if (helpr.isHiddenRight(panel)) {
+            if (!panel.previousSibling) {
+                states = ['full'];
+            } else {
+                states = ['big', 'small'];
+            }
+            do {
+                nextState = states.shift() || 'hiddenleft';
+                helpr.move(panel, nextState);
+                panel = panel.previousSibling;
+            } while (panel && !helpr.isHiddenLeft(panel));
+        }
+        else {
+            if (!panel.previousSibling) {
+                states = ['full'];
+            } else {
+                states = ['small', 'big'];
+                panel  = panel.previousSibling;
+            }
+            do {
+                nextState = states.shift() || 'hiddenright';
+                helpr.move(panel, nextState);
+                panel = panel.nextSibling;
+            } while (panel && !helpr.isHiddenRight(panel));
+        }
+
+        return ret;
     };
+
+    function registerAnimationEndHandler() {
+        var PANELS = el.panels;
+
+        PANELS.addEventListener('animationend', function (e) {
+            var panel   = e.target,
+                animCls = e.animationName,
+                oldCls  = 'spin-' + animCls.split('-')[1],
+                newCls  = 'spin-' + animCls.split('-')[2];
+            panel.classList.remove(animCls);
+            panel.classList.remove(oldCls);
+            panel.classList.add(newCls);
+        });
+    }
 
     /**
      * Deletes all panels after corresponding panel.
@@ -357,6 +435,7 @@
     win.addEventListener('load', function (){
         dropBaseMarkup();
         registerClickHandler();
+        registerAnimationEndHandler();
         loader(doc.body);
     }, false);
 

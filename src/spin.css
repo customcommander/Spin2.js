@@ -98,10 +98,10 @@ Panel Markup
     position:absolute;
 }     
 
-/*Panel*/    
+/*Panel*/
 .spin-panel {
-    top:0em;
-    bottom: 0em;
+    top:0%;
+    bottom: 0%;
     list-style-type: none;
     -moz-box-sizing:border-box;
     box-sizing: border-box;
@@ -113,7 +113,7 @@ Panel Markup
 }
 
 /*Panel Header*/
-.spin-panel-hd {    
+.spin-panel-hd {
     top:0px;
     width:100%;
     height:2.5em;
@@ -291,20 +291,143 @@ Error Panel
     background-origin: content-box, border-box;
 }
 
-#spin-panels:not(.spin-moveleft) .spin-hiddenright {
+/*///////////////////////////////////////////////////////////////////////////*/
+/*/// Panel Animation                                                     ///*/
+/*///////////////////////////////////////////////////////////////////////////*/
+
+.spin-hiddenleft {
+    left:  -33%;
+    right: 100%;
+}
+
+.spin-hiddenright {
     left: 100%;
+    right:  0%;
 }
 
-#spin-panels:not(.spin-moveleft) .spin-full {
-    left: 0%;
-    width: 100%;
+.spin-full {
+    left:  0%;
+    right: 0%;
 }
 
-#spin-panels.spin-moveleft .spin-hiddenright.spin-full {
-    -moz-animation: spin-hrfull 0.5s ease-in-out;
+.spin-small {
+    left:   0%;
+    right: 66%;
 }
 
-@-moz-keyframes spin-hrfull {
-    from: { left: 100%; width: 0%; }
-    to: { left: 0%; width: 100%;}
+.spin-big {
+    left: 34%;
+    right: 0%;
+}
+
+.spin-hiddenright-small,
+.spin-hiddenright-big,
+.spin-hiddenright-full,
+.spin-full-small,
+.spin-full-hiddenleft,
+.spin-big-small,
+.spin-small-hiddenleft,
+.spin-small-big,
+.spin-small-full,
+.spin-big-hiddenright,
+.spin-hiddenleft-small {
+    -moz-animation-duration: 0.5s;
+    -moz-animation-timing-function: ease;
+}
+
+.spin-hiddenright-big {
+    -moz-animation-name: spin-hiddenright-big;
+}
+
+@-moz-keyframes spin-hiddenright-big {
+    from { left: 100%; right: 0%; }
+    to   { left:  34%; right: 0%; }
+}
+
+.spin-hiddenright-full {
+    -moz-animation-name: spin-hiddenright-full;
+}
+
+@-moz-keyframes spin-hiddenright-full {
+    from { left: 100%; right: 0%; }
+    to   { left:   0%; right: 0%; }
+}
+
+.spin-full-small {
+    -moz-animation-name: spin-full-small;
+}
+
+@-moz-keyframes spin-full-small {
+    from { left: 0%; right:  0%; }
+    to   { left: 0%; right: 66%; }
+}
+.spin-big-small {
+    -moz-animation-name: spin-big-small;
+}
+
+@-moz-keyframes spin-big-small {
+    from { left: 34%; right:  0%; }
+    to   { left:  0%; right: 66%; }
+}
+.spin-small-hiddenleft {
+    -moz-animation-name: spin-small-hiddenleft;
+}
+
+@-moz-keyframes spin-small-hiddenleft {
+    from { left:   0%; right:  66%; }
+    to   { left: -33%; right: 100%; }
+}
+
+.spin-hiddenleft-small {
+    -moz-animation-name: spin-hiddenleft-small;
+}
+
+@-moz-keyframes spin-hiddenleft-small {
+    from { left: -33%; right: 100%; }
+    to   { left:   0%; right:  66%; }
+}
+
+.spin-small-big {
+    -moz-animation-name: spin-small-big;
+}
+
+@-moz-keyframes spin-small-big {
+    from { left:  0%; right: 66%; }
+    to   { left: 34%; right:  0%; }
+}
+
+.spin-big-hiddenright {
+    -moz-animation-name: spin-big-hiddenright;
+}
+
+@-moz-keyframes spin-big-hiddenright {
+    from { left:  34%; right: 0%; }
+    to   { left: 100%; right: 0%; }
+}
+
+.spin-small-full {
+    -moz-animation-name: spin-small-full;
+}
+
+@-moz-keyframes spin-small-full {
+    from { left: 0%; right: 66%; }
+    to   { left: 0%; right:  0%; }
+}
+
+.spin-full-hiddenleft {
+    -moz-animation-name: spin-full-hiddenleft;
+}
+
+@-moz-keyframes spin-full-hiddenleft {
+    from { left:   0%; right:   0%; }
+    to   { left: -33%; right: 100%; }
+}
+
+.spin-hiddenright-small {
+    -moz-animation-name: spin-hiddenright-small;
+}
+
+@-moz-keyframes spin-hiddenright-small {
+    from { left: 100%; right: 0%;  }
+    to   { left:   0%; right: 66%; }
 }
