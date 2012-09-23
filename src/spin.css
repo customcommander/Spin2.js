@@ -326,11 +326,13 @@ Error Panel
 .spin-full-small,
 .spin-full-hiddenleft,
 .spin-big-small,
+.spin-big-hiddenright,
 .spin-small-hiddenleft,
+.spin-small-hiddenright,
 .spin-small-big,
 .spin-small-full,
-.spin-big-hiddenright,
-.spin-hiddenleft-small {
+.spin-hiddenleft-small,
+.spin-hiddenleft-full {
     -moz-animation-duration: 0.5s;
     -moz-animation-timing-function: ease;
 }
@@ -380,6 +382,15 @@ Error Panel
         to   { left: -33%; right: 100%; } /* -33% otherwise there is no motion */
     }
 
+.spin-small-hiddenright {
+    -moz-animation-name: spin-small-hiddenright;
+}
+
+    @-moz-keyframes spin-small-hiddenright {
+        from { left:   0%; right: 66%; }
+        to   { left: 100%; right:  0%; }
+    }
+
 .spin-hiddenleft-small {
     -moz-animation-name: spin-hiddenleft-small;
 }
@@ -387,6 +398,15 @@ Error Panel
     @-moz-keyframes spin-hiddenleft-small {
         from { left: 0%; right: 100%; }
         to   { left: 0%; right:  66%; }
+    }
+
+.spin-hiddenleft-full {
+    -moz-animation-name: spin-hiddenleft-full;
+}
+
+    @-moz-keyframes spin-hiddenleft-full {
+        from { left: 0%; right: 100%; }
+        to   { left: 0%; right:   0%; }
     }
 
 .spin-small-big {

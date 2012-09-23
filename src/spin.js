@@ -301,40 +301,55 @@
         var ret,
             panel,
             states,
-            nextState,
-            helpr;
+            nextState;
 
         ret = panel = getPanel(elt);
 
-        helpr = {
-            state: function (panel) {
-                var cl = panel.classList;
-                if (cl.contains('spin-hiddenright')) return 'hiddenright';
-                if (cl.contains('spin-big')) return 'big';
-                if (cl.contains('spin-small')) return 'small';
-                if (cl.contains('spin-full')) return 'full';
-                if (cl.contains('spin-hiddenleft')) return 'hiddenleft';
-            },
-            isHiddenLeft: function (panel) {
-                return panel.classList.contains('spin-hiddenleft');
-            },
-            isHiddenRight: function (panel) {
-                return panel.classList.contains('spin-hiddenright');
-            },
-            move: function (panel, next) {
-                var cur = this.state(panel);
-                if ((cur == 'hiddenright' || cur == 'hiddenleft')
-                    && (next == 'hiddenright' || next == 'hiddenleft')) {
-                    panel.classList.remove('spin-' + cur);
-                    panel.classList.add('spin-' + next);
-                }
-                else {
-                    panel.classList.add('spin-' + cur + '-' + next);
-                }
-            }
-        };
+        function isSmall(panel) {
+            return panel.classList.contains('spin-small');
+        }
 
-        if (helpr.isHiddenRight(panel)) {
+        function isBig(panel) {
+            return panel.classList.contains('spin-big');
+        }
+
+        function isFull(panel) {
+            return panel.classList.contains('spin-full');
+        }
+
+        function isHiddenLeft(panel) {
+            return panel.classList.contains('spin-hiddenleft');
+        }
+
+        function isHiddenRight(panel) {
+            return panel.classList.contains('spin-hiddenright');
+        }
+
+        function getState(panel) {
+            if (isHiddenRight(panel)) return 'hiddenright';
+            if (isBig(panel)) return 'big';
+            if (isSmall(panel)) return 'small';
+            if (isFull(panel)) return 'full';
+            if (isHiddenLeft(panel)) return 'hiddenleft';
+            throw new Error('panel has no state');
+        }
+
+        function move(panel, nextState) {
+            var curState = getState(panel);
+            if (curState[0] == nextState[0]) {
+                panel.classList.remove('spin-' + curState);
+                panel.classList.add('spin-' + nextState);
+            }
+            else {
+                panel.classList.add('spin-' + curState + '-' + nextState);
+            }
+        }
+
+        if (isBig(panel) || isFull(panel)) {
+            return;
+        }
+
+        if (isHiddenRight(panel)) {
             if (!panel.previousSibling) {
                 states = ['full'];
             } else {
@@ -342,9 +357,9 @@
             }
             do {
                 nextState = states.shift() || 'hiddenleft';
-                helpr.move(panel, nextState);
+                move(panel, nextState);
                 panel = panel.previousSibling;
-            } while (panel && !helpr.isHiddenLeft(panel));
+            } while (panel && !isHiddenLeft(panel));
         }
         else {
             if (!panel.previousSibling) {
@@ -355,9 +370,9 @@
             }
             do {
                 nextState = states.shift() || 'hiddenright';
-                helpr.move(panel, nextState);
+                move(panel, nextState);
                 panel = panel.nextSibling;
-            } while (panel && !helpr.isHiddenRight(panel));
+            } while (panel && !isHiddenRight(panel));
         }
 
         return ret;
