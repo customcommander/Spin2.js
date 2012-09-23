@@ -296,7 +296,7 @@ Error Panel
 /*///////////////////////////////////////////////////////////////////////////*/
 
 .spin-hiddenleft {
-    left:  -33%;
+    left:  0%;
     right: 100%;
 }
 
@@ -320,9 +320,9 @@ Error Panel
     right: 0%;
 }
 
+.spin-hiddenright-full,
 .spin-hiddenright-small,
 .spin-hiddenright-big,
-.spin-hiddenright-full,
 .spin-full-small,
 .spin-full-hiddenleft,
 .spin-big-small,
@@ -339,95 +339,97 @@ Error Panel
     -moz-animation-name: spin-hiddenright-big;
 }
 
-@-moz-keyframes spin-hiddenright-big {
-    from { left: 100%; right: 0%; }
-    to   { left:  34%; right: 0%; }
-}
+    @-moz-keyframes spin-hiddenright-big {
+        from { left: 100%; right: 0%; }
+        to   { left:  34%; right: 0%; }
+    }
 
 .spin-hiddenright-full {
     -moz-animation-name: spin-hiddenright-full;
 }
 
-@-moz-keyframes spin-hiddenright-full {
-    from { left: 100%; right: 0%; }
-    to   { left:   0%; right: 0%; }
-}
+    @-moz-keyframes spin-hiddenright-full {
+        from { left: 100%; right: 0%; }
+        to   { left:   0%; right: 0%; }
+    }
 
 .spin-full-small {
     -moz-animation-name: spin-full-small;
 }
 
-@-moz-keyframes spin-full-small {
-    from { left: 0%; right:  0%; }
-    to   { left: 0%; right: 66%; }
-}
+    @-moz-keyframes spin-full-small {
+        from { left: 0%; right:  0%; }
+        to   { left: 0%; right: 66%; }
+    }
+
 .spin-big-small {
     -moz-animation-name: spin-big-small;
 }
 
-@-moz-keyframes spin-big-small {
-    from { left: 34%; right:  0%; }
-    to   { left:  0%; right: 66%; }
-}
+    @-moz-keyframes spin-big-small {
+        from { left: 34%; right:  0%; }
+        to   { left:  0%; right: 66%; }
+    }
+
 .spin-small-hiddenleft {
     -moz-animation-name: spin-small-hiddenleft;
 }
 
-@-moz-keyframes spin-small-hiddenleft {
-    from { left:   0%; right:  66%; }
-    to   { left: -33%; right: 100%; }
-}
+    @-moz-keyframes spin-small-hiddenleft {
+        from { left:   0%; right:  66%; }
+        to   { left: -33%; right: 100%; } /* -33% otherwise there is no motion */
+    }
 
 .spin-hiddenleft-small {
     -moz-animation-name: spin-hiddenleft-small;
 }
 
-@-moz-keyframes spin-hiddenleft-small {
-    from { left: -33%; right: 100%; }
-    to   { left:   0%; right:  66%; }
-}
+    @-moz-keyframes spin-hiddenleft-small {
+        from { left: 0%; right: 100%; }
+        to   { left: 0%; right:  66%; }
+    }
 
 .spin-small-big {
     -moz-animation-name: spin-small-big;
 }
 
-@-moz-keyframes spin-small-big {
-    from { left:  0%; right: 66%; }
-    to   { left: 34%; right:  0%; }
-}
+    @-moz-keyframes spin-small-big {
+        from { left:  0%; right: 66%; }
+        to   { left: 34%; right:  0%; }
+    }
 
 .spin-big-hiddenright {
     -moz-animation-name: spin-big-hiddenright;
 }
 
-@-moz-keyframes spin-big-hiddenright {
-    from { left:  34%; right: 0%; }
-    to   { left: 100%; right: 0%; }
-}
+    @-moz-keyframes spin-big-hiddenright {
+        from { left:  34%; right: 0%; }
+        to   { left: 100%; right: 0%; }
+    }
 
 .spin-small-full {
     -moz-animation-name: spin-small-full;
 }
 
-@-moz-keyframes spin-small-full {
-    from { left: 0%; right: 66%; }
-    to   { left: 0%; right:  0%; }
-}
+    @-moz-keyframes spin-small-full {
+        from { left: 0%; right: 66%; }
+        to   { left: 0%; right:  0%; }
+    }
 
 .spin-full-hiddenleft {
     -moz-animation-name: spin-full-hiddenleft;
 }
 
-@-moz-keyframes spin-full-hiddenleft {
-    from { left:   0%; right:   0%; }
-    to   { left: -33%; right: 100%; }
-}
+    @-moz-keyframes spin-full-hiddenleft {
+        from { left:    0%; right:   0%; }
+        to   { left: -100%; right: 100%; } /* -100% otherwise there is no motion */
+    }
 
 .spin-hiddenright-small {
     -moz-animation-name: spin-hiddenright-small;
 }
 
-@-moz-keyframes spin-hiddenright-small {
-    from { left: 100%; right: 0%;  }
-    to   { left:   0%; right: 66%; }
-}
+    @-moz-keyframes spin-hiddenright-small {
+        from { left: 100%; right: 0%;  }
+        to   { left:   0%; right: 66%; }
+    }
