@@ -2,8 +2,13 @@
 // to "elt". This is thoroughly tested in spin.getpanel.js already.
 describe('spin.moveTo(elt)', function () {
 
+    /*
+     * Makes sure a panel has the given classes and only these ones.
+     * @param {HTMLElement} panel
+     * @param {Array} cls List of classes (e.g. ['spin-small', 'spin-small-big'])
+     */
     function strictClassCheck(panel, cls) {
-        // A panel must in all circonstances have that class
+        // A panel must always have that class anyway.
         cls.push('spin-panel');
         return cls.length == panel.classList.length
             && cls.every(function (cur) {
