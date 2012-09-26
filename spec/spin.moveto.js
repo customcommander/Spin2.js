@@ -1,5 +1,4 @@
-// Internally spin.moveTo uses spin.getPanel to match a panel corresponding
-// to "elt". This is thoroughly tested in spin.getpanel.js already.
+
 describe('spin.moveTo(elt)', function () {
 
     /*
@@ -50,6 +49,7 @@ describe('spin.moveTo(elt)', function () {
             }
         });
     }); // beforeEach
+
 
     describe('Use Case', function () {
 
@@ -282,6 +282,124 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.hammersmithAndCity).toBeHiddenRight();
                 expect(panels.moorgate).toBeHiddenRight();
                 expect(panels.circle).toBeHiddenRight();
+            });
+        });
+
+        // Case 10
+        it('Go to "Circle Line"', function () {
+
+            runs(function () {
+                spin.moveTo(panels.circle);
+                expect(panels.home).toBecomeHiddenLeft('spin-full');
+                expect(panels.hammersmithAndCity).toBeHiddenLeft();
+                expect(panels.moorgate).toBecomeSmall('spin-hiddenright');
+                expect(panels.circle).toBecomeBig('spin-hiddenright');
+            });
+
+            waitsFor(pause(2000));
+
+            runs(function () {
+                expect(panels.home).toBeHiddenLeft();
+                expect(panels.hammersmithAndCity).toBeHiddenLeft();
+                expect(panels.moorgate).toBeSmall();
+                expect(panels.circle).toBeBig();
+            });
+        });
+
+        it('Click to "Monument"', function () {
+
+            runs(function () {
+                clickNav('monument');
+            });
+
+            waitsFor(function () {
+                panels.monument = panels.circle.nextSibling;
+                return panels.monument;
+            }, 'panel is not available', 1000);
+
+            runs(function () {
+                expect(panels.home).toBeHiddenLeft();
+                expect(panels.hammersmithAndCity).toBeHiddenLeft();
+                expect(panels.moorgate).toBecomeHiddenLeft('spin-small');
+                expect(panels.circle).toBecomeSmall('spin-big');
+                expect(panels.monument).toBecomeBig('spin-hiddenright');
+            });
+
+            waitsFor(pause(2000));
+
+            runs(function () {
+                expect(panels.home).toBeHiddenLeft();
+                expect(panels.hammersmithAndCity).toBeHiddenLeft();
+                expect(panels.moorgate).toBeHiddenLeft();
+                expect(panels.circle).toBeSmall();
+                expect(panels.monument).toBeBig();
+            });
+        });
+
+        it('Go back to "Moorgate"', function () {
+
+            runs(function () {
+                spin.moveTo(panels.moorgate);
+                expect(panels.home).toBeHiddenLeft();
+                expect(panels.hammersmithAndCity).toBecomeSmall('spin-hiddenleft');
+                expect(panels.moorgate).toBecomeBig('spin-hiddenleft');
+                expect(panels.circle).toBecomeHiddenRight('spin-small');
+                expect(panels.monument).toBecomeHiddenRight('spin-big');
+            });
+
+            waitsFor(pause(2000));
+
+            runs(function () {
+                expect(panels.home).toBeHiddenLeft();
+                expect(panels.hammersmithAndCity).toBeSmall();
+                expect(panels.moorgate).toBeBig();
+                expect(panels.circle).toBeHiddenRight();
+                expect(panels.monument).toBeHiddenRight();
+            });
+        });
+
+        // Case 11
+        it('Go back to Home', function () {
+
+            runs(function () {
+                spin.moveTo(panels.home);
+                expect(panels.home).toBecomeFull('spin-hiddenleft');
+                expect(panels.hammersmithAndCity).toBecomeHiddenRight('spin-small');
+                expect(panels.moorgate).toBecomeHiddenRight('spin-big');
+                expect(panels.circle).toBeHiddenRight();
+                expect(panels.monument).toBeHiddenRight();
+            });
+
+            waitsFor(pause(2000));
+
+            runs(function () {
+                expect(panels.home).toBeFull();
+                expect(panels.hammersmithAndCity).toBeHiddenRight();
+                expect(panels.moorgate).toBeHiddenRight();
+                expect(panels.circle).toBeHiddenRight();
+                expect(panels.monument).toBeHiddenRight();
+            });
+        });
+
+        it('Go to "Circle Line"', function () {
+
+            runs(function () {
+                spin.moveTo(panels.circle);
+                expect(panels.home).toBecomeHiddenLeft('spin-full');
+                expect(panels.hammersmithAndCity).toBeHiddenLeft();
+                expect(panels.moorgate).toBecomeSmall('spin-hiddenright');
+                expect(panels.circle).toBecomeBig('spin-hiddenright');
+                expect(panels.monument).toBeHiddenRight();
+            });
+
+            waitsFor(pause(2000));
+
+            runs(function () {
+                expect(panels.home).toBeHiddenLeft();
+                expect(panels.hammersmithAndCity).toBeHiddenLeft();
+                expect(panels.moorgate).toBeSmall();
+                expect(panels.circle).toBeBig();
+                expect(panels.monument).toBeHiddenRight();
             });
         });
     }); // describe: Use Case
