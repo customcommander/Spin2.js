@@ -303,7 +303,7 @@ Error Panel
 
 /* 01 */.spin-small-hiddenleft,
 /* 02 */.spin-hiddenleft-small,
-/* 03 */.spin-big-hiddenleft, /* todo */
+/* 03 */.spin-big-hiddenleft,
 /* 04 */.spin-hiddenleft-big,
 /* 05 */.spin-full-hiddenleft,
 /* 06 */.spin-hiddenleft-full,
@@ -311,7 +311,7 @@ Error Panel
 /* 08 */.spin-hiddenright-small,
 /* 09 */.spin-big-hiddenright,
 /* 10 */.spin-hiddenright-big,
-/* 11 */.spin-full-hiddenright, /* small resolution only */
+/* 11 */.spin-full-hiddenright, /* todo, small resolution only */
 /* 12 */.spin-hiddenright-full,
 /* 13 */.spin-big-small,
 /* 14 */.spin-small-big,
@@ -328,7 +328,7 @@ Error Panel
 
     @-moz-keyframes spin-small-hiddenleft {
         from { left:   0%; right:  66%; }
-        to   { left: -33%; right: 100%; } /* -33% otherwise there is no motion */
+        to   { left: -33%; right: 100%; } /* -33% for a motion effect */
     }
 
 /* 02 */
@@ -342,6 +342,15 @@ Error Panel
     }
 
 /* 03 */
+
+.spin-big-hiddenleft {
+    -moz-animation-name: spin-big-hiddenleft;
+}
+
+    @-moz-keyframes spin-big-hiddenleft {
+        from { left:  34%; right:   0%; }
+        to   { left: -33%; right: 100%; } /* -33% for a motion effect */
+    }
 
 /* 04 */
 .spin-hiddenleft-big {
@@ -360,7 +369,7 @@ Error Panel
 
     @-moz-keyframes spin-full-hiddenleft {
         from { left:    0%; right:   0%; }
-        to   { left: -100%; right: 100%; } /* -100% otherwise there is no motion */
+        to   { left: -100%; right: 100%; } /* -100% for a motion effect */
     }
 
 /* 06 */
@@ -380,7 +389,7 @@ Error Panel
 
     @-moz-keyframes spin-small-hiddenright {
         from { left:   0%; right: 66%; }
-        to   { left: 100%; right:  0%; }
+        to   { left: 100%; right:-33%; }
     }
 
 /* 08 */
@@ -399,8 +408,8 @@ Error Panel
 }
 
     @-moz-keyframes spin-big-hiddenright {
-        from { left:  34%; right: 0%; }
-        to   { left: 100%; right: 0%; }
+        from { left:  34%; right:   0%; }
+        to   { left: 100%; right: -33%; }
     }
 
 /* 10 */
