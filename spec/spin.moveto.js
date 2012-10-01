@@ -1,4 +1,3 @@
-
 describe('spin.moveTo(elt)', function () {
 
     /*
@@ -399,6 +398,39 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.hammersmithAndCity).toBeHiddenLeft();
                 expect(panels.moorgate).toBeSmall();
                 expect(panels.circle).toBeBig();
+                expect(panels.monument).toBeHiddenRight();
+            });
+        });
+
+        // We should not move if we try to go to a panel that is big or full
+        it('Does not move if we go to a panel that is big or full', function () {
+
+            // The "Circle Line" panel should already be 'big' at this point.
+            runs(function () {
+                spin.moveTo(panels.circle);
+                expect(panels.home).toBeHiddenLeft();
+                expect(panels.hammersmithAndCity).toBeHiddenLeft();
+                expect(panels.moorgate).toBeSmall();
+                expect(panels.circle).toBeBig();
+                expect(panels.monument).toBeHiddenRight();
+            });
+
+            // Home panel should currently be hidden on the left and moving there will expand it to 'full'.
+            // We're not testing panels states again as this is already toroughly done above.
+            runs(function () {
+                spin.moveTo(panels.home);
+            });
+
+            // Waiting for the animation to finish.
+            waitsFor(pause(2000));
+
+            // At this point Home panel should be 'full' and moving to there should have no effect.
+            runs(function () {
+                spin.moveTo(panels.home);
+                expect(panels.home).toBeFull();
+                expect(panels.hammersmithAndCity).toBeHiddenRight();
+                expect(panels.moorgate).toBeHiddenRight();
+                expect(panels.circle).toBeHiddenRight();
                 expect(panels.monument).toBeHiddenRight();
             });
         });
