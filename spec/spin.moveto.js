@@ -435,4 +435,44 @@ describe('spin.moveTo(elt)', function () {
             });
         });
     }); // describe: Use Case
+
+
+    it('Returns the corresponding panel', function () {
+        expect(spin.moveTo(0)).toBe(spin.getPanel(0));
+    });
+
+    it('Throws an error if corresponding panel cannot be found', function () {
+        var notFoundErr = new Error('panel not found'),
+            badCallErr  = new Error('bad function call');
+
+        function notFound(elt) {
+            return spin.moveTo.bind({}, elt);
+        }
+
+        function badCall(elt) {
+            return spin.moveTo.bind({}, elt);
+        }
+
+        // Valid calls but we are not expecting to find a panel
+        expect(notFound('unknown_id')).toThrow(notFoundErr);
+        expect(notFound(document.body)).toThrow(notFoundErr);
+        expect(notFound(-999)).toThrow(notFoundErr);
+        expect(notFound(999)).toThrow(notFoundErr);
+
+        // Invalid calls
+        expect(badCall()).toThrow(badCallErr);
+        expect(badCall('')).toThrow(badCallErr);
+        expect(badCall('   ')).toThrow(badCallErr);
+        expect(badCall(Infinity)).toThrow(badCallErr);
+        expect(badCall(-Infinity)).toThrow(badCallErr);
+        expect(badCall(NaN)).toThrow(badCallErr);
+        expect(badCall(null)).toThrow(badCallErr);
+        expect(badCall(undefined)).toThrow(badCallErr);
+        expect(badCall(true)).toThrow(badCallErr);
+        expect(badCall(false)).toThrow(badCallErr);
+        expect(badCall([])).toThrow(badCallErr);
+        expect(badCall({})).toThrow(badCallErr);
+        expect(badCall(function () {})).toThrow(badCallErr);
+    });
+
 });// describe
