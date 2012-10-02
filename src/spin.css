@@ -328,7 +328,7 @@ Error Panel
 
     @-moz-keyframes spin-small-hiddenleft {
         from { left:   0%; right:  66%; }
-        to   { left: -33%; right: 100%; } /* -33% for a motion effect */
+        to   { left: -33%; right: 100%; }
     }
 
 /* 02 */
@@ -337,8 +337,8 @@ Error Panel
 }
 
     @-moz-keyframes spin-hiddenleft-small {
-        from { left: 0%; right: 100%; }
-        to   { left: 0%; right:  66%; }
+        from { left: -33%; right: 100%; }
+        to   { left:   0%; right:  66%; }
     }
 
 /* 03 */
@@ -349,7 +349,7 @@ Error Panel
 
     @-moz-keyframes spin-big-hiddenleft {
         from { left:  34%; right:   0%; }
-        to   { left: -33%; right: 100%; } /* -33% for a motion effect */
+        to   { left: -33%; right: 100%; }
     }
 
 /* 04 */
@@ -418,8 +418,8 @@ Error Panel
 }
 
     @-moz-keyframes spin-hiddenright-big {
-        from { left: 100%; right: 0%; }
-        to   { left:  34%; right: 0%; }
+        from { left: 100%; right: -33%; }
+        to   { left:  34%; right:   0%; }
     }
 
 /* 11 */
