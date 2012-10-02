@@ -346,7 +346,7 @@
         }
 
         if (isBig(panel) || isFull(panel)) {
-            return;
+            return ret;
         }
 
         if (isHiddenRight(panel)) {
