@@ -442,14 +442,9 @@ describe('spin.moveTo(elt)', function () {
     });
 
     it('Throws an error if corresponding panel cannot be found', function () {
-        var notFoundErr = new Error('panel not found'),
-            badCallErr  = new Error('bad function call');
+        var notFoundErr = new Error('panel not found');
 
         function notFound(elt) {
-            return spin.moveTo.bind({}, elt);
-        }
-
-        function badCall(elt) {
             return spin.moveTo.bind({}, elt);
         }
 
@@ -458,8 +453,16 @@ describe('spin.moveTo(elt)', function () {
         expect(notFound(document.body)).toThrow(notFoundErr);
         expect(notFound(-999)).toThrow(notFoundErr);
         expect(notFound(999)).toThrow(notFoundErr);
+    });
 
-        // Invalid calls
+    it('Throws an error if a bad call is made', function () {
+
+        var badCallErr  = new Error('bad function call');
+
+        function badCall(elt) {
+            return spin.moveTo.bind({}, elt);
+        }
+
         expect(badCall()).toThrow(badCallErr);
         expect(badCall('')).toThrow(badCallErr);
         expect(badCall('   ')).toThrow(badCallErr);
@@ -474,5 +477,4 @@ describe('spin.moveTo(elt)', function () {
         expect(badCall({})).toThrow(badCallErr);
         expect(badCall(function () {})).toThrow(badCallErr);
     });
-
 });// describe
