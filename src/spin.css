@@ -311,7 +311,7 @@ Error Panel
 /* 08 */.spin-hiddenright-small,
 /* 09 */.spin-big-hiddenright,
 /* 10 */.spin-hiddenright-big,
-/* 11 */.spin-full-hiddenright, /* todo, small resolution only */
+/* 11 */.spin-full-hiddenright,
 /* 12 */.spin-hiddenright-full,
 /* 13 */.spin-big-small,
 /* 14 */.spin-small-big,
@@ -349,7 +349,7 @@ Error Panel
 
     @-moz-keyframes spin-big-hiddenleft {
         from { left:  34%; right:   0%; }
-        to   { left: -33%; right: 100%; }
+        to   { left: -67%; right: 100%; }
     }
 
 /* 04 */
@@ -358,8 +358,8 @@ Error Panel
 }
 
     @-moz-keyframes spin-hiddenleft-big {
-        from { left:  0%; right: 100%; }
-        to   { left: 34%; right:   0%; }
+        from { left: -67%; right: 100%; }
+        to   { left:  34%; right:   0%; }
     }
 
 /* 05 */
@@ -369,7 +369,7 @@ Error Panel
 
     @-moz-keyframes spin-full-hiddenleft {
         from { left:    0%; right:   0%; }
-        to   { left: -100%; right: 100%; } /* -100% for a motion effect */
+        to   { left: -100%; right: 100%; }
     }
 
 /* 06 */
@@ -378,8 +378,8 @@ Error Panel
 }
 
     @-moz-keyframes spin-hiddenleft-full {
-        from { left: 0%; right: 100%; }
-        to   { left: 0%; right:   0%; }
+        from { left: -100%; right: 100%; }
+        to   { left:    0%; right:   0%; }
     }
 
 /* 07 */
@@ -398,8 +398,8 @@ Error Panel
 }
 
     @-moz-keyframes spin-hiddenright-small {
-        from { left: 100%; right: 0%;  }
-        to   { left:   0%; right: 66%; }
+        from { left: 100%; right: -33%; }
+        to   { left:   0%; right:  66%; }
     }
 
 /* 09 */
@@ -409,7 +409,7 @@ Error Panel
 
     @-moz-keyframes spin-big-hiddenright {
         from { left:  34%; right:   0%; }
-        to   { left: 100%; right: -33%; }
+        to   { left: 100%; right: -67%; }
     }
 
 /* 10 */
@@ -418,11 +418,19 @@ Error Panel
 }
 
     @-moz-keyframes spin-hiddenright-big {
-        from { left: 100%; right: -33%; }
+        from { left: 100%; right: -67%; }
         to   { left:  34%; right:   0%; }
     }
 
 /* 11 */
+.spin-full-hiddenright {
+    -moz-animation-name: spin-full-hiddenright;
+}
+
+    @-moz-keyframes spin-full-hiddenright {
+        from { left:   0%; right:    0%; }
+        to   { left: 100%; right: -100%; }
+    }
 
 /* 12 */
 .spin-hiddenright-full {
@@ -430,8 +438,8 @@ Error Panel
 }
 
     @-moz-keyframes spin-hiddenright-full {
-        from { left: 100%; right: 0%; }
-        to   { left:   0%; right: 0%; }
+        from { left: 100%; right: -100%; }
+        to   { left:   0%; right:    0%; }
     }
 
 /* 13 */
