@@ -42,9 +42,12 @@ describe('On page load', function (){
         });
         
         it('Home panel takes all width available', function (){
-            var panel = document.getElementById('spin-panels').firstChild;
-            expect(parseInt(getComputedStyle(panel).left, 10)).toBe(0);
-            expect(parseInt(panel.style.width, 10)).toBe(window.innerWidth);
+            waitsFor(pause(2000));
+            runs(function () {
+                var panel = document.getElementById('spin-panels').firstChild;
+                expect(parseInt(getComputedStyle(panel).left, 10)).toBe(0);
+                expect(parseInt(getComputedStyle(panel).width, 10)+1).toBe(window.innerWidth);
+            });
         });
     });
 });
