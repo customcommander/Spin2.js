@@ -37,7 +37,7 @@ describe('On page load', function (){
         waitsFor(function (){
             home = document.getElementById('spin-panels').firstChild;
             return home;
-        }, 'panel has taken to long to load', 1000);
+        }, 'panel has taken too long to load', 1000);
 
         runs(function () {
             expect(home).toBecomeFull('spin-hiddenright');
