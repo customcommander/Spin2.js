@@ -1,55 +1,5 @@
 describe('spin.moveTo(elt)', function () {
 
-    /*
-     * Makes sure a panel has the given classes and only these ones.
-     * @param {HTMLElement} panel
-     * @param {Array} cls List of classes (e.g. ['spin-small', 'spin-small-big'])
-     */
-    function strictClassCheck(panel, cls) {
-        // A panel must always have that class anyway.
-        cls.push('spin-panel');
-        return cls.length == panel.classList.length
-            && cls.every(function (cur) {
-                return panel.classList.contains(cur); });
-    }
-
-    beforeEach(function () {
-
-        this.addMatchers({
-            toBecomeSmall: function (curState) {
-                return strictClassCheck(this.actual, [curState, curState + '-small']);
-            },
-            toBecomeBig: function (curState) {
-                return strictClassCheck(this.actual, [curState, curState + '-big']);
-            },
-            toBecomeFull: function (curState) {
-                return strictClassCheck(this.actual, [curState, curState + '-full']);
-            },
-            toBecomeHiddenLeft: function (curState) {
-                return strictClassCheck(this.actual, [curState, curState + '-hiddenleft']);
-            },
-            toBecomeHiddenRight: function (curState) {
-                return strictClassCheck(this.actual, [curState, curState + '-hiddenright']);
-            },
-            toBeSmall: function () {
-                return strictClassCheck(this.actual, ['spin-small']);
-            },
-            toBeBig: function () {
-                return strictClassCheck(this.actual, ['spin-big']);
-            },
-            toBeFull: function () {
-                return strictClassCheck(this.actual, ['spin-full']);
-            },
-            toBeHiddenLeft: function () {
-                return strictClassCheck(this.actual, ['spin-hiddenleft']);
-            },
-            toBeHiddenRight: function () {
-                return strictClassCheck(this.actual, ['spin-hiddenright']);
-            }
-        });
-    }); // beforeEach
-
-
     describe('Use Case', function () {
 
         var panels = {};
