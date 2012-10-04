@@ -18,7 +18,7 @@ describe('spin.loader([fn])', function () {
         it('Replaces the current loader with that function', function () {
             var noop = jasmine.createSpy('noop');
             spin.loader(noop);
-            clickNav('nav1');
+            clickNav('hammersmithandcity');
             expect(noop).toHaveBeenCalled();
         });
 
