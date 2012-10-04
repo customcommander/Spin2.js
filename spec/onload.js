@@ -39,23 +39,15 @@ describe('On page load', function (){
             return home;
         }, 'panel has taken to long to load', 1000);
 
+        runs(function () {
+            expect(home).toBecomeFull('spin-hiddenright');
+        });
+
         // Waits for animation to finish
         waitsFor(pause(2000));
 
         runs(function () {
-            var posLeft, totalWidth;
-
-            // Home panel should have the following css classes only
-            expect(home.classList.length).toBe(2);
-            expect(home.classList.contains('spin-panel')).toBe(true);
-            expect(home.classList.contains('spin-full')).toBe(true);
-
-            // Dimensions expectations
-            posLeft    = parseInt(getComputedStyle(home).left, 10);
-            totalWidth = parseInt(getComputedStyle(home).width, 10)+1;
-
-            expect(posLeft).toBe(0);
-            expect(totalWidth).toBe(window.innerWidth);
+            expect(home).toBeFull();
         });
     });
 });
