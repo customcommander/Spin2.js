@@ -3,11 +3,11 @@ describe('spin.getPanel(elt)', function () {
     it('Returns the corresponding panel', function () {
 
         var panel = document.getElementById('spin-id1'),
-            elt   = document.getElementById('nav1');
+            elt   = document.getElementById('hammersmithandcity');
 
         expect(spin.getPanel(0)).toBe(panel);
         expect(spin.getPanel('spin-id1')).toBe(panel);
-        expect(spin.getPanel('nav1')).toBe(panel);
+        expect(spin.getPanel('hammersmithandcity')).toBe(panel);
         expect(spin.getPanel(panel)).toBe(panel);
         expect(spin.getPanel(elt)).toBe(panel);
     });
