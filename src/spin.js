@@ -139,15 +139,8 @@
             panel.getElementsByClassName('spin-panel-bd')[0].appendChild(o.content);
         }
 
-        // Panel Position
-        // if (!el.panels.childNodes.length){
-        //     panel.style.cssText = 'left:0px;width:'+win.innerWidth+'px;';
-        // } else {
-        //     panel.style.cssText = 'left:'+win.innerWidth+'px;';
-        // }
-
         doc.getElementById('spin-panels').appendChild(panel);
-        // while (el.panels.lastChild != panel);
+
         return panel;
     }
 
