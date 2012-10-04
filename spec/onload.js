@@ -47,8 +47,8 @@ describe('On page load', function (){
 
             // Home panel should have the following css classes only
             expect(home.classList.length).toBe(2);
-            expect(home.classList.contains('spin-panel'));
-            expect(home.classList.contains('spin-full'));
+            expect(home.classList.contains('spin-panel')).toBe(true);
+            expect(home.classList.contains('spin-full')).toBe(true);
 
             // Dimensions expectations
             posLeft    = parseInt(getComputedStyle(home).left, 10);
