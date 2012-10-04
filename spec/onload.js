@@ -16,7 +16,7 @@ describe('On page load', function (){
     //          <div id="spin-panels"></div>
     //      </div>
     //  </body>
-    it('Spin base markup has been dropped', function () {
+    it('Spin markup has been dropped', function () {
         var spinElt       = document.getElementById('spin'),
             spinNavElt    = document.getElementById('spin-nav'),
             spinPanelsElt = document.getElementById('spin-panels');
@@ -30,24 +30,32 @@ describe('On page load', function (){
         expect(spinElt.childNodes[1]).toBe(spinPanelsElt);
     });
 
-    describe('When application starts', function (){
-    
-        it('Home panel loads', function (){
-            waitsFor(function (){
-                return document.getElementById('spin-panels').firstChild;
-            }, 'Panel has taken to long to load', 10000);
-            runs(function (){
-                expect(document.getElementById('spin-panels').firstChild).toBePanel();
-            });
-        });
-        
-        it('Home panel takes all width available', function (){
-            waitsFor(pause(2000));
-            runs(function () {
-                var panel = document.getElementById('spin-panels').firstChild;
-                expect(parseInt(getComputedStyle(panel).left, 10)).toBe(0);
-                expect(parseInt(getComputedStyle(panel).width, 10)+1).toBe(window.innerWidth);
-            });
+    it('Home panel has loaded', function (){
+        var home;
+
+        // Waits for the panel to arrive
+        waitsFor(function (){
+            home = document.getElementById('spin-panels').firstChild;
+            return home;
+        }, 'panel has taken to long to load', 1000);
+
+        // Waits for animation to finish
+        waitsFor(pause(2000));
+
+        runs(function () {
+            var posLeft, totalWidth;
+
+            // Home panel should have the following css classes only
+            expect(home.classList.length).toBe(2);
+            expect(home.classList.contains('spin-panel'));
+            expect(home.classList.contains('spin-full'));
+
+            // Dimensions expectations
+            posLeft    = parseInt(getComputedStyle(home).left, 10);
+            totalWidth = parseInt(getComputedStyle(home).width, 10)+1;
+
+            expect(posLeft).toBe(0);
+            expect(totalWidth).toBe(window.innerWidth);
         });
     });
 });
