@@ -70,7 +70,7 @@
     }
 
     function isPanel(o){
-        return isElement(o) && o.parentNode===elPanels;
+        return o && o.parentNode===elPanels;
     }
 
     function isSmall(panel) {
