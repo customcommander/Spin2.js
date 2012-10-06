@@ -37,7 +37,7 @@
      */
     var elPanels;
 
-    if (win.spin){
+    if (win.spin) {
         throw new Error('spin already exists');
     }
 
@@ -45,7 +45,7 @@
      * Checks that argument is a number
      * @private
      */
-    function isNumber(o){
+    function isNumber(o) {
         return toString.call(o) == '[object Number]';
     }
 
@@ -53,7 +53,7 @@
      * Checks that argument is a function
      * @private
      */
-    function isFunction(o){
+    function isFunction(o) {
         return toString.call(o) == '[object Function]';
     }
 
@@ -61,7 +61,7 @@
      * Checks that argument is an object
      * @private
      */
-    function isObject(o){
+    function isObject(o) {
         return toString.call(o) == '[object Object]';
     }
 
@@ -69,7 +69,7 @@
      * Checks that argument is undefined
      * @private
      */
-    function isUndefined(o){
+    function isUndefined(o) {
         return toString.call(o) == '[object Undefined]';
     }
 
@@ -77,7 +77,7 @@
      * Checks that argument is a string
      * @private
      */
-    function isString(o){
+    function isString(o) {
         return toString.call(o) == '[object String]';
     }
 
@@ -85,7 +85,7 @@
      * Checks that argument is a boolean
      * @private
      */
-    function isBoolean(o){
+    function isBoolean(o) {
         return toString.call(o) == '[object Boolean]';
     }
 
@@ -93,16 +93,16 @@
      * Checks that argument is a html element
      * @private
      */
-    function isElement(o){
-        return o && o.nodeType===1;
+    function isElement(o) {
+        return o && o.nodeType === 1;
     }
 
     /**
      * Checks that argument is a panel
      * @private
      */
-    function isPanel(o){
-        return o && o.parentNode===elPanels;
+    function isPanel(o) {
+        return o && o.parentNode === elPanels;
     }
 
     /**
@@ -184,13 +184,13 @@
      * Handler for click events occuring inside Spin.
      * @private
      */
-    function registerClickHandler(){
-        elPanels.addEventListener('click', function (ev){
+    function registerClickHandler() {
+        elPanels.addEventListener('click', function (ev) {
             var t = ev.target;
-            if (!t.classList.contains('nav')){
+            if (!t.classList.contains('nav')) {
                 return;
             }
-            if (!t.classList.contains('loaded')){
+            if (!t.classList.contains('loaded')) {
                 loader(t);
                 t.classList.add('loaded');
             }
@@ -219,7 +219,7 @@
      * @param {Object} o Panel configuration
      * @returns {HTMLElement} The panel that has been created
      */
-    function appendPanel(o){
+    function appendPanel(o) {
         var panel, header, body;
 
         panel = doc.createElement('li'),
@@ -269,7 +269,7 @@
      *                 or if content is passed and is not a string,
      *                 or if title is passed and is not a string.
      */
-    win.spin = spin = function (cfg){
+    win.spin = spin = function (cfg) {
         var panel;
 
         if (!arguments.length) {
@@ -355,12 +355,14 @@
      * @throws {Error} 'panel not found'
      */
     spin.getPanel = getPanel = function (elt) {
-        if (!arguments.length
+        if (
+            !arguments.length
             || (
                 !isElement(elt)
                 && (!isString(elt) || !elt.trim())
                 && (!isNumber(elt) || !isFinite(elt))
-            )) {
+                )
+            ) {
             throw new Error('bad function call');
         }
 
@@ -416,7 +418,8 @@
         if (isHiddenRight(panel)) {
             if (!panel.previousSibling) {
                 states = ['full'];
-            } else {
+            }
+            else {
                 states = ['big', 'small'];
             }
             do {
@@ -428,7 +431,8 @@
         else {
             if (!panel.previousSibling) {
                 states = ['full'];
-            } else {
+            }
+            else {
                 states = ['small', 'big'];
                 panel  = panel.previousSibling;
             }
@@ -462,22 +466,22 @@
     /**
      * Default loader
      */
-    loader = spin.xhrLoader = function (el){
+    loader = spin.xhrLoader = function (el) {
         var url;
         
-        if (!el || el.nodeType!==1){
+        if (!el || el.nodeType !== 1) {
             throw new Error('invalid argument');
         }
         
         url = el.dataset.url ? el.dataset.url.trim() : null;
         
-        if (!url){
+        if (!url) {
             throw new Error('element has no data-url attribute');
         }
         
         url = el.dataset.url.trim();
 
-        if (!spin.xhrLoader.xhr){
+        if (!spin.xhrLoader.xhr) {
             spin.xhrLoader.xhr = new XMLHttpRequest();
 
             //When request finishes
@@ -487,7 +491,8 @@
 
             spin.xhrLoader.xhr.addEventListener('error', function () {
             }, false);
-        } else {
+        }
+        else {
             spin.xhrLoader.xhr.abort();
         }
 
@@ -495,7 +500,7 @@
         spin.xhrLoader.xhr.send();
     };
 
-    win.addEventListener('load', function (){
+    win.addEventListener('load', function () {
         dropBaseMarkup();
         registerClickHandler();
         registerAnimationEndHandler();
