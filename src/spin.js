@@ -225,7 +225,7 @@
             panel.getElementsByClassName('spin-panel-bd')[0].appendChild(o.content);
         }
 
-        doc.getElementById('spin-panels').appendChild(panel);
+        elPanels.appendChild(panel);
 
         return panel;
     }
