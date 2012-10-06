@@ -12,7 +12,7 @@ describe('spin([cfg])', function () {
         });
         waitsFor(pause(1500), 'Timeout!', 2000);
         runs(function () {
-            expect(panelContent(panel)).toBe('<p>Hello World!</p>');
+            expect(PanelHelper.getContent(panel)).toBe('<p>Hello World!</p>');
         });
         runs(function () {
             spin.deleteAfter(0);
@@ -27,7 +27,7 @@ describe('spin([cfg])', function () {
         });
         waitsFor(pause(1500), 'Timeout!', 2000);
         runs(function () {
-            expect(panelTitle(panel)).toBe('Hello');
+            expect(PanelHelper.getTitle(panel)).toBe('Hello');
         });
         runs(function () {
             spin.deleteAfter(0);
@@ -69,7 +69,7 @@ describe('spin([cfg])', function () {
         });
         waitsFor(pause(1500), 'Timeout!', 2000);
         runs(function () {
-            expect(panelContent(panel)).toBe('');
+            expect(PanelHelper.getContent(panel)).toBe('');
         });
         runs(function () {
             spin.deleteAfter(0);
@@ -84,7 +84,7 @@ describe('spin([cfg])', function () {
         });
         waitsFor(pause(1500), 'Timeout!', 2000);
         runs(function () {
-            expect(panelTitle(panel)).toBe('');
+            expect(PanelHelper.getTitle(panel)).toBe('');
         });
         runs(function () {
             spin.deleteAfter(0);
