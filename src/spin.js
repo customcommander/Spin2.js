@@ -469,8 +469,8 @@
     loader = spin.xhrLoader = function (el) {
         var url;
         
-        if (!el || el.nodeType !== 1) {
-            throw new Error('invalid argument');
+        if (!isElement(el)) {
+            throw new Error('bad function call');
         }
         
         url = el.dataset.url ? el.dataset.url.trim() : null;
