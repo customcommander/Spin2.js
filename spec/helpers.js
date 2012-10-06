@@ -33,6 +33,16 @@ function pause(time) {
     };
 }
 
+var AppHelper = {
+    restart: function () {
+        var panels = document.getElementById('spin-panels');
+        while (panels.lastChild) {
+            panels.removeChild(panels.lastChild);
+        }
+        spin.loader()(document.body);
+    }
+};
+
 var PanelHelper = {
     getTitle: function (panel) {
         return panel.querySelector('.spin-title').innerHTML;
