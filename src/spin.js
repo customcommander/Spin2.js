@@ -6,7 +6,6 @@
 (function (win, doc) {
 
     var toString = Object.prototype.toString,
-        isNumber,
         spinId = 0,
         spin,       //Internal copy of window.spin
         getPanel,
