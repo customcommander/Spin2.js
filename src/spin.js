@@ -65,10 +65,6 @@
         return toString.call(o) == '[object Boolean]';
     }
 
-    function isNonEmptyString(o){
-        return isString(o) && o.trim();
-    }
-
     function isElement(o){
         return o && o.nodeType===1;
     }
