@@ -3,6 +3,7 @@ describe('On page load', function (){
     // We're testing the availability of the API
     it('Spin is available', function (){
         expect(window.spin).toBeFunction();
+        expect(window.spin.xhrLoader).toBeFunction();
         expect(window.spin.loader).toBeFunction();
         expect(window.spin.getPanel).toBeFunction();
         expect(window.spin.moveTo).toBeFunction();
