@@ -12,10 +12,28 @@
         getPanel,
         moveTo,
         deleteAfter,
-        loader,     //Internal copy of the current loader
-        elSpin,
-        elNav,
-        elPanels;
+        loader;     //Internal copy of the current loader
+
+    /**
+     * Reference to #spin node
+     * @private
+     * @type {HTMLElement}
+     */
+    var elSpin;
+
+    /**
+     * Reference to #spin-nav node
+     * @private
+     * @type {HTMLElement}
+     */
+    var elNav;
+
+    /**
+     * Reference to #spin-panels node
+     * @private
+     * @type {HTMLElement}
+     */
+    var elPanels;
 
     if (win.spin){
         throw new Error('spin already exists');
