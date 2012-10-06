@@ -17,6 +17,7 @@
     /**
      * Reference to #spin node
      * @private
+     * @see dropBaseMarkup
      * @type {HTMLElement}
      */
     var elSpin;
@@ -24,6 +25,7 @@
     /**
      * Reference to #spin-nav node
      * @private
+     * @see dropBaseMarkup
      * @type {HTMLElement}
      */
     var elNav;
@@ -31,6 +33,7 @@
     /**
      * Reference to #spin-panels node
      * @private
+     * @see dropBaseMarkup
      * @type {HTMLElement}
      */
     var elPanels;
@@ -75,15 +78,17 @@
         return isElement(o) && o.parentNode===elPanels;
     }
 
-    /*
-     * Generates and appends the base markup to the document body.
-     * 
+    /**
+     * Drops Spin markup on the page.
+     *
      *  <div id="spin">
-     *      <ol id="spin-nav"/>
-     *      <ol id="spin-panels"/>
+     *      <ol id="spin-nav"></ol>
+     *      <ol id="spin-panels"></ol>
      *  </div>
+     *
+     * @private
      */
-    function dropBaseMarkup(){
+    function dropBaseMarkup() {
         elSpin = doc.createElement('div');
         elSpin.id = 'spin';
         elNav = doc.createElement('ol');
