@@ -180,6 +180,10 @@
         doc.body.appendChild(elSpin); 
     }
 
+    /**
+     * Handler for click events occuring inside Spin.
+     * @private
+     */
     function registerClickHandler(){
         elPanels.addEventListener('click', function (ev){
             var t = ev.target;
@@ -193,9 +197,27 @@
         }, false);
     }
 
-    /*
-     *
-     *
+    /**
+     * Handler for animation end events occuring inside Spin.
+     * @private
+     */
+    function registerAnimationEndHandler() {
+        elPanels.addEventListener('animationend', function (e) {
+            var panel   = e.target,
+                animCls = e.animationName,
+                oldCls  = 'spin-' + animCls.split('-')[1],
+                newCls  = 'spin-' + animCls.split('-')[2];
+            panel.classList.remove(animCls);
+            panel.classList.remove(oldCls);
+            panel.classList.add(newCls);
+        });
+    }
+
+    /**
+     * Creates and appends a panel into the DOM
+     * @private
+     * @param {Object} o Panel configuration
+     * @returns {HTMLElement} The panel that has been created
      */
     function appendPanel(o){
         var panel, header, body;
@@ -420,18 +442,6 @@
         return ret;
     };
 
-    function registerAnimationEndHandler() {
-        elPanels.addEventListener('animationend', function (e) {
-            var panel   = e.target,
-                animCls = e.animationName,
-                oldCls  = 'spin-' + animCls.split('-')[1],
-                newCls  = 'spin-' + animCls.split('-')[2];
-            panel.classList.remove(animCls);
-            panel.classList.remove(oldCls);
-            panel.classList.add(newCls);
-        });
-    }
-
     /**
      * Deletes all panels after corresponding panel.
      *
@@ -449,8 +459,6 @@
         return panel;
     };
 
-    
-    
     /**
      * Default loader
      */
