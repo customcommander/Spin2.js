@@ -1,35 +1,13 @@
 // Internally spin.deleteAfter uses spin.getPanel to match a panel
 // corresponding to "elt". Since this logic has been thoroughly tested
 // already (see spin.getpanel.js) we're not covering it again.
-describe('spin.deleteAfter(elt)', function (){
-
-    var panel, timer;
+describe('spin.deleteAfter(elt)', function () {
 
     beforeEach(function () {
-        var stop = true;
-
         runs(function () {
-            panel = spin();
-            timer = setTimeout(function () {
-                stop = false;
-            }, 2000);
+            AppHelper.restart();
         });
-
-        waitsFor(function () {
-            return !stop;
-        }, 'Timeout!', 2500);
-    });
-
-    afterEach(function (){
-        clearTimeout(timer);
-    });
-
-    it('Deletes all panels after corresponding panel', function () {
-        var home = spin.getPanel(0);
-        spin.deleteAfter(0);
-        expect(home.nextSibling).toBeNull();
-        expect(home.parentNode.lastChild).toBe(home);
-        expect(document.getElementById(panel.id)).toBeNull();
+        waitsFor(pause(2000));
     });
 
     it('Returns corresponding panel', function () {
@@ -37,5 +15,18 @@ describe('spin.deleteAfter(elt)', function (){
         expect(spin.deleteAfter(0)).toBe(home);
     });
 
-    //TODO: make sur the last panel is visible
+    it('Deletes all panels after corresponding panel', function () {
+        runs(function () {
+            AppHelper.clickNav('hammersmithandcity');
+        });
+        waitsFor(pause(2000));
+        runs(function () {
+            var home   = spin.getPanel(0),
+                panels = document.getElementById('spin-panels');
+            spin.deleteAfter(home);
+            expect(panels.firstChild).toBe(panels.lastChild);
+            expect(panels.firstChild).toBe(home);
+            expect(home).toBeSmall();
+        });
+    });
 });
