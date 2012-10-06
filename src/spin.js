@@ -13,7 +13,9 @@
         moveTo,
         deleteAfter,
         loader,     //Internal copy of the current loader
-        el = {};    //DOM elements that we need to keep references of
+        elSpin,
+        elNav,
+        elPanels;
 
     if (win.spin){
         throw new Error('spin already exists');
@@ -52,7 +54,7 @@
     }
 
     function isPanel(o){
-        return isElement(o) && o.parentNode===el.panels;
+        return isElement(o) && o.parentNode===elPanels;
     }
 
     /*
@@ -64,19 +66,19 @@
      *  </div>
      */
     function dropBaseMarkup(){
-        el.spin = doc.createElement('div');
-        el.spin.id = 'spin';
-        el.nav = doc.createElement('ol');
-        el.nav.id = 'spin-nav';
-        el.panels = doc.createElement('ol');
-        el.panels.id = 'spin-panels';
-        el.spin.appendChild(el.nav);
-        el.spin.appendChild(el.panels);
-        doc.body.appendChild(el.spin); 
+        elSpin = doc.createElement('div');
+        elSpin.id = 'spin';
+        elNav = doc.createElement('ol');
+        elNav.id = 'spin-nav';
+        elPanels = doc.createElement('ol');
+        elPanels.id = 'spin-panels';
+        elSpin.appendChild(elNav);
+        elSpin.appendChild(elPanels);
+        doc.body.appendChild(elSpin); 
     }
 
     function registerClickHandler(){
-        el.panels.addEventListener('click', function (ev){
+        elPanels.addEventListener('click', function (ev){
             var t = ev.target;
             if (!t.classList.contains('nav')){
                 return;
@@ -246,7 +248,7 @@
         }
 
         if (isNumber(elt)) {
-            elt = el.panels.childNodes[elt];
+            elt = elPanels.childNodes[elt];
         }
         else if (isString(elt)) {
             elt = doc.getElementById(elt);
@@ -353,9 +355,7 @@
     };
 
     function registerAnimationEndHandler() {
-        var PANELS = el.panels;
-
-        PANELS.addEventListener('animationend', function (e) {
+        elPanels.addEventListener('animationend', function (e) {
             var panel   = e.target,
                 animCls = e.animationName,
                 oldCls  = 'spin-' + animCls.split('-')[1],
@@ -377,8 +377,8 @@
      */
     spin.deleteAfter = deleteAfter = function (elt) {
         var panel = getPanel(elt);
-        while ( el.panels.lastChild != panel ) {
-            el.panels.removeChild(el.panels.lastChild);
+        while ( elPanels.lastChild != panel ) {
+            elPanels.removeChild(elPanels.lastChild);
         }
         return panel;
     };
