@@ -93,19 +93,19 @@ describe('spin([cfg])', function () {
     });
 
     it('Returns the panel that has been created', function () {
-        var panel;
         runs(function () {
-            panel = spin();
-        });
-        waitsFor(pause(1500), 'Timeout!', 2000);
-        runs(function () {
+            var panel = spin();
             expect(panel).toBeDefined();
+        });
+        waitsFor(pause(2000));
+    });
+
+    it('Appends the panel into the DOM', function () {
+        runs(function () {
+            var panel = spin();
             expect(panel.parentNode).toBe(document.getElementById('spin-panels'));
         });
-        runs(function () {
-            spin.deleteAfter(0);
-        });
-        waitsFor(pause(1500), 'Timeout!', 2000);
+        waitsFor(pause(2000));
     });
 
     it('Throws an error if cfg is not an object', function () {
