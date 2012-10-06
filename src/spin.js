@@ -41,58 +41,114 @@
         throw new Error('spin already exists');
     }
 
+    /**
+     * Checks that argument is a number
+     * @private
+     */
     function isNumber(o){
         return toString.call(o) == '[object Number]';
     }
 
+    /**
+     * Checks that argument is a function
+     * @private
+     */
     function isFunction(o){
         return toString.call(o) == '[object Function]';
     }
 
+    /**
+     * Checks that argument is an object
+     * @private
+     */
     function isObject(o){
         return toString.call(o) == '[object Object]';
     }
 
+    /**
+     * Checks that argument is undefined
+     * @private
+     */
     function isUndefined(o){
         return toString.call(o) == '[object Undefined]';
     }
 
+    /**
+     * Checks that argument is a string
+     * @private
+     */
     function isString(o){
         return toString.call(o) == '[object String]';
     }
 
+    /**
+     * Checks that argument is a boolean
+     * @private
+     */
     function isBoolean(o){
         return toString.call(o) == '[object Boolean]';
     }
 
+    /**
+     * Checks that argument is a html element
+     * @private
+     */
     function isElement(o){
         return o && o.nodeType===1;
     }
 
+    /**
+     * Checks that argument is a panel
+     * @private
+     */
     function isPanel(o){
         return o && o.parentNode===elPanels;
     }
 
+    /**
+     * Checks that panel is in a small state
+     * @private
+     */
     function isSmall(panel) {
         return panel.classList.contains('spin-small');
     }
 
+    /**
+     * Checks that panel is in a big state
+     * @private
+     */
     function isBig(panel) {
         return panel.classList.contains('spin-big');
     }
 
+    /**
+     * Checks that panel is in a full state
+     * @private
+     */
     function isFull(panel) {
         return panel.classList.contains('spin-full');
     }
 
+    /**
+     * Checks that panel is in a hidden state (on the left)
+     * @private
+     */
     function isHiddenLeft(panel) {
         return panel.classList.contains('spin-hiddenleft');
     }
 
+    /**
+     * Checks that panel is in a hidden state (on the right)
+     * @private
+     */
     function isHiddenRight(panel) {
         return panel.classList.contains('spin-hiddenright');
     }
 
+    /**
+     * Returns panel current state
+     * @private
+     */
     function getState(panel) {
         if (isHiddenRight(panel)) return 'hiddenright';
         if (isBig(panel)) return 'big';
@@ -101,7 +157,6 @@
         if (isHiddenLeft(panel)) return 'hiddenleft';
         throw new Error('panel has no state');
     }
-
 
     /**
      * Drops Spin markup on the page.
