@@ -40,6 +40,14 @@ var AppHelper = {
             panels.removeChild(panels.lastChild);
         }
         spin.loader()(document.body);
+    },
+    clickNav: function (elt) {
+        elt = document.getElementById(elt);
+        if (!elt) {
+            throw new Error('element not found');
+        }
+        elt.classList.remove('loaded');
+        click(elt);
     }
 };
 
