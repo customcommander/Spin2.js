@@ -476,7 +476,7 @@
         url = el.dataset.url ? el.dataset.url.trim() : null;
         
         if (!url) {
-            throw new Error('element has no data-url attribute');
+            throw new Error('element has no url');
         }
         
         url = el.dataset.url.trim();
