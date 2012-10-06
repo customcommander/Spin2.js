@@ -198,32 +198,24 @@
      *
      */
     function appendPanel(o){
-        var panel = doc.createElement('li');
+        var panel, header, body;
 
-        // Panel Markup
-        panel.innerHTML = 
-              '<div class="spin-panel-hd">'
-            + '    <span class="spin-title"></span>'
-            + '</div>'
-            + '<div class="spin-panel-bd"></div>';
+        panel = doc.createElement('li'),
 
-        // Panel ID
         spinId++;
         panel.id = 'spin-id'+spinId;
+        panel.className = 'spin-panel spin-hiddenright';
 
-        // Panel CSS Class
-        panel.classList.add('spin-panel');
-        panel.classList.add('spin-hiddenright');
+        header = doc.createElement('div');
+        header.className = 'spin-panel-hd';
+        header.innerHTML = '<span class="spin-title">' + o.title + '</span>';
 
-        // Panel Title
-        panel.getElementsByClassName('spin-title')[0].innerHTML = o.title;
+        body = doc.createElement('div');
+        body.className = 'spin-panel-bd';
+        body.innerHTML = o.content;
 
-        // Panel Content
-        if (isString(o.content)){
-            panel.getElementsByClassName('spin-panel-bd')[0].innerHTML = o.content;
-        } else {
-            panel.getElementsByClassName('spin-panel-bd')[0].appendChild(o.content);
-        }
+        panel.appendChild(header);
+        panel.appendChild(body);
 
         elPanels.appendChild(panel);
 
