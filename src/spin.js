@@ -88,25 +88,6 @@
         }, false);
     }
 
-    /**
-     * Returns possible widths for a panel
-     *
-     * @returns {Object} Object containing possible widths for a panel.
-     *                   full: 100% of browser window width
-     *                   min: 1/3 of browser window width
-     *                   max: 2/3 of browser window width
-     */
-    function getPanelWidth(){
-        var winWidth = win.innerWidth,
-            minWidth = Math.floor(winWidth/3),
-            maxWidth = Math.floor(winWidth-minWidth);
-        return {
-            full: winWidth,
-            min:  minWidth,
-            max:  maxWidth
-        };
-    }
-
     /*
      *
      *
