@@ -77,6 +77,36 @@
         return isElement(o) && o.parentNode===elPanels;
     }
 
+    function isSmall(panel) {
+        return panel.classList.contains('spin-small');
+    }
+
+    function isBig(panel) {
+        return panel.classList.contains('spin-big');
+    }
+
+    function isFull(panel) {
+        return panel.classList.contains('spin-full');
+    }
+
+    function isHiddenLeft(panel) {
+        return panel.classList.contains('spin-hiddenleft');
+    }
+
+    function isHiddenRight(panel) {
+        return panel.classList.contains('spin-hiddenright');
+    }
+
+    function getState(panel) {
+        if (isHiddenRight(panel)) return 'hiddenright';
+        if (isBig(panel)) return 'big';
+        if (isSmall(panel)) return 'small';
+        if (isFull(panel)) return 'full';
+        if (isHiddenLeft(panel)) return 'hiddenleft';
+        throw new Error('panel has no state');
+    }
+
+
     /**
      * Drops Spin markup on the page.
      *
@@ -301,37 +331,6 @@
             states,
             nextState;
 
-        ret = panel = getPanel(elt);
-
-        function isSmall(panel) {
-            return panel.classList.contains('spin-small');
-        }
-
-        function isBig(panel) {
-            return panel.classList.contains('spin-big');
-        }
-
-        function isFull(panel) {
-            return panel.classList.contains('spin-full');
-        }
-
-        function isHiddenLeft(panel) {
-            return panel.classList.contains('spin-hiddenleft');
-        }
-
-        function isHiddenRight(panel) {
-            return panel.classList.contains('spin-hiddenright');
-        }
-
-        function getState(panel) {
-            if (isHiddenRight(panel)) return 'hiddenright';
-            if (isBig(panel)) return 'big';
-            if (isSmall(panel)) return 'small';
-            if (isFull(panel)) return 'full';
-            if (isHiddenLeft(panel)) return 'hiddenleft';
-            throw new Error('panel has no state');
-        }
-
         function move(panel, nextState) {
             var curState = getState(panel);
             if (curState[0] == nextState[0]) {
@@ -342,6 +341,8 @@
                 panel.classList.add('spin-' + curState + '-' + nextState);
             }
         }
+
+        ret = panel = getPanel(elt);
 
         if (isBig(panel) || isFull(panel)) {
             return ret;
