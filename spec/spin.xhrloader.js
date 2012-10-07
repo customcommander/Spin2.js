@@ -1,4 +1,29 @@
-describe('spin.xhrLoader(elt)', function (){
+describe('spin.xhrLoader(elt)', function () {
+
+    it('Loads the elt', function () {
+        var lastpanel = document.getElementById('spin-panels').lastChild,
+            newpanel;
+
+        // Loads the tube map
+        runs(function () {
+            spin.xhrLoader(document.body);
+        });
+
+        // Waits for the map to arrive
+        waitsFor(function () {
+            newpanel = lastpanel.nextSibling;
+            return newpanel;
+        }, 'panel has taken too long to load', 1000);
+
+        // Waits for animation to finish
+        waitsFor(pause(2000));
+
+        // Test if the content is what we expect.
+        // Tube map should have an navigable element with the following id
+        runs(function () {
+            expect(newpanel.querySelector('#hammersmithandcity')).toBeDefined();
+        });
+    });
 
     it('Throws an error if elt is not an html element', function () {
 
