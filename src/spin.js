@@ -467,7 +467,7 @@
      * Default loader
      */
     loader = spin.xhrLoader = function (el) {
-        var url;
+        var url, title;
         
         if (!isElement(el)) {
             throw new Error('bad function call');
@@ -481,15 +481,27 @@
         
         url = el.dataset.url.trim();
 
+        if (el.dataset.title) {
+            title = el.dataset.title;
+        }
+        else if (el.querySelector('.spin-title')) {
+            title = el.querySelector('.spin-title').textContent;
+        }
+        else {
+            title = el.textContent;
+        }
+
         if (!spin.xhrLoader.xhr) {
             spin.xhrLoader.xhr = new XMLHttpRequest();
 
             //When request finishes
             spin.xhrLoader.xhr.addEventListener('load', function () {
-                spin({ content: this.responseText });
+                spin({ content: this.responseText, title: title });
+                spin.xhrLoader.xhr = null;
             }, false);
 
             spin.xhrLoader.xhr.addEventListener('error', function () {
+                spin.xhrLoader.xhr = null;
             }, false);
         }
         else {

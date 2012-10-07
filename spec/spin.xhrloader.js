@@ -74,4 +74,70 @@ describe('spin.xhrLoader(elt)', function () {
         expect(noUrl(elts.querySelector('#test2'))).toThrow(noUrlErr);
         expect(noUrl(elts.querySelector('#test3'))).toThrow(noUrlErr);
     });
+
+    describe('Working out panel title', function () {
+
+        it('Taken from data-title attribute', function () {
+            var html, nav;
+
+            runs(function () {
+                html = document.createElement('div');
+                html.innerHTML = '<li id="nav" data-url="panel.tubemap.html" data-title="Tube Map"></li>';
+                nav = html.querySelector('#nav');
+                spin.xhrLoader(nav);
+            });
+
+            // Waits for loading and animation to finish
+            waitsFor(pause(3000));
+
+            runs(function () {
+                var panel = document.getElementById('spin-panels').lastChild;
+                expect(PanelHelper.getTitle(panel)).toBe('Tube Map');
+            });
+        });
+
+        it('Taken from the first .spin-title element', function () {
+            var html, nav;
+
+            runs(function () {
+                html = document.createElement('div');
+                html.innerHTML = '<li id="nav" data-url="panel.tubemap.html">'
+                               +    '<p><span class="spin-title">Tube Map</span></p>'
+                               +    '<p><span class="spin-title">Dont take it</span></p>'
+                               + '</li>';
+                nav = html.querySelector('#nav');
+                spin.xhrLoader(nav);
+            });
+
+            // Waits for loading and animation to finish
+            waitsFor(pause(3000));
+
+            runs(function () {
+                var panel = document.getElementById('spin-panels').lastChild;
+                expect(PanelHelper.getTitle(panel)).toBe('Tube Map');
+            });
+        });
+
+        it('Taken from the content', function () {
+            var html, nav;
+
+            runs(function () {
+                html = document.createElement('div');
+                html.innerHTML = '<li id="nav" data-url="panel.tubemap.html">'
+                               +    '<p><span>Tube </span></p>'
+                               +    '<p><span>Map</span></p>'
+                               + '</li>';
+                nav = html.querySelector('#nav');
+                spin.xhrLoader(nav);
+            });
+
+            // Waits for loading and animation to finish
+            waitsFor(pause(3000));
+
+            runs(function () {
+                var panel = document.getElementById('spin-panels').lastChild;
+                expect(PanelHelper.getTitle(panel)).toBe('Tube Map');
+            });
+        });
+    });
 });
