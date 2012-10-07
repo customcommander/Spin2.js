@@ -29,7 +29,7 @@ describe('spin.xhrLoader(elt)', function (){
         expect(badCall("\n\t")).toThrow(badCallErr);
     });
 
-    it('Throws an error if elt has not url', function () {
+    it('Throws an error if elt has no url', function () {
 
         var noUrlErr = new Error('element has no url'),
             elts;
