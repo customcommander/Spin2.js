@@ -1,7 +1,12 @@
-describe('On page load', function (){
+/*
+ * Describes the expectations when page has finished to load.
+ */
+describe('On page load', function () {
 
-    // We're testing the availability of the API
-    it('Spin is available', function (){
+    /*
+     * Ensures that Spin.js API is there.
+     */
+    it('Spin is available', function () {
         expect(window.spin).toBeFunction();
         expect(window.spin.xhrLoader).toBeFunction();
         expect(window.spin.loader).toBeFunction();
@@ -10,13 +15,16 @@ describe('On page load', function (){
         expect(window.spin.deleteAfter).toBeFunction();
     });
 
-    // On page load, Spin should have dropped its own markup:
-    //  <body>
-    //      <div id="spin">
-    //          <div id="spin-nav"></div>
-    //          <div id="spin-panels"></div>
-    //      </div>
-    //  </body>
+    /*
+     * Spin.js should have dropped its markup on the page.
+     *
+     *  <body>
+     *      <div id="spin">
+     *          <div id="spin-nav"></div>
+     *          <div id="spin-panels"></div>
+     *      </div>
+     *  </body>
+     */
     it('Spin markup has been dropped', function () {
         var spinElt       = document.getElementById('spin'),
             spinNavElt    = document.getElementById('spin-nav'),
@@ -31,14 +39,17 @@ describe('On page load', function (){
         expect(spinElt.childNodes[1]).toBe(spinPanelsElt);
     });
 
-    it('Home panel has loaded', function (){
+    /*
+     * Spin.js should load the first panel (home panel).
+     */
+    it('Home panel has loaded', function () {
         var home;
 
         // Waits for the panel to arrive
-        waitsFor(function (){
+        waitsFor(function () {
             home = document.getElementById('spin-panels').firstChild;
             return home;
-        }, 'panel has taken too long to load', 1000);
+        }, 'Home panel is taking too long to load', 1000);
 
         runs(function () {
             expect(home).toBecomeFull('spin-hiddenright');
