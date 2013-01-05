@@ -13,6 +13,8 @@
         deleteAfter,
         loader;     //Internal copy of the current loader
 
+    var isNumber;
+
     /**
      * Reference to #spin node
      * @private
@@ -41,13 +43,6 @@
         throw new Error('spin already exists');
     }
 
-    /**
-     * Checks that argument is a number
-     * @private
-     */
-    function isNumber(o) {
-        return toString.call(o) == '[object Number]';
-    }
 
     /**
      * Checks that argument is a function
@@ -461,6 +456,16 @@
             elPanels.removeChild(elPanels.lastChild);
         }
         return panel;
+    };
+
+    /**
+     * @name spin.isNumber
+     * @function
+     * @param o
+     * @returns {Boolean} True if o is a number. False otherwise.
+     */
+    spin.isNumber = isNumber = function (o) {
+        return toString.call(o) == '[object Number]' && isFinite(o);
     };
 
     /**
