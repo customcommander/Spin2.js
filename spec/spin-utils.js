@@ -144,4 +144,42 @@ describe('Spin utils functions', function () {
             expect(spin.isString(document.body)).toBe(false);
         });
     });
+
+    describe('isElement(o)', function () {
+
+        it('Returns true for element nodes', function () {
+            expect(spin.isElement(document.body)).toBe(true);
+            expect(spin.isElement(document.createElement('div'))).toBe(true);
+        });
+
+        it('Returns false for everything else', function () {
+            expect(spin.isElement()).toBe(false);
+            expect(spin.isElement(null)).toBe(false);
+            expect(spin.isElement(undefined)).toBe(false);
+            expect(spin.isElement(NaN)).toBe(false);
+            expect(spin.isElement(Infinity)).toBe(false);
+            expect(spin.isElement(-Infinity)).toBe(false);
+            expect(spin.isElement(-1)).toBe(false);
+            expect(spin.isElement(1)).toBe(false);
+            expect(spin.isElement(0)).toBe(false);
+            expect(spin.isElement(-100)).toBe(false);
+            expect(spin.isElement(100)).toBe(false);
+            expect(spin.isElement(true)).toBe(false);
+            expect(spin.isElement(false)).toBe(false);
+            expect(spin.isElement([])).toBe(false);
+            expect(spin.isElement(new Array())).toBe(false);
+            expect(spin.isElement({})).toBe(false);
+            expect(spin.isElement(new Object())).toBe(false);
+            expect(spin.isElement(function () {})).toBe(false);
+            expect(spin.isElement(new Function('return true;'))).toBe(false);
+            expect(spin.isElement("")).toBe(false);
+            expect(spin.isElement("hello")).toBe(false);
+            expect(spin.isElement("0")).toBe(false);
+            expect(spin.isElement("1")).toBe(false);
+            expect(spin.isElement("-10")).toBe(false);
+            expect(spin.isElement("100")).toBe(false);
+            expect(spin.isElement(document.createTextNode('foo'))).toBe(false);
+
+        });
+    });
 });

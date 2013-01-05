@@ -16,7 +16,8 @@
     var isNumber,
         isFunction,
         isObject,
-        isString;
+        isString,
+        isElement;
 
     /**
      * Reference to #spin node
@@ -44,14 +45,6 @@
 
     if (win.spin) {
         throw new Error('spin already exists');
-    }
-
-    /**
-     * Checks that argument is a html element
-     * @private
-     */
-    function isElement(o) {
-        return o && o.nodeType === 1;
     }
 
     /**
@@ -458,6 +451,16 @@
      */
     spin.isString = isString = function (o) {
         return toString.call(o) == '[object String]';
+    };
+
+    /**
+     * @name spin.isElement
+     * @function
+     * @param o
+     * @returns {Boolean} True if o is an element node. False otherwise.
+     */
+    spin.isElement = isElement = function (o) {
+        return !!o && o.nodeType === 1;
     };
 
     /**
