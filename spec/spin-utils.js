@@ -189,12 +189,13 @@ describe('Spin utils functions', function () {
             var home;
 
             waitsFor(function () {
+                // This should be the first panel (home panel)
                 home = document.getElementById('spin-id1');
                 return home;
             }, 'Home panel is taking too long to load', 1000);
 
             runs(function () {
-                expect(spin.isPanel(spin.getPanel(0))).toBe(true);
+                expect(spin.isPanel(home)).toBe(true);
             });
         });
 
