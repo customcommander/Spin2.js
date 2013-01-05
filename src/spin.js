@@ -47,22 +47,6 @@
     }
 
     /**
-     * Checks that argument is undefined
-     * @private
-     */
-    function isUndefined(o) {
-        return toString.call(o) == '[object Undefined]';
-    }
-
-    /**
-     * Checks that argument is a boolean
-     * @private
-     */
-    function isBoolean(o) {
-        return toString.call(o) == '[object Boolean]';
-    }
-
-    /**
      * Checks that argument is a html element
      * @private
      */
