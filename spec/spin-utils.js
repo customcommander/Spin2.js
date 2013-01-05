@@ -70,4 +70,39 @@ describe('Spin utils functions', function () {
             expect(spin.isFunction(new Object())).toBe(false);
         });
     });
+
+    describe('spin.isObject(o)', function () {
+
+        it('Returns true for objects', function () {
+            expect(spin.isObject({})).toBe(true);
+            expect(spin.isObject(new Object())).toBe(true);
+            expect(spin.isObject(new function () {})).toBe(true);
+        });
+
+        it('Returns false for everything else', function () {
+            expect(spin.isObject()).toBe(false);
+            expect(spin.isObject(null)).toBe(false);
+            expect(spin.isObject(undefined)).toBe(false);
+            expect(spin.isObject(NaN)).toBe(false);
+            expect(spin.isObject(Infinity)).toBe(false);
+            expect(spin.isObject(-Infinity)).toBe(false);
+            expect(spin.isObject(-1)).toBe(false);
+            expect(spin.isObject(1)).toBe(false);
+            expect(spin.isObject(0)).toBe(false);
+            expect(spin.isObject(-100)).toBe(false);
+            expect(spin.isObject(100)).toBe(false);
+            expect(spin.isObject(true)).toBe(false);
+            expect(spin.isObject(false)).toBe(false);
+            expect(spin.isObject("")).toBe(false);
+            expect(spin.isObject("hello")).toBe(false);
+            expect(spin.isObject("0")).toBe(false);
+            expect(spin.isObject("1")).toBe(false);
+            expect(spin.isObject("-10")).toBe(false);
+            expect(spin.isObject("100")).toBe(false);
+            expect(spin.isObject([])).toBe(false);
+            expect(spin.isObject(new Array())).toBe(false);
+            expect(spin.isObject(function () {})).toBe(false);
+            expect(spin.isObject(new Function('return true;'))).toBe(false);
+        });
+    });
 });

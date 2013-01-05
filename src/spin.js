@@ -14,7 +14,8 @@
         loader;     //Internal copy of the current loader
 
     var isNumber,
-        isFunction;
+        isFunction,
+        isObject;
 
     /**
      * Reference to #spin node
@@ -42,14 +43,6 @@
 
     if (win.spin) {
         throw new Error('spin already exists');
-    }
-
-    /**
-     * Checks that argument is an object
-     * @private
-     */
-    function isObject(o) {
-        return toString.call(o) == '[object Object]';
     }
 
     /**
@@ -468,6 +461,16 @@
      */
     spin.isFunction = isFunction = function (o) {
         return toString.call(o) == '[object Function]';
+    };
+
+    /**
+     * @name spin.isObject
+     * @function
+     * @param o
+     * @returns {Boolean} True if o is an object. False otherwise.
+     */
+    spin.isObject = isObject = function (o) {
+        return toString.call(o) == '[object Object]';
     };
 
     /**
