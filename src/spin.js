@@ -17,7 +17,8 @@
         isFunction,
         isObject,
         isString,
-        isElement;
+        isElement,
+        isPanel;
 
     /**
      * Reference to #spin node
@@ -45,14 +46,6 @@
 
     if (win.spin) {
         throw new Error('spin already exists');
-    }
-
-    /**
-     * Checks that argument is a panel
-     * @private
-     */
-    function isPanel(o) {
-        return o && o.parentNode === elPanels;
     }
 
     /**
@@ -461,6 +454,16 @@
      */
     spin.isElement = isElement = function (o) {
         return !!o && o.nodeType === 1;
+    };
+
+    /**
+     * @name spin.isPanel
+     * @function
+     * @param o
+     * @returns {Boolean} True if o is a panel. False otherwise.
+     */
+    spin.isPanel = isPanel = function (o) {
+        return !!o && o.parentNode === elPanels;
     };
 
     /**

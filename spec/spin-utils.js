@@ -179,7 +179,55 @@ describe('Spin utils functions', function () {
             expect(spin.isElement("-10")).toBe(false);
             expect(spin.isElement("100")).toBe(false);
             expect(spin.isElement(document.createTextNode('foo'))).toBe(false);
-
         });
+    });
+
+    describe('isPanel(o)', function () {
+
+        it('Returns true for panels', function () {
+
+            var home;
+
+            waitsFor(function () {
+                home = document.getElementById('spin-id1');
+                return home;
+            }, 'Home panel is taking too long to load', 1000);
+
+            runs(function () {
+                expect(spin.isPanel(spin.getPanel(0))).toBe(true);
+            });
+        });
+
+        it('Returns false for everything else', function () {
+            expect(spin.isPanel()).toBe(false);
+            expect(spin.isPanel(null)).toBe(false);
+            expect(spin.isPanel(undefined)).toBe(false);
+            expect(spin.isPanel(NaN)).toBe(false);
+            expect(spin.isPanel(Infinity)).toBe(false);
+            expect(spin.isPanel(-Infinity)).toBe(false);
+            expect(spin.isPanel(-1)).toBe(false);
+            expect(spin.isPanel(1)).toBe(false);
+            expect(spin.isPanel(0)).toBe(false);
+            expect(spin.isPanel(-100)).toBe(false);
+            expect(spin.isPanel(100)).toBe(false);
+            expect(spin.isPanel(true)).toBe(false);
+            expect(spin.isPanel(false)).toBe(false);
+            expect(spin.isPanel([])).toBe(false);
+            expect(spin.isPanel(new Array())).toBe(false);
+            expect(spin.isPanel({})).toBe(false);
+            expect(spin.isPanel(new Object())).toBe(false);
+            expect(spin.isPanel(function () {})).toBe(false);
+            expect(spin.isPanel(new Function('return true;'))).toBe(false);
+            expect(spin.isPanel("")).toBe(false);
+            expect(spin.isPanel("hello")).toBe(false);
+            expect(spin.isPanel("0")).toBe(false);
+            expect(spin.isPanel("1")).toBe(false);
+            expect(spin.isPanel("-10")).toBe(false);
+            expect(spin.isPanel("100")).toBe(false);
+            expect(spin.isPanel(document.body)).toBe(false);
+            expect(spin.isPanel(document.createElement('div'))).toBe(false);
+            expect(spin.isPanel(document.createTextNode('foo'))).toBe(false);
+        });
+
     });
 });
