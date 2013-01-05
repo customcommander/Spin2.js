@@ -105,4 +105,43 @@ describe('Spin utils functions', function () {
             expect(spin.isObject(new Function('return true;'))).toBe(false);
         });
     });
+
+    describe('isString(o)', function () {
+
+        it('Returns true for strings', function () {
+            expect(spin.isString("")).toBe(true);
+            expect(spin.isString(new String(""))).toBe(true);
+            expect(spin.isString("\r\n")).toBe(true);
+            expect(spin.isString(new String("\r\n"))).toBe(true);
+            expect(spin.isString("foo")).toBe(true);
+            expect(spin.isString(new String("foo"))).toBe(true);
+            expect(spin.isString("0")).toBe(true);
+            expect(spin.isString(new String("0"))).toBe(true);
+            expect(spin.isString("1")).toBe(true);
+            expect(spin.isString(new String("1"))).toBe(true);
+        });
+
+        it('Returns false for everything else', function () {
+            expect(spin.isString()).toBe(false);
+            expect(spin.isString(null)).toBe(false);
+            expect(spin.isString(undefined)).toBe(false);
+            expect(spin.isString(NaN)).toBe(false);
+            expect(spin.isString(Infinity)).toBe(false);
+            expect(spin.isString(-Infinity)).toBe(false);
+            expect(spin.isString(-1)).toBe(false);
+            expect(spin.isString(1)).toBe(false);
+            expect(spin.isString(0)).toBe(false);
+            expect(spin.isString(-100)).toBe(false);
+            expect(spin.isString(100)).toBe(false);
+            expect(spin.isString(true)).toBe(false);
+            expect(spin.isString(false)).toBe(false);
+            expect(spin.isString([])).toBe(false);
+            expect(spin.isString(new Array())).toBe(false);
+            expect(spin.isString({})).toBe(false);
+            expect(spin.isString(new Object())).toBe(false);
+            expect(spin.isString(function () {})).toBe(false);
+            expect(spin.isString(new Function('return true;'))).toBe(false);
+            expect(spin.isString(document.body)).toBe(false);
+        });
+    });
 });

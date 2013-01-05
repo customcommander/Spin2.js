@@ -15,7 +15,8 @@
 
     var isNumber,
         isFunction,
-        isObject;
+        isObject,
+        isString;
 
     /**
      * Reference to #spin node
@@ -51,14 +52,6 @@
      */
     function isUndefined(o) {
         return toString.call(o) == '[object Undefined]';
-    }
-
-    /**
-     * Checks that argument is a string
-     * @private
-     */
-    function isString(o) {
-        return toString.call(o) == '[object String]';
     }
 
     /**
@@ -471,6 +464,16 @@
      */
     spin.isObject = isObject = function (o) {
         return toString.call(o) == '[object Object]';
+    };
+
+    /**
+     * @name spin.isString
+     * @function
+     * @param o
+     * @returns {Boolean} True if o is a string. False otherwise.
+     */
+    spin.isString = isString = function (o) {
+        return toString.call(o) == '[object String]';
     };
 
     /**
