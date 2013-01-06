@@ -1,27 +1,40 @@
 describe('spin.xhrLoader(elt)', function () {
 
-    it('Loads the elt', function () {
-        var lastpanel = document.getElementById('spin-panels').lastChild,
-            newpanel;
+    it('Loads the panel defined in elt', function () {
 
-        // Loads the tube map
+        var home, nextpanel;
+
+        runs(AppHelper.restart);
+
+        waitsFor(function () {
+            home = document.getElementById('spin-panels').firstChild;
+            return home;
+        });
+
+        waitsFor(function () {
+            return !PanelHelper.isMoving(home);
+        });
+
+        // Loads the next panel (Hammersmith & City)
         runs(function () {
-            spin.xhrLoader(document.body);
+            spin.xhrLoader(home.querySelector('#hammersmithandcity'));
         });
 
         // Waits for the map to arrive
         waitsFor(function () {
-            newpanel = lastpanel.nextSibling;
-            return newpanel;
-        }, 'panel has taken too long to load', 1000);
+            nextpanel = home.nextSibling;
+            return nextpanel;
+        }, 'panel has taken too long to load', 2000);
 
-        // Waits for animation to finish
-        waitsFor(pause(2000));
+        waitsFor(function () {
+            return !PanelHelper.isMoving(home)
+                && !PanelHelper.isMoving(nextpanel);
+        });
 
-        // Test if the content is what we expect.
-        // Tube map should have an navigable element with the following id
+        // Test if what we've received is what was expected
+        // The 'Hammersmith & City' panel should contain an ID named 'moorgate'
         runs(function () {
-            expect(newpanel.querySelector('#hammersmithandcity')).toBeDefined();
+            expect(nextpanel.querySelector('#moorgate')).toBeDefined();
         });
     });
 
@@ -77,8 +90,24 @@ describe('spin.xhrLoader(elt)', function () {
 
     describe('Working out panel title', function () {
 
+        var home;
+
+        beforeEach(function () {
+
+            runs(AppHelper.restart);
+
+            waitsFor(function () {
+                home = document.getElementById('spin-panels').firstChild;
+                return home;
+            });
+
+            waitsFor(function () {
+                return !PanelHelper.isMoving(home);
+            });
+        });
+
         it('Taken from data-title attribute', function () {
-            var html, nav;
+            var html, nav, nextpanel;
 
             runs(function () {
                 html = document.createElement('div');
@@ -87,17 +116,23 @@ describe('spin.xhrLoader(elt)', function () {
                 spin.xhrLoader(nav);
             });
 
-            // Waits for loading and animation to finish
-            waitsFor(pause(3000));
+            waitsFor(function () {
+                nextpanel = home.nextSibling;
+                return nextpanel;
+            }, 'Timeout!', 10000);
+
+            waitsFor(function () {
+                return !PanelHelper.isMoving(home)
+                    && !PanelHelper.isMoving(nextpanel);
+            });
 
             runs(function () {
-                var panel = document.getElementById('spin-panels').lastChild;
-                expect(PanelHelper.getTitle(panel)).toBe('Tube Map');
+                expect(PanelHelper.getTitle(nextpanel)).toBe('Tube Map');
             });
         });
 
         it('Taken from the first .spin-title element', function () {
-            var html, nav;
+            var html, nav, nextpanel;
 
             runs(function () {
                 html = document.createElement('div');
@@ -109,17 +144,23 @@ describe('spin.xhrLoader(elt)', function () {
                 spin.xhrLoader(nav);
             });
 
-            // Waits for loading and animation to finish
-            waitsFor(pause(3000));
+            waitsFor(function () {
+                nextpanel = home.nextSibling;
+                return nextpanel;
+            }, 'Timeout!', 10000);
+
+            waitsFor(function () {
+                return !PanelHelper.isMoving(home)
+                    && !PanelHelper.isMoving(nextpanel);
+            });
 
             runs(function () {
-                var panel = document.getElementById('spin-panels').lastChild;
-                expect(PanelHelper.getTitle(panel)).toBe('Tube Map');
+                expect(PanelHelper.getTitle(nextpanel)).toBe('Tube Map');
             });
         });
 
         it('Taken from the content', function () {
-            var html, nav;
+            var html, nav, nextpanel;
 
             runs(function () {
                 html = document.createElement('div');
@@ -131,12 +172,18 @@ describe('spin.xhrLoader(elt)', function () {
                 spin.xhrLoader(nav);
             });
 
-            // Waits for loading and animation to finish
-            waitsFor(pause(3000));
+            waitsFor(function () {
+                nextpanel = home.nextSibling;
+                return nextpanel;
+            }, 'Timeout!', 10000);
+
+            waitsFor(function () {
+                return !PanelHelper.isMoving(home)
+                    && !PanelHelper.isMoving(nextpanel);
+            });
 
             runs(function () {
-                var panel = document.getElementById('spin-panels').lastChild;
-                expect(PanelHelper.getTitle(panel)).toBe('Tube Map');
+                expect(PanelHelper.getTitle(nextpanel)).toBe('Tube Map');
             });
         });
     });
