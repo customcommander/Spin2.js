@@ -9,6 +9,7 @@
         spinId = 0,
         spin,       //Internal copy of window.spin
         getPanel,
+        getPanelState,
         moveTo,
         deleteAfter,
         loader;     //Internal copy of the current loader
@@ -331,6 +332,9 @@
         }
 
         throw new Error('panel not found');
+    };
+
+    spin.getPanelState = getPanelState = function (elt) {
     };
 
     /**

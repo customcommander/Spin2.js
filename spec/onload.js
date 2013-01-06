@@ -11,6 +11,7 @@ describe('On page load', function () {
         expect(window.spin.xhrLoader).toBeFunction();
         expect(window.spin.loader).toBeFunction();
         expect(window.spin.getPanel).toBeFunction();
+        expect(window.spin.getPanelState).toBeFunction();
         expect(window.spin.moveTo).toBeFunction();
         expect(window.spin.deleteAfter).toBeFunction();
     });
