@@ -335,6 +335,13 @@
     };
 
     spin.getPanelState = getPanelState = function (elt) {
+        var panel = getPanel(elt);
+        var cls = panel.classList;
+        if (cls.contains('spin-' + spin.PANEL_FULL)) return spin.PANEL_FULL;
+        if (cls.contains('spin-' + spin.PANEL_BIG)) return spin.PANEL_BIG;
+        if (cls.contains('spin-' + spin.PANEL_SMALL)) return spin.PANEL_SMALL;
+        if (cls.contains('spin-' + spin.PANEL_HIDDENRIGHT)) return spin.PANEL_HIDDENRIGHT;
+        if (cls.contains('spin-' + spin.PANEL_HIDDENLEFT)) return spin.PANEL_HIDDENLEFT;
     };
 
     /**
