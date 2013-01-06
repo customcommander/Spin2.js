@@ -4,31 +4,22 @@ describe('spin.moveTo(elt)', function () {
 
         var panels = {};
 
-        beforeEach(function () {
-            waitsFor(pause(1000));
-        });
-
         // Case 1
         it('Home panel loads', function () {
-            // Fakes a fresh start (as if the page just loaded)
-            runs(function () {
-                var el = document.getElementById('spin-panels');
-                while (el.lastChild) {
-                    el.removeChild(el.lastChild);
-                }
-                spin.loader()(document.body);
-            });
+            runs(AppHelper.restart);
 
             waitsFor(function () {
                 panels.home = document.getElementById('spin-panels').firstChild;
                 return panels.home;
-            }, 'panel is not available', 1000);
+            });
 
             runs(function () {
                 expect(panels.home).toBecomeFull('spin-hiddenright');
             });
 
-            waitsFor(pause(2000));
+            waitsFor(function () {
+                return !PanelHelper.isMoving(panels.home);
+            });
 
             runs(function () {
                 expect(panels.home).toBeFull();
@@ -39,20 +30,23 @@ describe('spin.moveTo(elt)', function () {
         it('Click on "Hammersmith & City Line"', function () {
 
             runs(function () {
-                clickNav('hammersmithandcity');
+                AppHelper.clickNav('hammersmithandcity');
             });
 
             waitsFor(function () {
                 panels.hammersmithAndCity = panels.home.nextSibling;
                 return panels.hammersmithAndCity;
-            }, 'panel is not available', 1000);
+            });
 
             runs(function () {
                 expect(panels.home).toBecomeSmall('spin-full');
                 expect(panels.hammersmithAndCity).toBecomeBig('spin-hiddenright');
             });
 
-            waitsFor(pause(2000));
+            waitsFor(function () {
+                return !PanelHelper.isMoving(panels.home)
+                    && !PanelHelper.isMoving(panels.hammersmithAndCity);
+            });
 
             runs(function () {
                 expect(panels.home).toBeSmall();
@@ -64,13 +58,13 @@ describe('spin.moveTo(elt)', function () {
         it('Click on "Moorgate"', function () {
 
             runs(function () {
-                clickNav('moorgate');
+                AppHelper.clickNav('moorgate');
             });
 
             waitsFor(function () {
                 panels.moorgate = panels.hammersmithAndCity.nextSibling;
                 return panels.moorgate;
-            }, 'panel is not available', 1000);
+            });
 
             runs(function () {
                 expect(panels.home).toBecomeHiddenLeft('spin-small');
@@ -78,7 +72,11 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.moorgate).toBecomeBig('spin-hiddenright');
             });
 
-            waitsFor(pause(2000));
+            waitsFor(function () {
+                return !PanelHelper.isMoving(panels.home)
+                    && !PanelHelper.isMoving(panels.hammersmithAndCity)
+                    && !PanelHelper.isMoving(panels.moorgate);
+            });
 
             runs(function () {
                 expect(panels.home).toBeHiddenLeft();
@@ -97,7 +95,11 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.moorgate).toBecomeHiddenRight('spin-big');
             });
 
-            waitsFor(pause(2000));
+            waitsFor(function () {
+                return !PanelHelper.isMoving(panels.home)
+                    && !PanelHelper.isMoving(panels.hammersmithAndCity)
+                    && !PanelHelper.isMoving(panels.moorgate);
+            });
 
             runs(function () {
                 expect(panels.home).toBeSmall();
@@ -116,7 +118,11 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.moorgate).toBeHiddenRight();
             });
 
-            waitsFor(pause(2000));
+            waitsFor(function () {
+                return !PanelHelper.isMoving(panels.home)
+                    && !PanelHelper.isMoving(panels.hammersmithAndCity)
+                    && !PanelHelper.isMoving(panels.moorgate);
+            });
 
             runs(function () {
                 expect(panels.home).toBeFull();
@@ -135,7 +141,11 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.moorgate).toBecomeBig('spin-hiddenright');
             });
 
-            waitsFor(pause(2000));
+            waitsFor(function () {
+                return !PanelHelper.isMoving(panels.home)
+                    && !PanelHelper.isMoving(panels.hammersmithAndCity)
+                    && !PanelHelper.isMoving(panels.moorgate);
+            });
 
             runs(function () {
                 expect(panels.home).toBeHiddenLeft();
@@ -149,7 +159,7 @@ describe('spin.moveTo(elt)', function () {
         it('Click on "Circle Line"', function () {
 
             runs(function () {
-                clickNav('circle');
+                AppHelper.clickNav('circle');
             });
 
             waitsFor(function () {
@@ -164,7 +174,13 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.circle).toBecomeBig('spin-hiddenright');
             });
 
-            waitsFor(pause(2000));
+            waitsFor(function () {
+                return !PanelHelper.isMoving(panels.home)
+                    && !PanelHelper.isMoving(panels.hammersmithAndCity)
+                    && !PanelHelper.isMoving(panels.moorgate)
+                    && !PanelHelper.isMoving(panels.circle);
+
+            });
 
             runs(function () {
                 expect(panels.home).toBeHiddenLeft();
@@ -184,7 +200,12 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.circle).toBecomeHiddenRight('spin-big');
             });
 
-            waitsFor(pause(2000));
+            waitsFor(function () {
+                return !PanelHelper.isMoving(panels.home)
+                    && !PanelHelper.isMoving(panels.hammersmithAndCity)
+                    && !PanelHelper.isMoving(panels.moorgate)
+                    && !PanelHelper.isMoving(panels.circle);
+            });
 
             runs(function () {
                 expect(panels.home).toBeSmall();
@@ -204,7 +225,12 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.circle).toBecomeBig('spin-hiddenright');
             });
 
-            waitsFor(pause(2000));
+            waitsFor(function () {
+                return !PanelHelper.isMoving(panels.home)
+                    && !PanelHelper.isMoving(panels.hammersmithAndCity)
+                    && !PanelHelper.isMoving(panels.moorgate)
+                    && !PanelHelper.isMoving(panels.circle);
+            });
 
             runs(function () {
                 expect(panels.home).toBeHiddenLeft();
@@ -224,7 +250,12 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.circle).toBecomeHiddenRight('spin-big');
             });
 
-            waitsFor(pause(2000));
+            waitsFor(function () {
+                return !PanelHelper.isMoving(panels.home)
+                    && !PanelHelper.isMoving(panels.hammersmithAndCity)
+                    && !PanelHelper.isMoving(panels.moorgate)
+                    && !PanelHelper.isMoving(panels.circle);
+            });
 
             runs(function () {
                 expect(panels.home).toBeFull();
@@ -245,7 +276,12 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.circle).toBecomeBig('spin-hiddenright');
             });
 
-            waitsFor(pause(2000));
+            waitsFor(function () {
+                return !PanelHelper.isMoving(panels.home)
+                    && !PanelHelper.isMoving(panels.hammersmithAndCity)
+                    && !PanelHelper.isMoving(panels.moorgate)
+                    && !PanelHelper.isMoving(panels.circle);
+            });
 
             runs(function () {
                 expect(panels.home).toBeHiddenLeft();
@@ -258,13 +294,13 @@ describe('spin.moveTo(elt)', function () {
         it('Click to "Monument"', function () {
 
             runs(function () {
-                clickNav('monument');
+                AppHelper.clickNav('monument');
             });
 
             waitsFor(function () {
                 panels.monument = panels.circle.nextSibling;
                 return panels.monument;
-            }, 'panel is not available', 1000);
+            });
 
             runs(function () {
                 expect(panels.home).toBeHiddenLeft();
@@ -274,7 +310,11 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.monument).toBecomeBig('spin-hiddenright');
             });
 
-            waitsFor(pause(2000));
+            waitsFor(function () {
+                return !PanelHelper.isMoving(panels.moorgate)
+                    && !PanelHelper.isMoving(panels.circle)
+                    && !PanelHelper.isMoving(panels.monument);
+            });
 
             runs(function () {
                 expect(panels.home).toBeHiddenLeft();
@@ -296,7 +336,12 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.monument).toBecomeHiddenRight('spin-big');
             });
 
-            waitsFor(pause(2000));
+            waitsFor(function () {
+                return !PanelHelper.isMoving(panels.hammersmithAndCity)
+                    && !PanelHelper.isMoving(panels.moorgate)
+                    && !PanelHelper.isMoving(panels.circle)
+                    && !PanelHelper.isMoving(panels.monument);
+            });
 
             runs(function () {
                 expect(panels.home).toBeHiddenLeft();
@@ -319,7 +364,11 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.monument).toBeHiddenRight();
             });
 
-            waitsFor(pause(2000));
+            waitsFor(function () {
+                return !PanelHelper.isMoving(panels.home)
+                    && !PanelHelper.isMoving(panels.hammersmithAndCity)
+                    && !PanelHelper.isMoving(panels.moorgate);
+            });
 
             runs(function () {
                 expect(panels.home).toBeFull();
@@ -341,7 +390,12 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.monument).toBeHiddenRight();
             });
 
-            waitsFor(pause(2000));
+            waitsFor(function () {
+                return !PanelHelper.isMoving(panels.home)
+                    && !PanelHelper.isMoving(panels.hammersmithAndCity)
+                    && !PanelHelper.isMoving(panels.moorgate)
+                    && !PanelHelper.isMoving(panels.circle);
+            });
 
             runs(function () {
                 expect(panels.home).toBeHiddenLeft();
@@ -372,7 +426,13 @@ describe('spin.moveTo(elt)', function () {
             });
 
             // Waiting for the animation to finish.
-            waitsFor(pause(2000));
+            waitsFor(function () {
+                return !PanelHelper.isMoving(panels.home)
+                    && !PanelHelper.isMoving(panels.hammersmithAndCity)
+                    && !PanelHelper.isMoving(panels.moorgate)
+                    && !PanelHelper.isMoving(panels.circle)
+                    && !PanelHelper.isMoving(panels.monument);
+            });
 
             // At this point Home panel should be 'full' and moving to there should have no effect.
             runs(function () {
