@@ -2,14 +2,30 @@ describe('spin.getPanel(elt)', function () {
 
     it('Returns the corresponding panel', function () {
 
-        var panel = document.getElementById('spin-id1'),
-            elt   = document.getElementById('hammersmithandcity');
+        var home, elt;
 
-        expect(spin.getPanel(0)).toBe(panel);
-        expect(spin.getPanel('spin-id1')).toBe(panel);
-        expect(spin.getPanel('hammersmithandcity')).toBe(panel);
-        expect(spin.getPanel(panel)).toBe(panel);
-        expect(spin.getPanel(elt)).toBe(panel);
+        runs(AppHelper.restart);
+
+        waitsFor(function () {
+            home = document.getElementById('spin-panels').firstChild;
+            return home;
+        });
+
+        waitsFor(function () {
+            return !PanelHelper.isMoving(home);
+        });
+
+        runs(function () {
+            elt = home.querySelector('#hammersmithandcity');
+        });
+
+        runs(function () {
+            expect(spin.getPanel(0)).toBe(home);
+            expect(spin.getPanel(home.id)).toBe(home);
+            expect(spin.getPanel('hammersmithandcity')).toBe(home);
+            expect(spin.getPanel(home)).toBe(home);
+            expect(spin.getPanel(elt)).toBe(home);
+        });
     });
 
     it('Throws an error if elt is not valid', function () {
