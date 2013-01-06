@@ -1,26 +1,24 @@
 // Expected behaviour for spin()
 describe('spin([cfg])', function () {
 
+    var panel;
+
+    afterEach(function () {
+        waitsFor(function () {
+            return !PanelHelper.isMoving(panel);
+        });
+    });
+
     describe('cfg.content', function () {
 
         it('Sets panel content', function () {
-            runs(function () {
-                var panel   = spin({ content: '<p>Hello</p>' }),
-                    content = PanelHelper.getContent(panel);
-                expect(content).toBe('<p>Hello</p>');
-            });
-            // Waits for animation to finish
-            waitsFor(pause(2000));
+            panel = spin({ content: '<p>Hello</p>' });
+            expect(PanelHelper.getContent(panel)).toBe('<p>Hello</p>');
         });
 
         it('Defaults to an empty string', function () {
-            runs(function () {
-                var panel   = spin(),
-                    content = PanelHelper.getContent(panel);
-                expect(content).toBe('');
-            });
-            // Waits for animation to finish
-            waitsFor(pause(2000));
+            panel = spin();
+            expect(PanelHelper.getContent(panel)).toBe('');
         });
 
         it('Throws an error if content is not a string', function () {
@@ -49,22 +47,15 @@ describe('spin([cfg])', function () {
     });
 
     describe('cfg.title', function () {
+
         it('Sets panel title', function () {
-            runs(function () {
-                var panel = spin({ title: 'Hello' }),
-                    title = PanelHelper.getTitle(panel);
-                expect(title).toBe('Hello');
-            });
-            waitsFor(pause(2500));
+            panel = spin({ title: 'Hello' });
+            expect(PanelHelper.getTitle(panel)).toBe('Hello');
         });
 
         it('Defaults to an empty string', function () {
-            runs(function () {
-                var panel = spin();
-                    title = PanelHelper.getTitle(panel);
-                expect(title).toBe('');
-            });
-            waitsFor(pause(2000));
+            panel = spin();
+            expect(PanelHelper.getTitle(panel)).toBe('');
         });
 
         it('Throws an error if title is not a string', function () {
@@ -93,19 +84,13 @@ describe('spin([cfg])', function () {
     });
 
     it('Returns the panel that has been created', function () {
-        runs(function () {
-            var panel = spin();
-            expect(panel).toBeDefined();
-        });
-        waitsFor(pause(2000));
+        panel = spin();
+        expect(panel).toBeDefined();
     });
 
     it('Appends the panel into the DOM', function () {
-        runs(function () {
-            var panel = spin();
-            expect(panel.parentNode).toBe(document.getElementById('spin-panels'));
-        });
-        waitsFor(pause(2000));
+        panel = spin();
+        expect(panel.parentNode).toBe(document.getElementById('spin-panels'));
     });
 
     it('Throws an error if cfg is not an object', function () {
