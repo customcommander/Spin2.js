@@ -1,30 +1,46 @@
-// Internally spin.deleteAfter uses spin.getPanel to match a panel
-// corresponding to "elt". Since this logic has been thoroughly tested
-// already (see spin.getpanel.js) we're not covering it again.
 describe('spin.deleteAfter(elt)', function () {
 
+    var home;
+
     beforeEach(function () {
-        runs(function () {
-            AppHelper.restart();
+        runs(AppHelper.restart);
+
+        waitsFor(function () {
+            home = document.getElementById('spin-panels').firstChild;
+            return home;
         });
-        waitsFor(pause(2000));
+
+        waitsFor(function () {
+            return !PanelHelper.isMoving(home);
+        });
     });
 
     it('Returns corresponding panel', function () {
-        var home = spin.getPanel(0);
-        expect(spin.deleteAfter(0)).toBe(home);
+        expect(spin.deleteAfter(home)).toBe(home);
     });
 
     it('Deletes all panels after corresponding panel', function () {
+
+        var newpanel;
+
         runs(function () {
             AppHelper.clickNav('hammersmithandcity');
         });
-        waitsFor(pause(2000));
+
+        waitsFor(function () {
+            newpanel = home.nextSibling;
+            return newpanel;
+        });
+
+        waitsFor(function () {
+            return !PanelHelper.isMoving(home)
+                && !PanelHelper.isMoving(newpanel);
+        });
+
         runs(function () {
-            var home   = spin.getPanel(0),
-                panels = document.getElementById('spin-panels');
+            var panels = document.getElementById('spin-panels');
             spin.deleteAfter(home);
-            expect(panels.firstChild).toBe(panels.lastChild);
+            expect(panels.childNodes.length).toBe(1);
             expect(panels.firstChild).toBe(home);
             expect(home).toBeSmall();
         });
