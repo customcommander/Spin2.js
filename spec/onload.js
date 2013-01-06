@@ -15,6 +15,14 @@ describe('On page load', function () {
         expect(window.spin.deleteAfter).toBeFunction();
     });
 
+    it('Spin panel states are defined', function () {
+        expect(window.spin.PANEL_HIDDENRIGHT).toBe('hiddenright');
+        expect(window.spin.PANEL_HIDDENLEFT).toBe('hiddenleft');
+        expect(window.spin.PANEL_FULL).toBe('full');
+        expect(window.spin.PANEL_BIG).toBe('big');
+        expect(window.spin.PANEL_SMALL).toBe('small');
+    });
+
     /*
      * Spin.js should have dropped its markup on the page.
      *

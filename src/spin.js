@@ -241,6 +241,13 @@
         return panel;
     };
 
+    // Panel states
+    spin.PANEL_HIDDENRIGHT = 'hiddenright';
+    spin.PANEL_HIDDENLEFT  = 'hiddenleft';
+    spin.PANEL_FULL        = 'full';
+    spin.PANEL_BIG         = 'big';
+    spin.PANEL_SMALL       = 'small';
+
     /**
      * Gets or sets the loader
      *
