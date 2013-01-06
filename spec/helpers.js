@@ -57,6 +57,34 @@ var PanelHelper = {
     },
     getContent: function (panel) {
         return panel.querySelector('.spin-panel-bd').innerHTML;
+    },
+    /**
+     * Returns true if the panel is being animated.
+     */
+    isMoving: function (panel) {
+        var cssAnim = [
+            'spin-small-hiddenleft',
+            'spin-hiddenleft-small',
+            'spin-big-hiddenleft',
+            'spin-hiddenleft-big',
+            'spin-full-hiddenleft',
+            'spin-hiddenleft-full',
+            'spin-small-hiddenright',
+            'spin-hiddenright-small',
+            'spin-big-hiddenright',
+            'spin-hiddenright-big',
+            'spin-full-hiddenright',
+            'spin-hiddenright-full',
+            'spin-big-small',
+            'spin-small-big',
+            'spin-full-small',
+            'spin-small-full'
+        ];
+        // Stops and returns true once a panel is found
+        // to have one of the above css classes. Returns false otherwise.
+        return cssAnim.some(function (css) {
+            return panel.classList.contains(css);
+        });
     }
 };
 
