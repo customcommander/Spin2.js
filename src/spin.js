@@ -354,57 +354,97 @@
      * @throws 'panel not found'
      */
     spin.moveTo = moveTo = function (elt) {
-        var ret,
+        var dest,
+            destState,
             panel,
-            states,
-            nextState;
+            panelState,
+            state,
+            states;
 
-        function move(panel, nextState) {
-            var curState = getState(panel);
-            if (curState[0] == nextState[0]) {
+        // Simple helper that works out whether state is hidden.
+        function isHiddenState(state) {
+            return state == spin.PANEL_HIDDENLEFT || state == spin.PANEL_HIDDENRIGHT;
+        }
+
+        // Works out and adds the required css classes in order to animate the panels.
+        // If a panel is currently hidden on one side and is going to stay hidden on the
+        // other side, then we do not animate it but rather switch sides instead.
+        function animate(panel, nextState) {
+            var curState = getPanelState(panel);
+
+            if (isHiddenState(curState) && isHiddenState(nextState)) {
+                // This wont animate but just swap sides instead.
+                // e.g. replaces 'spin-hiddenright' with 'spin-hiddenleft'
                 panel.classList.remove('spin-' + curState);
                 panel.classList.add('spin-' + nextState);
             }
             else {
+                // Works out the animation we need.
+                // If a panel is currently minimized (small) and has to
+                // disappear to the left (hiddenleft),
+                // we need this css animation: 'spin-small-hiddenleft'
                 panel.classList.add('spin-' + curState + '-' + nextState);
             }
         }
 
-        ret = panel = getPanel(elt);
+        dest      = getPanel(elt);          // panel of destination
+        destState = getPanelState(dest);    // current state of destination panel
 
-        if (isBig(panel) || isFull(panel)) {
-            return ret;
+        // Don't move if destination panel is already visible and either big or full
+        if (destState == spin.PANEL_BIG || destState == spin.PANEL_FULL) {
+            return dest;
         }
 
-        if (isHiddenRight(panel)) {
-            if (!panel.previousSibling) {
+        panel = dest;
+
+        // Moving forward, left animation
+        if (destState == spin.PANEL_HIDDENRIGHT) {
+            if (!panel.previousSibling) { /* i.e. home panel */
+                // If home panel is the destination, it takes all the space.
+                // The only case where home panel is on the right is when
+                // it loads for the first time.
                 states = ['full'];
             }
             else {
+                // The next state of the destination panel is big
+                // and the one on its left small.
                 states = ['big', 'small'];
             }
+
+            // Animates all panels between the destination panel
+            // and the currently first visible panel.
             do {
                 nextState = states.shift() || 'hiddenleft';
-                move(panel, nextState);
+                animate(panel, nextState);
                 panel = panel.previousSibling;
-            } while (panel && !isHiddenLeft(panel));
+            } while (panel && getPanelState(panel) != spin.PANEL_HIDDENLEFT);
         }
+        // Moving backward, right animation
         else {
-            if (!panel.previousSibling) {
+            if (!panel.previousSibling) { /* i.e. home panel */
+                // If home panel is the destination, it takes all the space
                 states = ['full'];
             }
             else {
+                // The next state of the destination panel is big
+                // and the one on its left small.
                 states = ['small', 'big'];
+
+                // When moving backward we need to start looping from the panel
+                // sitting right before to the destination panel.
                 panel  = panel.previousSibling;
             }
+
+            // Animates all panels between the panel sitting right before the
+            // destination panel and the currently last visible panel.
             do {
                 nextState = states.shift() || 'hiddenright';
-                move(panel, nextState);
+                animate(panel, nextState);
                 panel = panel.nextSibling;
-            } while (panel && !isHiddenRight(panel));
+            } while (panel && getPanelState(panel) != spin.PANEL_HIDDENRIGHT);
         }
 
-        return ret;
+        return dest;
     };
 
     /**
