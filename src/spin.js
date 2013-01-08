@@ -281,6 +281,17 @@
         throw new Error('panel not found');
     };
 
+    /**
+     * Returns the current state of corresponding panel.
+     *
+     * @param {Number|String|HTMLElement} elt
+     * @returns {String} Current state of corresponding panel
+     * @see spin#PANEL_SMALL
+     * @see spin#PANEL_BIG
+     * @see spin#PANEL_FULL
+     * @see spin#PANEL_HIDDENRIGHT
+     * @see spin#PANEL_HIDDENLEFT
+     */
     spin.getPanelState = getPanelState = function (elt) {
         var panel = getPanel(elt);
         var cls = panel.classList;
