@@ -100,4 +100,22 @@ describe('spin.getPanelState(elt)', function () {
             expect(spin.getPanelState(panel2)).toBe(spin.PANEL_HIDDENRIGHT);
         });
     });
+
+    it('Throws an error if panel has no state', function () {
+        var home;
+        runs(AppHelper.restart);
+        waitsFor(function () {
+            home = document.getElementById('spin-panels').firstChild;
+            return home;
+        });
+        waitsFor(function () {
+            return !PanelHelper.isMoving(home);
+        });
+        runs(function () {
+            home.className = "spin-panel"; // Removes state
+            expect(function () {
+                spin.getPanelState(home);
+            }).toThrow(new Error('panel has no state'));
+        });
+    });
 });
