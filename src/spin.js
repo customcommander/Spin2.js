@@ -286,6 +286,7 @@
      *
      * @param {Number|String|HTMLElement} elt
      * @returns {String} Current state of corresponding panel
+     * @throws {Error} If panel has no state.
      * @see spin#PANEL_SMALL
      * @see spin#PANEL_BIG
      * @see spin#PANEL_FULL
@@ -300,6 +301,7 @@
         if (cls.contains('spin-' + spin.PANEL_SMALL)) return spin.PANEL_SMALL;
         if (cls.contains('spin-' + spin.PANEL_HIDDENRIGHT)) return spin.PANEL_HIDDENRIGHT;
         if (cls.contains('spin-' + spin.PANEL_HIDDENLEFT)) return spin.PANEL_HIDDENLEFT;
+        throw new Error('panel has no state');
     };
 
     /**
