@@ -284,6 +284,8 @@
     /**
      * Returns the current state of corresponding panel.
      *
+     * @name spin.getPanelState
+     * @function
      * @param {Number|String|HTMLElement} elt
      * @returns {String} Current state of corresponding panel
      * @throws {Error} If panel has no state.
