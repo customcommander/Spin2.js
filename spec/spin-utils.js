@@ -188,9 +188,11 @@ describe('Spin utils functions', function () {
 
             var home;
 
+            runs(AppHelper.restart);
+
             waitsFor(function () {
                 // This should be the first panel (home panel)
-                home = document.getElementById('spin-id1');
+                home = document.getElementById('spin-panels').firstChild;
                 return home;
             }, 'Home panel is taking too long to load', 1000);
 
