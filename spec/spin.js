@@ -4,9 +4,7 @@ describe('spin([cfg])', function () {
     var panel;
 
     afterEach(function () {
-        waitsFor(function () {
-            return !PanelHelper.isMoving(panel);
-        });
+        waitsFor(AppHelper.notMoving);
     });
 
     describe('cfg.content', function () {

@@ -10,9 +10,7 @@ describe('spin.deleteAfter(elt)', function () {
             return home;
         });
 
-        waitsFor(function () {
-            return !PanelHelper.isMoving(home);
-        });
+        waitsFor(AppHelper.notMoving);
     });
 
     it('Returns corresponding panel', function () {
@@ -32,10 +30,7 @@ describe('spin.deleteAfter(elt)', function () {
             return newpanel;
         });
 
-        waitsFor(function () {
-            return !PanelHelper.isMoving(home)
-                && !PanelHelper.isMoving(newpanel);
-        });
+        waitsFor(AppHelper.notMoving);
 
         runs(function () {
             var panels = document.getElementById('spin-panels');

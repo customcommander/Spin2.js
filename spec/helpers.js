@@ -34,6 +34,26 @@ function pause(time) {
 }
 
 var AppHelper = {
+    // all css classes that trigger an animation
+    // when applied on a panel node.
+    cssAnim: [
+        'spin-small-hiddenleft',
+        'spin-hiddenleft-small',
+        'spin-big-hiddenleft',
+        'spin-hiddenleft-big',
+        'spin-full-hiddenleft',
+        'spin-hiddenleft-full',
+        'spin-small-hiddenright',
+        'spin-hiddenright-small',
+        'spin-big-hiddenright',
+        'spin-hiddenright-big',
+        'spin-full-hiddenright',
+        'spin-hiddenright-full',
+        'spin-big-small',
+        'spin-small-big',
+        'spin-full-small',
+        'spin-small-full'
+    ],
     restart: function () {
         var panels = document.getElementById('spin-panels');
         while (panels.lastChild) {
@@ -48,6 +68,33 @@ var AppHelper = {
         }
         elt.classList.remove('loaded');
         click(elt);
+    },
+
+    // Returns true when no panel is moving
+    notMoving: function () {
+        // all panel nodes
+        var p = document.getElementById('spin-panels').childNodes;
+        var i, n;
+        var css = AppHelper.cssAnim;
+
+        // Checks whether panel node contains given css class
+        // this object is set to a panel node
+        function isPresent(c) {
+            return this.classList.contains(c);
+        }
+
+        // We check for each panel that none of them
+        // has a css animation class in their class attribute
+        // If one of them has then it means that an animation is running
+        // and therefore that the app is moving.
+        for (i=0, n=p.length; i<n; i++) {
+            if ( css.some(isPresent, p[i]) ) {
+                return false;
+            }
+        }
+
+        // At this point we're sure that no panel is moving at all.
+        return true;
     }
 };
 
@@ -57,34 +104,6 @@ var PanelHelper = {
     },
     getContent: function (panel) {
         return panel.querySelector('.spin-panel-bd').innerHTML;
-    },
-    /**
-     * Returns true if the panel is being animated.
-     */
-    isMoving: function (panel) {
-        var cssAnim = [
-            'spin-small-hiddenleft',
-            'spin-hiddenleft-small',
-            'spin-big-hiddenleft',
-            'spin-hiddenleft-big',
-            'spin-full-hiddenleft',
-            'spin-hiddenleft-full',
-            'spin-small-hiddenright',
-            'spin-hiddenright-small',
-            'spin-big-hiddenright',
-            'spin-hiddenright-big',
-            'spin-full-hiddenright',
-            'spin-hiddenright-full',
-            'spin-big-small',
-            'spin-small-big',
-            'spin-full-small',
-            'spin-small-full'
-        ];
-        // Stops and returns true once a panel is found
-        // to have one of the above css classes. Returns false otherwise.
-        return cssAnim.some(function (css) {
-            return panel.classList.contains(css);
-        });
     }
 };
 

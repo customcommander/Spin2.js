@@ -11,9 +11,7 @@ describe('spin.xhrLoader(elt)', function () {
             return home;
         });
 
-        waitsFor(function () {
-            return !PanelHelper.isMoving(home);
-        });
+        waitsFor(AppHelper.notMoving);
 
         // Loads the next panel (Hammersmith & City)
         runs(function () {
@@ -26,10 +24,7 @@ describe('spin.xhrLoader(elt)', function () {
             return nextpanel;
         }, 'panel has taken too long to load', 2000);
 
-        waitsFor(function () {
-            return !PanelHelper.isMoving(home)
-                && !PanelHelper.isMoving(nextpanel);
-        });
+        waitsFor(AppHelper.notMoving);
 
         // Test if what we've received is what was expected
         // The 'Hammersmith & City' panel should contain an ID named 'moorgate'
@@ -101,9 +96,7 @@ describe('spin.xhrLoader(elt)', function () {
                 return home;
             });
 
-            waitsFor(function () {
-                return !PanelHelper.isMoving(home);
-            });
+            waitsFor(AppHelper.notMoving);
         });
 
         it('Taken from data-title attribute', function () {
@@ -121,10 +114,7 @@ describe('spin.xhrLoader(elt)', function () {
                 return nextpanel;
             }, 'Timeout!', 10000);
 
-            waitsFor(function () {
-                return !PanelHelper.isMoving(home)
-                    && !PanelHelper.isMoving(nextpanel);
-            });
+            waitsFor(AppHelper.notMoving);
 
             runs(function () {
                 expect(PanelHelper.getTitle(nextpanel)).toBe('Tube Map');
@@ -149,10 +139,7 @@ describe('spin.xhrLoader(elt)', function () {
                 return nextpanel;
             }, 'Timeout!', 10000);
 
-            waitsFor(function () {
-                return !PanelHelper.isMoving(home)
-                    && !PanelHelper.isMoving(nextpanel);
-            });
+            waitsFor(AppHelper.notMoving);
 
             runs(function () {
                 expect(PanelHelper.getTitle(nextpanel)).toBe('Tube Map');
@@ -177,10 +164,7 @@ describe('spin.xhrLoader(elt)', function () {
                 return nextpanel;
             }, 'Timeout!', 10000);
 
-            waitsFor(function () {
-                return !PanelHelper.isMoving(home)
-                    && !PanelHelper.isMoving(nextpanel);
-            });
+            waitsFor(AppHelper.notMoving);
 
             runs(function () {
                 expect(PanelHelper.getTitle(nextpanel)).toBe('Tube Map');

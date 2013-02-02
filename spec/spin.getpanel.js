@@ -11,9 +11,7 @@ describe('spin.getPanel(elt)', function () {
             return home;
         });
 
-        waitsFor(function () {
-            return !PanelHelper.isMoving(home);
-        });
+        waitsFor(AppHelper.notMoving);
 
         runs(function () {
             elt = home.querySelector('#hammersmithandcity');

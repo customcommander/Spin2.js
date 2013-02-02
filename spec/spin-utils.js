@@ -196,6 +196,8 @@ describe('Spin utils functions', function () {
                 return home;
             }, 'Home panel is taking too long to load', 1000);
 
+            waitsFor(AppHelper.notMoving);
+
             runs(function () {
                 expect(spin.isPanel(home)).toBe(true);
             });

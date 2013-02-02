@@ -17,9 +17,7 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.home).toBecomeFull('spin-hiddenright');
             });
 
-            waitsFor(function () {
-                return !PanelHelper.isMoving(panels.home);
-            });
+            waitsFor(AppHelper.notMoving);
 
             runs(function () {
                 expect(panels.home).toBeFull();
@@ -43,10 +41,7 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.hammersmithAndCity).toBecomeBig('spin-hiddenright');
             });
 
-            waitsFor(function () {
-                return !PanelHelper.isMoving(panels.home)
-                    && !PanelHelper.isMoving(panels.hammersmithAndCity);
-            });
+            waitsFor(AppHelper.notMoving);
 
             runs(function () {
                 expect(panels.home).toBeSmall();
@@ -72,11 +67,7 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.moorgate).toBecomeBig('spin-hiddenright');
             });
 
-            waitsFor(function () {
-                return !PanelHelper.isMoving(panels.home)
-                    && !PanelHelper.isMoving(panels.hammersmithAndCity)
-                    && !PanelHelper.isMoving(panels.moorgate);
-            });
+            waitsFor(AppHelper.notMoving);
 
             runs(function () {
                 expect(panels.home).toBeHiddenLeft();
@@ -95,11 +86,7 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.moorgate).toBecomeHiddenRight('spin-big');
             });
 
-            waitsFor(function () {
-                return !PanelHelper.isMoving(panels.home)
-                    && !PanelHelper.isMoving(panels.hammersmithAndCity)
-                    && !PanelHelper.isMoving(panels.moorgate);
-            });
+            waitsFor(AppHelper.notMoving);
 
             runs(function () {
                 expect(panels.home).toBeSmall();
@@ -118,11 +105,7 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.moorgate).toBeHiddenRight();
             });
 
-            waitsFor(function () {
-                return !PanelHelper.isMoving(panels.home)
-                    && !PanelHelper.isMoving(panels.hammersmithAndCity)
-                    && !PanelHelper.isMoving(panels.moorgate);
-            });
+            waitsFor(AppHelper.notMoving);
 
             runs(function () {
                 expect(panels.home).toBeFull();
@@ -141,11 +124,7 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.moorgate).toBecomeBig('spin-hiddenright');
             });
 
-            waitsFor(function () {
-                return !PanelHelper.isMoving(panels.home)
-                    && !PanelHelper.isMoving(panels.hammersmithAndCity)
-                    && !PanelHelper.isMoving(panels.moorgate);
-            });
+            waitsFor(AppHelper.notMoving);
 
             runs(function () {
                 expect(panels.home).toBeHiddenLeft();
@@ -174,13 +153,7 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.circle).toBecomeBig('spin-hiddenright');
             });
 
-            waitsFor(function () {
-                return !PanelHelper.isMoving(panels.home)
-                    && !PanelHelper.isMoving(panels.hammersmithAndCity)
-                    && !PanelHelper.isMoving(panels.moorgate)
-                    && !PanelHelper.isMoving(panels.circle);
-
-            });
+            waitsFor(AppHelper.notMoving);
 
             runs(function () {
                 expect(panels.home).toBeHiddenLeft();
@@ -200,12 +173,7 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.circle).toBecomeHiddenRight('spin-big');
             });
 
-            waitsFor(function () {
-                return !PanelHelper.isMoving(panels.home)
-                    && !PanelHelper.isMoving(panels.hammersmithAndCity)
-                    && !PanelHelper.isMoving(panels.moorgate)
-                    && !PanelHelper.isMoving(panels.circle);
-            });
+            waitsFor(AppHelper.notMoving);
 
             runs(function () {
                 expect(panels.home).toBeSmall();
@@ -225,12 +193,7 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.circle).toBecomeBig('spin-hiddenright');
             });
 
-            waitsFor(function () {
-                return !PanelHelper.isMoving(panels.home)
-                    && !PanelHelper.isMoving(panels.hammersmithAndCity)
-                    && !PanelHelper.isMoving(panels.moorgate)
-                    && !PanelHelper.isMoving(panels.circle);
-            });
+            waitsFor(AppHelper.notMoving);
 
             runs(function () {
                 expect(panels.home).toBeHiddenLeft();
@@ -250,12 +213,7 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.circle).toBecomeHiddenRight('spin-big');
             });
 
-            waitsFor(function () {
-                return !PanelHelper.isMoving(panels.home)
-                    && !PanelHelper.isMoving(panels.hammersmithAndCity)
-                    && !PanelHelper.isMoving(panels.moorgate)
-                    && !PanelHelper.isMoving(panels.circle);
-            });
+            waitsFor(AppHelper.notMoving);
 
             runs(function () {
                 expect(panels.home).toBeFull();
@@ -276,12 +234,7 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.circle).toBecomeBig('spin-hiddenright');
             });
 
-            waitsFor(function () {
-                return !PanelHelper.isMoving(panels.home)
-                    && !PanelHelper.isMoving(panels.hammersmithAndCity)
-                    && !PanelHelper.isMoving(panels.moorgate)
-                    && !PanelHelper.isMoving(panels.circle);
-            });
+            waitsFor(AppHelper.notMoving);
 
             runs(function () {
                 expect(panels.home).toBeHiddenLeft();
@@ -310,11 +263,7 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.monument).toBecomeBig('spin-hiddenright');
             });
 
-            waitsFor(function () {
-                return !PanelHelper.isMoving(panels.moorgate)
-                    && !PanelHelper.isMoving(panels.circle)
-                    && !PanelHelper.isMoving(panels.monument);
-            });
+            waitsFor(AppHelper.notMoving);
 
             runs(function () {
                 expect(panels.home).toBeHiddenLeft();
@@ -336,12 +285,7 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.monument).toBecomeHiddenRight('spin-big');
             });
 
-            waitsFor(function () {
-                return !PanelHelper.isMoving(panels.hammersmithAndCity)
-                    && !PanelHelper.isMoving(panels.moorgate)
-                    && !PanelHelper.isMoving(panels.circle)
-                    && !PanelHelper.isMoving(panels.monument);
-            });
+            waitsFor(AppHelper.notMoving);
 
             runs(function () {
                 expect(panels.home).toBeHiddenLeft();
@@ -364,11 +308,7 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.monument).toBeHiddenRight();
             });
 
-            waitsFor(function () {
-                return !PanelHelper.isMoving(panels.home)
-                    && !PanelHelper.isMoving(panels.hammersmithAndCity)
-                    && !PanelHelper.isMoving(panels.moorgate);
-            });
+            waitsFor(AppHelper.notMoving);
 
             runs(function () {
                 expect(panels.home).toBeFull();
@@ -390,12 +330,7 @@ describe('spin.moveTo(elt)', function () {
                 expect(panels.monument).toBeHiddenRight();
             });
 
-            waitsFor(function () {
-                return !PanelHelper.isMoving(panels.home)
-                    && !PanelHelper.isMoving(panels.hammersmithAndCity)
-                    && !PanelHelper.isMoving(panels.moorgate)
-                    && !PanelHelper.isMoving(panels.circle);
-            });
+            waitsFor(AppHelper.notMoving);
 
             runs(function () {
                 expect(panels.home).toBeHiddenLeft();
@@ -426,13 +361,7 @@ describe('spin.moveTo(elt)', function () {
             });
 
             // Waiting for the animation to finish.
-            waitsFor(function () {
-                return !PanelHelper.isMoving(panels.home)
-                    && !PanelHelper.isMoving(panels.hammersmithAndCity)
-                    && !PanelHelper.isMoving(panels.moorgate)
-                    && !PanelHelper.isMoving(panels.circle)
-                    && !PanelHelper.isMoving(panels.monument);
-            });
+            waitsFor(AppHelper.notMoving);
 
             // At this point Home panel should be 'full' and moving to there should have no effect.
             runs(function () {

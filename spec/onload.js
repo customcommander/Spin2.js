@@ -65,9 +65,7 @@ describe('On page load', function () {
         });
 
         // Waits for animation to finish
-        waitsFor(function () {
-            return !PanelHelper.isMoving(home);
-        });
+        waitsFor(AppHelper.notMoving);
 
         runs(function () {
             expect(home).toBeFull();

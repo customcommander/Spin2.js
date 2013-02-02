@@ -20,9 +20,7 @@ describe('spin.getPanelState(elt)', function () {
         });
 
         // Waits for the home panel to stop moving
-        waitsFor(function () {
-            return !PanelHelper.isMoving(panel0);
-        });
+        waitsFor(AppHelper.notMoving);
 
         // Test 1
         // Home panel should be full
@@ -42,10 +40,7 @@ describe('spin.getPanelState(elt)', function () {
         });
 
         // Waits for the panels to stop moving
-        waitsFor(function () {
-            return !PanelHelper.isMoving(panel0)
-                && !PanelHelper.isMoving(panel1);
-        });
+        waitsFor(AppHelper.notMoving);
 
         // Test 2
         // Home should be minimized and the second panel maximized
@@ -66,11 +61,7 @@ describe('spin.getPanelState(elt)', function () {
         });
 
         // Waits for the panels to stop moving
-        waitsFor(function () {
-            return !PanelHelper.isMoving(panel0)
-                && !PanelHelper.isMoving(panel1)
-                && !PanelHelper.isMoving(panel2);
-        });
+        waitsFor(AppHelper.notMoving);
 
         // Test 3
         // Since there can only be two visible panels maximum
@@ -87,11 +78,7 @@ describe('spin.getPanelState(elt)', function () {
         });
 
         // Waits for all panels to stop moving.
-        waitsFor(function () {
-            return !PanelHelper.isMoving(panel0)
-                && !PanelHelper.isMoving(panel1)
-                && !PanelHelper.isMoving(panel2);
-        });
+        waitsFor(AppHelper.notMoving);
 
         // Test 4
         // Panel 1 & 2 should be both hidden on the right of the screen.
@@ -108,9 +95,7 @@ describe('spin.getPanelState(elt)', function () {
             home = document.getElementById('spin-panels').firstChild;
             return home;
         });
-        waitsFor(function () {
-            return !PanelHelper.isMoving(home);
-        });
+        waitsFor(AppHelper.notMoving);
         runs(function () {
             home.className = "spin-panel"; // Removes state
             expect(function () {
