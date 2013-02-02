@@ -34,6 +34,7 @@ function pause(time) {
 }
 
 var AppHelper = {
+
     // all css classes that trigger an animation
     // when applied on a panel node.
     cssAnim: [
@@ -54,6 +55,7 @@ var AppHelper = {
         'spin-full-small',
         'spin-small-full'
     ],
+
     restart: function () {
         var panels = document.getElementById('spin-panels');
         while (panels.lastChild) {
@@ -61,6 +63,12 @@ var AppHelper = {
         }
         spin.loader()(document.body);
     },
+
+    // Returns the home panel (i.e. the first panel)
+    getHome: function () {
+        return document.getElementById('spin-panels').firstChild;
+    },
+
     clickNav: function (elt) {
         elt = document.getElementById(elt);
         if (!elt) {
