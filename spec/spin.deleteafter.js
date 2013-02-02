@@ -6,7 +6,7 @@ describe('spin.deleteAfter(elt)', function () {
         runs(AppHelper.restart);
 
         waitsFor(function () {
-            home = document.getElementById('spin-panels').firstChild;
+            home = AppHelper.getHome();
             return home;
         });
 

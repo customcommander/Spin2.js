@@ -186,19 +186,16 @@ describe('Spin utils functions', function () {
 
         it('Returns true for panels', function () {
 
-            var home;
-
             runs(AppHelper.restart);
 
-            waitsFor(function () {
-                // This should be the first panel (home panel)
-                home = document.getElementById('spin-panels').firstChild;
-                return home;
-            }, 'Home panel is taking too long to load', 1000);
+            // Waits for home panel to be available
+            waitsFor(AppHelper.getHome, 'Timeout', 1000);
 
+            // Waits for panels to stop moving
             waitsFor(AppHelper.notMoving);
 
             runs(function () {
+                var home = AppHelper.getHome();
                 expect(spin.isPanel(home)).toBe(true);
             });
         });

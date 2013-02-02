@@ -15,7 +15,7 @@ describe('spin.getPanelState(elt)', function () {
 
         // Waits for the home panel to load
         waitsFor(function () {
-            panel0 = document.getElementById('spin-panels').firstChild;
+            panel0 = AppHelper.getHome();
             return panel0;
         });
 
@@ -89,14 +89,21 @@ describe('spin.getPanelState(elt)', function () {
     });
 
     it('Throws an error if panel has no state', function () {
-        var home;
+
+        // Fresh restart
         runs(AppHelper.restart);
-        waitsFor(function () {
-            home = document.getElementById('spin-panels').firstChild;
-            return home;
-        });
+
+        // Waits for home to be available
+        waitsFor(AppHelper.getHome);
+
+        // Waits for home to stop moving
         waitsFor(AppHelper.notMoving);
+
+        // Wittingly removing any state in order to assert
+        // that spin.getPanelState() will throw an error
+        // if a panel has no state
         runs(function () {
+            var home = AppHelper.getHome();
             home.className = "spin-panel"; // Removes state
             expect(function () {
                 spin.getPanelState(home);

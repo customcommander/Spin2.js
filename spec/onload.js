@@ -52,15 +52,12 @@ describe('On page load', function () {
      * Spin.js should load the first panel (home panel).
      */
     it('Home panel has loaded', function () {
-        var home;
 
         // Waits for the panel to arrive
-        waitsFor(function () {
-            home = document.getElementById('spin-panels').firstChild;
-            return home;
-        }, 'Home panel is taking too long to load', 1000);
+        waitsFor(AppHelper.getHome, 'Timeout', 1000);
 
         runs(function () {
+            var home = AppHelper.getHome();
             expect(home).toBecomeFull('spin-hiddenright');
         });
 
@@ -68,6 +65,7 @@ describe('On page load', function () {
         waitsFor(AppHelper.notMoving);
 
         runs(function () {
+            var home = AppHelper.getHome();
             expect(home).toBeFull();
         });
     });

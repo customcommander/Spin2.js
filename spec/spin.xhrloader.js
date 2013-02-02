@@ -7,7 +7,7 @@ describe('spin.xhrLoader(elt)', function () {
         runs(AppHelper.restart);
 
         waitsFor(function () {
-            home = document.getElementById('spin-panels').firstChild;
+            home = AppHelper.getHome();
             return home;
         });
 
@@ -92,7 +92,7 @@ describe('spin.xhrLoader(elt)', function () {
             runs(AppHelper.restart);
 
             waitsFor(function () {
-                home = document.getElementById('spin-panels').firstChild;
+                home = AppHelper.getHome();
                 return home;
             });
 

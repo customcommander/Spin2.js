@@ -2,22 +2,17 @@ describe('spin.getPanel(elt)', function () {
 
     it('Returns the corresponding panel', function () {
 
-        var home, elt;
-
         runs(AppHelper.restart);
 
-        waitsFor(function () {
-            home = document.getElementById('spin-panels').firstChild;
-            return home;
-        });
+        // Waits for home panel to be available
+        waitsFor(AppHelper.getHome);
 
+        // Waits for all panels to stop moving
         waitsFor(AppHelper.notMoving);
 
         runs(function () {
-            elt = home.querySelector('#hammersmithandcity');
-        });
-
-        runs(function () {
+            var home = AppHelper.getHome();
+            var elt = home.querySelector('#hammersmithandcity');
             expect(spin.getPanel(0)).toBe(home);
             expect(spin.getPanel(home.id)).toBe(home);
             expect(spin.getPanel('hammersmithandcity')).toBe(home);

@@ -9,7 +9,7 @@ describe('spin.moveTo(elt)', function () {
             runs(AppHelper.restart);
 
             waitsFor(function () {
-                panels.home = document.getElementById('spin-panels').firstChild;
+                panels.home = AppHelper.getHome();
                 return panels.home;
             });
 
