@@ -105,32 +105,93 @@
     }
 
     /**
+     * Replaces the title of the panel.
+     * @private
+     * @param {String} title the new title
+     */
+    function setTitle(panel, title) {
+
+        var oldtitle, newtitle;
+
+        oldtitle = panel.querySelector('.spin-panel-hd');
+
+        newtitle = document.createElement('div');
+        newtitle.className = 'spin-panel-hd';
+        newtitle.innerHTML = '<span class="spin-title">' + title + '</span>';
+
+        panel.replaceChild(newtitle, oldtitle);
+    }
+
+    /**
+     * Replaces the content of the panel.
+     * @private
+     * @param {String} content the new html content
+     */
+    function setContent(panel, content) {
+
+        var oldcontent,
+            newcontent,
+            cont,
+            i,
+            n,
+            list,
+            child;
+
+        oldcontent = panel.querySelector('.spin-panel-bd');
+
+        newcontent = document.createElement('div');
+        newcontent.className = 'spin-panel-bd';
+
+        // In order to transform our html content string into proper dom nodes
+        cont = document.createElement('div');
+        cont.innerHTML = content;
+
+        list = cont.childNodes;
+
+        for (i=0, n=list.length; i<n; i++) {
+            child = list[i].cloneNode(true);
+            // We need to do some hackery with script tags.
+            // Even though it is now a node, the code won't be executed
+            // because it was initially created through innerHTML.
+            if (child.nodeName.toLowerCase() == 'script') {
+                child = document.createElement('script');
+                if (list[i].type) {
+                    child.type = list[i].type;
+                }
+                // Reinjects code properly this time.
+                child.appendChild(document.createTextNode(list[i].textContent));
+            }
+            newcontent.appendChild(child);
+        }
+
+        panel.replaceChild(newcontent, oldcontent);
+    }
+
+    /**
      * Creates and appends a panel into the DOM
      * @private
-     * @param {Object} o Panel configuration
+     * @param {Object} cfg Panel configuration
      * @returns {HTMLElement} The panel that has been created
      */
-    function appendPanel(o) {
-        var panel, header, body;
-
-        panel = doc.createElement('li'),
+    function appendPanel(cfg) {
+        var div, panel;
 
         spinId++;
-        panel.id = 'spin-id'+spinId;
-        panel.className = 'spin-panel spin-hiddenright';
 
-        header = doc.createElement('div');
-        header.className = 'spin-panel-hd';
-        header.innerHTML = '<span class="spin-title">' + o.title + '</span>';
+        div = document.createElement('div');
 
-        body = doc.createElement('div');
-        body.className = 'spin-panel-bd';
-        body.innerHTML = o.content;
+        div.innerHTML = [
+            '<li id="spin-id'+spinId+'" class="spin-panel spin-hiddenright">',
+                '<div class="spin-panel-hd">',
+                    '<span class="spin-title"></span>',
+                '</div>',
+                '<div class="spin-panel-bd"></div>',
+            '</li>'
+        ].join('');
 
-        panel.appendChild(header);
-        panel.appendChild(body);
-
-        elPanels.appendChild(panel);
+        panel = elPanels.appendChild(div.firstChild);
+        setTitle(panel, cfg.title);
+        setContent(panel, cfg.content);
 
         return panel;
     }
