@@ -182,9 +182,7 @@
 
         div.innerHTML = [
             '<li id="spin-id'+spinId+'" class="spin-panel spin-hiddenright">',
-                '<div class="spin-panel-hd">',
-                    '<span class="spin-title"></span>',
-                '</div>',
+                '<div class="spin-panel-hd"></div>',
                 '<div class="spin-panel-bd"></div>',
             '</li>'
         ].join('');
