@@ -91,6 +91,13 @@ describe('spin([cfg])', function () {
         expect(panel.parentNode).toBe(document.getElementById('spin-panels'));
     });
 
+    it('Executes javascript', function () {
+        var panel;
+        window.foobar = jasmine.createSpy('foobar');
+        panel = spin({ content: '<script>window.foobar();</script>' });
+        expect(window.foobar).toHaveBeenCalled();
+    });
+
     it('Throws an error if cfg is not an object', function () {
         var badCallErr = new Error('bad function call');
 
