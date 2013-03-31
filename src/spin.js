@@ -180,12 +180,11 @@
 
         div = document.createElement('div');
 
-        div.innerHTML = [
-            '<li id="spin-id'+spinId+'" class="spin-panel spin-hiddenright">',
-                '<div class="spin-panel-hd"></div>',
-                '<div class="spin-panel-bd"></div>',
-            '</li>'
-        ].join('');
+        div.innerHTML =
+            '<li id="spin-id'+spinId+'" class="spin-panel spin-hiddenright">' +
+                '<div class="spin-panel-hd"></div>' +
+                '<div class="spin-panel-bd"></div>' +
+            '</li>';
 
         panel = elPanels.appendChild(div.firstChild);
         setTitle(panel, cfg.title);
