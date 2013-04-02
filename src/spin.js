@@ -105,6 +105,28 @@
     }
 
     /**
+     * Validates the panel configuration object
+     * @private
+     * @throws {Error}
+     * @returns {Boolean} Returns true if cfg passes validation
+     */
+    function validateConfig(cfg) {
+        if (!isObject(cfg)) {
+            throw new Error('cfg is not an object');
+        }
+        if (cfg.hasOwnProperty('title') && !isString(cfg.title)) {
+            throw new Error('cfg.title is not a string');
+        }
+        if (cfg.hasOwnProperty('content') && !isString(cfg.content)) {
+            throw new Error('cfg.content is not a string');
+        }
+        if (cfg.hasOwnProperty('url') && (!isString(cfg.url) || !cfg.url.trim())) {
+            throw new Error('cfg.url is not a valid string');
+        }
+        return true;
+    }
+
+    /**
      * Replaces the title of the panel.
      * @private
      * @param {String} title the new title
@@ -225,13 +247,7 @@
             cfg = {};
         }
 
-        if (
-            !isObject(cfg)
-            || (cfg.hasOwnProperty('content') && !isString(cfg.content))
-            || (cfg.hasOwnProperty('title') && !isString(cfg.title)) 
-            ) {
-            throw new Error('bad function call');
-        }
+        validateConfig(cfg);
 
         if (!cfg.content) {
             cfg.content = '';
