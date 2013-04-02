@@ -20,7 +20,7 @@ describe('spin([cfg])', function () {
         });
 
         it('should throw an error if it\'s not a string', function () {
-            function call(cfg) {
+            function call() {
                 spin({ content: 999 });
             }
             expect(call).toThrow();
@@ -40,7 +40,7 @@ describe('spin([cfg])', function () {
         });
 
         it('should throw an error if it\'s not a string', function () {
-            function call(content, title) {
+            function call() {
                 spin({ title: 999 });
             }
             expect(call).toThrow();
@@ -65,7 +65,7 @@ describe('spin([cfg])', function () {
     });
 
     it('should throw an error if it\'s not an object', function () {
-        function call(cfg) {
+        function call() {
             spin(999);
         }
         expect(call).toThrow();
