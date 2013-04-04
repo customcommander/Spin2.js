@@ -70,4 +70,28 @@ describe('spin([cfg])', function () {
         }
         expect(call).toThrow();
     });
+
+    describe("spin({ url: 'panel.html' })", function () {
+
+        it('should throw an error if url is not a string', function () {
+            function call() {
+                spin({ url: 999 });
+            }
+            expect(call).toThrow();
+        });
+
+        it('should throw an error if url is empty', function () {
+            function call() {
+                spin({ url: "" });
+            }
+            expect(call).toThrow();
+        });
+
+        it('should throw an error if url only contains whitespaces', function () {
+            function call() {
+                spin({ url: "  \t\r\n  " });
+            }
+            expect(call).toThrow();
+        });
+    });
 });
