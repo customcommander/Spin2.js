@@ -51,24 +51,19 @@
 
     /**
      * Drops Spin markup on the page.
-     *
-     *  <div id="spin">
-     *      <ol id="spin-nav"></ol>
-     *      <ol id="spin-panels"></ol>
-     *  </div>
-     *
      * @private
      */
     function dropBaseMarkup() {
-        elSpin = doc.createElement('div');
-        elSpin.id = 'spin';
-        elNav = doc.createElement('ol');
-        elNav.id = 'spin-nav';
-        elPanels = doc.createElement('ol');
-        elPanels.id = 'spin-panels';
-        elSpin.appendChild(elNav);
-        elSpin.appendChild(elPanels);
-        doc.body.appendChild(elSpin); 
+        var outer = document.createElement('div');
+        outer.innerHTML =
+            '<div id="spin">' +
+                '<ol id="spin-nav"></ol>' +
+                '<ol id="spin-panels"></ol>' +
+            '</div>';
+        // Keeping references to these important elements.
+        elSpin   = doc.body.appendChild(outer.firstChild);
+        elNav    = elSpin.firstChild;
+        elPanels = elSpin.lastChild;
     }
 
     /**
