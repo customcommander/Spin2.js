@@ -252,9 +252,38 @@
             cfg.title = '';
         }
 
-        panel = appendPanel(cfg);
+        if (cfg.url && elPanels.lastChild.classList.contains('loading')) {
+            panel = elPanels.lastChild;
+            setTitle(panel, cfg.title);
+            setContent(panel, cfg.content);
+        }
+        else {
+            panel = appendPanel(cfg);
+            if (cfg.url) {
+                panel.classList.add('loading');
+            } else {
+                moveTo(panel);
+                return panel;
+            }
+        }
+
+        if (spin.xhr instanceof XMLHttpRequest) {
+            spin.xhr.abort();
+            delete spin.xhr;
+        }
+
+        spin.xhr = new XMLHttpRequest();
+
+        spin.xhr.addEventListener('load', function () {
+            setContent(panel, this.responseText);
+            panel.classList.remove('loading');
+        }, false);
+
+        spin.xhr.open('GET', cfg.url);
+        spin.xhr.send();
 
         moveTo(panel);
+
         return panel;
     };
 

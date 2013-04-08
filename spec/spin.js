@@ -95,3 +95,62 @@ describe('spin([cfg])', function () {
         });
     });
 });
+
+describe('the loading process', function () {
+
+    beforeEach(function () {
+        runs(AppHelper.restart);
+        waitsFor(AppHelper.getHome);
+        waitsFor(AppHelper.notMoving);
+    });
+
+    it('should cancel any pending request', function () {
+        var panel;
+        spin({ url: 'panel.central.html' });
+        spin({ url: 'panel.tubemap.html' });
+        expect(document.getElementById('panelcentral')).toBeNull();
+    });
+
+    it('should append a loading panel', function () {
+        var panel = spin({ url: 'panel.tubemap.html' });
+        expect(panel.classList.contains('loading')).toBe(true);
+    });
+
+    it('should replace the loading panel with the returned content', function () {
+        var panel;
+        runs(function () {
+            panel = spin({ url: 'panel.central.html' });
+        });
+        waitsFor(function () {
+            return !panel.classList.contains('loading');
+        }, 5000, 'panel to load');
+        runs(function () {
+            expect(panel.querySelector('#panelcentral')).not.toBeNull();
+        });
+    });
+});
+
+describe('the loading panel', function () {
+
+    it('should be the last panel', function () {
+        var panels = document.getElementById('spin-panels');
+        var panel  = spin({ url: 'panel.tubemap.html' });
+        expect(panels.lastChild).toBe(panel);
+    });
+
+    it('should be unique', function () {
+        spin({ url: 'panel.tubemap.html' });
+        spin({ url: 'panel.tubemap.html' });
+        expect(document.querySelectorAll('.spin-panel.loading').length).toBe(1);
+    });
+
+    it('should have a title if given', function () {
+        var panel = spin({ url: 'panel.tubemap.html', title: 'loading' });
+        expect(PanelHelper.getTitle(panel)).toBe('loading');
+    });
+
+    it('should have content if given', function () {
+        var panel = spin({ url: 'panel.tubemap.html', content: '<p>loading...</p>' });
+        expect(PanelHelper.getContent(panel)).toBe('<p>loading...</p>');
+    });
+});
