@@ -105,7 +105,6 @@ describe('the loading process', function () {
     });
 
     it('should cancel any pending request', function () {
-        var panel;
         spin({ url: 'panel.central.html' });
         spin({ url: 'panel.tubemap.html' });
         expect(document.getElementById('panelcentral')).toBeNull();
