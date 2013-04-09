@@ -3,15 +3,10 @@
  * @fileoverview This is the source code for Spin.js
  * @author Julien Gonzalez
  */
-(function (win, doc) {
+(function (window, doc) {
 
     var toString = Object.prototype.toString,
-        spinId = 0,
-        spin,       //Internal copy of window.spin
-        getPanel,
-        getPanelState,
-        moveTo,
-        deleteAfter;
+        spinId = 0;
 
     /**
      * Reference to #spin node
@@ -37,7 +32,7 @@
      */
     var elPanels;
 
-    if (win.spin) {
+    if (window.spin) {
         throw new Error('spin already exists');
     }
 
@@ -94,13 +89,13 @@
                 return;
             }
             if (!t.classList.contains('loaded')) {
-                win.spin({
+                spin({
                     url: t.dataset.url,
                     title: t.dataset.title
                 });
                 t.classList.add('loaded');
             } else {
-                spin.moveTo(getPanel(t).nextSibling);
+                spin.moveTo(spin.getPanel(t).nextSibling);
             }
         }, false);
     }
@@ -257,7 +252,7 @@
      *                 or if content is passed and is not a string,
      *                 or if title is passed and is not a string.
      */
-    win.spin = spin = function (cfg) {
+    window.spin = function (cfg) {
         var panel;
 
         if (!arguments.length) {
@@ -284,7 +279,7 @@
             if (cfg.url) {
                 panel.classList.add('loading');
             } else {
-                moveTo(panel);
+                spin.moveTo(panel);
                 return panel;
             }
         }
@@ -304,7 +299,7 @@
         spin.xhr.open('GET', cfg.url);
         spin.xhr.send();
 
-        moveTo(panel);
+        spin.moveTo(panel);
 
         return panel;
     };
@@ -338,7 +333,7 @@
      * @throws {Error} 'bad function call'
      * @throws {Error} 'panel not found'
      */
-    spin.getPanel = getPanel = function (elt) {
+    spin.getPanel = function (elt) {
         if (
             !arguments.length
             || (
@@ -381,8 +376,8 @@
      * @see spin#PANEL_HIDDENRIGHT
      * @see spin#PANEL_HIDDENLEFT
      */
-    spin.getPanelState = getPanelState = function (elt) {
-        var panel = getPanel(elt);
+    spin.getPanelState = function (elt) {
+        var panel = spin.getPanel(elt);
         var cls = panel.classList;
         if (cls.contains('spin-' + spin.PANEL_FULL)) return spin.PANEL_FULL;
         if (cls.contains('spin-' + spin.PANEL_BIG)) return spin.PANEL_BIG;
@@ -401,7 +396,7 @@
      * @returns {HTMLElement}
      * @throws 'panel not found'
      */
-    spin.moveTo = moveTo = function (elt) {
+    spin.moveTo = function (elt) {
         var dest,
             destState,
             panel,
@@ -418,7 +413,7 @@
         // If a panel is currently hidden on one side and is going to stay hidden on the
         // other side, then we do not animate it but rather switch sides instead.
         function animate(panel, nextState) {
-            var curState = getPanelState(panel);
+            var curState = spin.getPanelState(panel);
 
             if (isHiddenState(curState) && isHiddenState(nextState)) {
                 // This wont animate but just swap sides instead.
@@ -435,8 +430,8 @@
             }
         }
 
-        dest      = getPanel(elt);          // panel of destination
-        destState = getPanelState(dest);    // current state of destination panel
+        dest      = spin.getPanel(elt);          // panel of destination
+        destState = spin.getPanelState(dest);    // current state of destination panel
 
         // Don't move if destination panel is already visible and either big or full
         if (destState == spin.PANEL_BIG || destState == spin.PANEL_FULL) {
@@ -465,7 +460,7 @@
                 nextState = states.shift() || 'hiddenleft';
                 animate(panel, nextState);
                 panel = panel.previousSibling;
-            } while (panel && getPanelState(panel) != spin.PANEL_HIDDENLEFT);
+            } while (panel && spin.getPanelState(panel) != spin.PANEL_HIDDENLEFT);
         }
         // Moving backward, right animation
         else {
@@ -489,7 +484,7 @@
                 nextState = states.shift() || 'hiddenright';
                 animate(panel, nextState);
                 panel = panel.nextSibling;
-            } while (panel && getPanelState(panel) != spin.PANEL_HIDDENRIGHT);
+            } while (panel && spin.getPanelState(panel) != spin.PANEL_HIDDENRIGHT);
         }
 
         return dest;
@@ -504,15 +499,15 @@
      * @returns {HTMLElement}
      * @throws 'panel not found'
      */
-    spin.deleteAfter = deleteAfter = function (elt) {
-        var panel = getPanel(elt);
+    spin.deleteAfter = function (elt) {
+        var panel = spin.getPanel(elt);
         while ( elPanels.lastChild != panel ) {
             elPanels.removeChild(elPanels.lastChild);
         }
         return panel;
     };
 
-    win.addEventListener('load', function () {
+    window.addEventListener('load', function () {
         dropBaseMarkup();
         registerClickHandler();
         registerAnimationEndHandler();
