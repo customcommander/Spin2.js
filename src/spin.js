@@ -11,8 +11,7 @@
         getPanel,
         getPanelState,
         moveTo,
-        deleteAfter,
-        loader;     //Internal copy of the current loader
+        deleteAfter;
 
     var isNumber,
         isFunction,
@@ -77,8 +76,13 @@
                 return;
             }
             if (!t.classList.contains('loaded')) {
-                loader(t);
+                win.spin({
+                    url: t.dataset.url,
+                    title: t.dataset.title
+                });
                 t.classList.add('loaded');
+            } else {
+                spin.moveTo(getPanel(t).nextSibling);
             }
         }, false);
     }
@@ -252,7 +256,7 @@
             cfg.title = '';
         }
 
-        if (cfg.url && elPanels.lastChild.classList.contains('loading')) {
+        if (cfg.url && elPanels.lastChild && elPanels.lastChild.classList.contains('loading')) {
             panel = elPanels.lastChild;
             setTitle(panel, cfg.title);
             setContent(panel, cfg.content);
@@ -293,40 +297,6 @@
     spin.PANEL_FULL        = 'full';
     spin.PANEL_BIG         = 'big';
     spin.PANEL_SMALL       = 'small';
-
-    /**
-     * Gets or sets the loader
-     *
-     * If called with no argument it returns the current loader.
-     * If called with a function, it updates the loader with that function and returns the previous loader.
-     *
-     * @example
-     * var fn1, fn2;
-     *
-     * // Dummy function
-     * function newLoader() {
-     * }
-     *
-     * // Returns current loader
-     * fn1 = spin.loader();
-     *
-     * // Updates the current loader and returns the previous one
-     * // So fn1 === fn2 is true
-     * fn2 = spin.loader(newLoader);
-     *
-     * @name spin.loader
-     * @function
-     * @param {Function} [fn] The new loader
-     * @returns {Function} Previous or current loader
-     * @throws {Error} If called with an argument that is not a function
-     */
-    spin.loader = function (fn) {
-        var prev = loader;
-        if (!arguments.length) return loader;
-        if (!isFunction(fn)) throw new Error("bad function call");
-        loader = fn;
-        return prev;
-    };
 
     /**
      * Returns corresponding panel.
@@ -584,60 +554,14 @@
         return !!o && o.parentNode === elPanels;
     };
 
-    /**
-     * Default loader
-     */
-    loader = spin.xhrLoader = function (el) {
-        var url, title;
-        
-        if (!isElement(el)) {
-            throw new Error('bad function call');
-        }
-        
-        url = el.dataset.url ? el.dataset.url.trim() : null;
-        
-        if (!url) {
-            throw new Error('element has no url');
-        }
-        
-        url = el.dataset.url.trim();
-
-        if (el.dataset.title) {
-            title = el.dataset.title;
-        }
-        else if (el.querySelector('.spin-title')) {
-            title = el.querySelector('.spin-title').textContent;
-        }
-        else {
-            title = el.textContent;
-        }
-
-        if (!spin.xhrLoader.xhr) {
-            spin.xhrLoader.xhr = new XMLHttpRequest();
-
-            //When request finishes
-            spin.xhrLoader.xhr.addEventListener('load', function () {
-                spin({ content: this.responseText, title: title });
-                spin.xhrLoader.xhr = null;
-            }, false);
-
-            spin.xhrLoader.xhr.addEventListener('error', function () {
-                spin.xhrLoader.xhr = null;
-            }, false);
-        }
-        else {
-            spin.xhrLoader.xhr.abort();
-        }
-
-        spin.xhrLoader.xhr.open('GET', url);
-        spin.xhrLoader.xhr.send();
-    };
-
     win.addEventListener('load', function () {
         dropBaseMarkup();
         registerClickHandler();
         registerAnimationEndHandler();
-        loader(doc.body);
+        spin({
+            title: doc.body.dataset.title,
+            url: doc.body.dataset.url
+        });
     }, false);
 
 })(window, document);

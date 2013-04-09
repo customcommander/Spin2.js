@@ -8,8 +8,6 @@ describe('On page load', function () {
      */
     it('Spin is available', function () {
         expect(window.spin).toBeFunction();
-        expect(window.spin.xhrLoader).toBeFunction();
-        expect(window.spin.loader).toBeFunction();
         expect(window.spin.getPanel).toBeFunction();
         expect(window.spin.getPanelState).toBeFunction();
         expect(window.spin.moveTo).toBeFunction();

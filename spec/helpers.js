@@ -61,7 +61,10 @@ var AppHelper = {
         while (panels.lastChild) {
             panels.removeChild(panels.lastChild);
         }
-        spin.loader()(document.body);
+        spin({
+            url: document.body.dataset.url,
+            title: document.body.dataset.title
+        });
     },
 
     // Returns the home panel (i.e. the first panel)
@@ -147,19 +150,19 @@ beforeEach(function () {
                 this.actual.classList.contains('spin-panel');
         },
         toBecomeSmall: function (curState) {
-            return DomHelper.hasClass(this.actual, ['spin-panel', curState, curState + '-small'], true);
+            return DomHelper.hasClass(this.actual, ['spin-panel', curState, curState + '-small'], false);
         },
         toBecomeBig: function (curState) {
-            return DomHelper.hasClass(this.actual, ['spin-panel', curState, curState + '-big'], true);
+            return DomHelper.hasClass(this.actual, ['spin-panel', curState, curState + '-big'], false);
         },
         toBecomeFull: function (curState) {
-            return DomHelper.hasClass(this.actual, ['spin-panel', curState, curState + '-full'], true);
+            return DomHelper.hasClass(this.actual, ['spin-panel', curState, curState + '-full'], false);
         },
         toBecomeHiddenLeft: function (curState) {
-            return DomHelper.hasClass(this.actual, ['spin-panel', curState, curState + '-hiddenleft'], true);
+            return DomHelper.hasClass(this.actual, ['spin-panel', curState, curState + '-hiddenleft'], false);
         },
         toBecomeHiddenRight: function (curState) {
-            return DomHelper.hasClass(this.actual, ['spin-panel', curState, curState + '-hiddenright'], true);
+            return DomHelper.hasClass(this.actual, ['spin-panel', curState, curState + '-hiddenright'], false);
         },
         toBeSmall: function () {
             return DomHelper.hasClass(this.actual, ['spin-panel', 'spin-small'], true);
