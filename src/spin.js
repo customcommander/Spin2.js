@@ -13,13 +13,6 @@
         moveTo,
         deleteAfter;
 
-    var isNumber,
-        isFunction,
-        isObject,
-        isString,
-        isElement,
-        isPanel;
-
     /**
      * Reference to #spin node
      * @private
@@ -46,6 +39,31 @@
 
     if (win.spin) {
         throw new Error('spin already exists');
+    }
+
+    // Returns true if o is a finite number
+    function isNumber(o) {
+        return toString.call(o) == '[object Number]' && isFinite(o);
+    }
+
+    // Returns true if o is an object
+    function isObject(o) {
+        return toString.call(o) == '[object Object]';
+    }
+
+    // Returns true if o is a string
+    function isString(o) {
+        return toString.call(o) == '[object String]';
+    }
+
+    // Returns true if o is a html element
+    function isElement(o) {
+        return !!o && o.nodeType === 1;
+    }
+
+    // Returns true if o is a panel
+    function isPanel(o) {
+        return !!o && o.parentNode === elPanels;
     }
 
     /**
@@ -492,66 +510,6 @@
             elPanels.removeChild(elPanels.lastChild);
         }
         return panel;
-    };
-
-    /**
-     * @name spin.isNumber
-     * @function
-     * @param o
-     * @returns {Boolean} True if o is a number. False otherwise.
-     */
-    spin.isNumber = isNumber = function (o) {
-        return toString.call(o) == '[object Number]' && isFinite(o);
-    };
-
-    /**
-     * @name spin.isFunction
-     * @function
-     * @param o
-     * @returns {Boolean} True if o is a function. False otherwise.
-     */
-    spin.isFunction = isFunction = function (o) {
-        return toString.call(o) == '[object Function]';
-    };
-
-    /**
-     * @name spin.isObject
-     * @function
-     * @param o
-     * @returns {Boolean} True if o is an object. False otherwise.
-     */
-    spin.isObject = isObject = function (o) {
-        return toString.call(o) == '[object Object]';
-    };
-
-    /**
-     * @name spin.isString
-     * @function
-     * @param o
-     * @returns {Boolean} True if o is a string. False otherwise.
-     */
-    spin.isString = isString = function (o) {
-        return toString.call(o) == '[object String]';
-    };
-
-    /**
-     * @name spin.isElement
-     * @function
-     * @param o
-     * @returns {Boolean} True if o is an element node. False otherwise.
-     */
-    spin.isElement = isElement = function (o) {
-        return !!o && o.nodeType === 1;
-    };
-
-    /**
-     * @name spin.isPanel
-     * @function
-     * @param o
-     * @returns {Boolean} True if o is a panel. False otherwise.
-     */
-    spin.isPanel = isPanel = function (o) {
-        return !!o && o.parentNode === elPanels;
     };
 
     win.addEventListener('load', function () {
