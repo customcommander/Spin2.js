@@ -63,4 +63,11 @@ describe('click on nav element', function () {
             title: nav.dataset.title
         });
     });
+
+    it('should not call spin if there is no url', function () {
+        var nav = document.getElementById('piccadilly');
+        spyOn(window, 'spin');
+        click(nav);
+        expect(spin).not.toHaveBeenCalled();
+    });
 });

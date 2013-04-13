@@ -89,6 +89,9 @@
                 return;
             }
             if (!t.classList.contains('loaded')) {
+                if (!t.dataset.url) {
+                    throw new Error('no data-url attribute on a navigable element');
+                }
                 spin({
                     url: t.dataset.url,
                     title: t.dataset.title
