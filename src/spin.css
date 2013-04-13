@@ -42,6 +42,25 @@ body,
     left:       0em;    
 }
 
+#spin-nav {
+    position: absolute;
+    z-index: 100;
+    top: 0em;
+    left: 0em;
+    right: 0em;
+    width: 100%;
+    height: 2.5em;
+    background: -moz-linear-gradient(center top , #1a171b, #3d3c3f) repeat scroll 0 0 #3d3c3f;
+    background: -webkit-gradient(linear, left top, left bottom,from(#1a171b),to(#3d3c3f)) repeat scroll 0 0 #3d3c3f;
+    -moz-box-sizing:border-box;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    list-style-type: none outside none;
+    height: 2.5em;
+    margin: 0px;
+    padding: 0px;
+}
+
 /*
 Collection of panels
 --------------------------------------------------------------------------------
@@ -59,7 +78,7 @@ Collection of panels
 */
 #spin-panels {        
     position: absolute;
-    top:        0em;
+    top:        2.5em;
     right:      0em;
     bottom:     0em;
     left:       0em;    
