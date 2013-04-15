@@ -58,6 +58,10 @@ var AppHelper = {
 
     restart: function () {
         var panels = document.getElementById('spin-panels');
+        var crumbs = document.getElementById('spin-nav');
+        while (crumbs.lastChild) {
+            crumbs.removeChild(crumbs.lastChild);
+        }
         while (panels.lastChild) {
             panels.removeChild(panels.lastChild);
         }
