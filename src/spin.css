@@ -55,11 +55,45 @@ body,
     -moz-box-sizing:border-box;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
-    list-style-type: none outside none;
-    height: 2.5em;
     margin: 0px;
     padding: 0px;
+    border: none;
+    border-bottom: 1px solid transparent;
 }
+
+.crumb1,
+.crumb2,
+.crumb3,
+.crumb4,
+.crumb5,
+.crumb6 {
+    background-image: url('sprites-breadcrumb.png');
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 100%;
+    list-style-type: none;
+    list-style-position: outside;
+    margin: 0px;
+    padding: 0px;
+    color: white;
+    line-height: 2.5em;
+    padding-right: 1.5em;
+    padding-left: 0.5em;
+    cursor: pointer;
+}
+
+/* last panel, not visible */
+.crumb1 { background-position: right    0px }
+/* panel is not visible and its next sibling isn't either */
+.crumb2 { background-position: right  -32px }
+/* panel is not visible but its next sibling is */
+.crumb3 { background-position: right  -64px }
+/* last panel, visible */
+.crumb4 { background-position: right  -96px }
+/* panel is visible and so is its next sibling */
+.crumb5 { background-position: right -128px }
+/* panel is visible but its next sibling isn't */
+.crumb6 { background-position: right -160px }
 
 /*
 Collection of panels

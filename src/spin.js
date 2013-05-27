@@ -17,14 +17,6 @@
     var elSpin;
 
     /**
-     * Reference to #spin-nav node
-     * @private
-     * @see dropBaseMarkup
-     * @type {HTMLElement}
-     */
-    var elNav;
-
-    /**
      * Reference to #spin-panels node
      * @private
      * @see dropBaseMarkup
@@ -74,7 +66,6 @@
             '</div>';
         // Keeping references to these important elements.
         elSpin   = doc.body.appendChild(outer.firstChild);
-        elNav    = elSpin.firstChild;
         elPanels = elSpin.lastChild;
     }
 
@@ -104,6 +95,35 @@
     }
 
     /**
+     * Register handler for clicks on bread crumbs.
+     * @private
+     * @todo merge with other click handler
+     */
+    function registerNavClickHandler() {
+
+        var el = document.getElementById('spin');
+
+        el.addEventListener('click', function (ev) {
+
+            var id, panel;
+
+            function isBreadCrumb(el) {
+                //@todo look for "crumb" in css class also?
+                return el.parentNode.id === 'spin-nav';
+            }
+
+            if (isBreadCrumb(ev.target)) {
+                // extracting the panel id from the bread crumb id:
+                // "spin-id99-crumb" ~> "spin-id99"
+                id = ev.target.id;
+                id = id.substr(0, id.lastIndexOf('-'));
+                panel = document.getElementById(id);
+                spin.moveTo(panel);
+            }
+        }, false);
+    }
+
+    /**
      * Handler for animation end events occuring inside Spin.
      * @private
      */
@@ -116,6 +136,7 @@
             panel.classList.remove(animCls);
             panel.classList.remove(oldCls);
             panel.classList.add(newCls);
+            syncNav();
         });
     }
 
@@ -204,6 +225,81 @@
         panel.replaceChild(newcontent, oldcontent);
     }
 
+    function appendCrumb(panelId, title) {
+        var outer = document.createElement('div');
+        if (!title.trim()) {
+            title = '&nbsp;';
+        }
+        outer.innerHTML =
+            '<li id="' + panelId + '-crumb" class="crumb4">' + title + '</li>';
+        document.getElementById('spin-nav').appendChild(outer.firstChild);
+        syncNav();
+    }
+
+    /**
+     * Synchronises the navigation menu
+     *
+     * Makes sure that the navigation menu always reflects the
+     * current state of the view.
+     *
+     * @private
+     */
+    function syncNav() {
+
+        var curNav = document.getElementById('spin-nav'),
+            newNav,
+            frag;
+
+        // Helper - Returns true if panel is the last one
+        function isLast(panel) {
+            return !panel.nextSibling;
+        }
+
+        // Helper - Returns true if panel is visible
+        function isVisible(panel) {
+            var cl = panel.classList;
+            return cl.contains('spin-' + spin.PANEL_FULL)
+                || cl.contains('spin-' + spin.PANEL_SMALL)
+                || cl.contains('spin-' + spin.PANEL_BIG);
+        }
+
+        // Helper - Returns the corresponding bread crumb
+        function getBreadCrumb(panel) {
+            return curNav.querySelector('#' + panel.id + '-crumb');
+        }
+
+        // Helper - Returns the css class for the bread crumb
+        // according to its corresponding panel
+        function getClassName(panel) {
+            if (isLast(panel)) {
+                return isVisible(panel) ? 'crumb4' : 'crumb1';
+            }
+            else if (isVisible(panel)) {
+                return isVisible(panel.nextSibling) ? 'crumb5' : 'crumb6';
+            }
+            else {
+                return isVisible(panel.nextSibling) ? 'crumb3' : 'crumb2';
+            }
+        }
+
+        frag = document.createDocumentFragment();
+
+        // We loop through all panels and make sure that the state
+        // of the panel is reflected on its corresponding bread crumb
+        // in the navigation.
+        [].forEach.call(elPanels.childNodes, function (panel) {
+            var breadcrumb = getBreadCrumb(panel).cloneNode(true);
+            breadcrumb.className = getClassName(panel);
+            frag.appendChild(breadcrumb);
+        });
+
+        newNav = document.createElement('ol');
+        newNav.id = 'spin-nav';
+        newNav.appendChild(frag);
+
+        elSpin.replaceChild(newNav, curNav);
+    }
+
     /**
      * Creates and appends a panel into the DOM
      * @private
@@ -224,6 +320,7 @@
             '</li>';
 
         panel = elPanels.appendChild(div.firstChild);
+        appendCrumb(panel.id, cfg.title);
         setTitle(panel, cfg.title);
         setContent(panel, cfg.content);
 
@@ -513,6 +610,7 @@
     window.addEventListener('load', function () {
         dropBaseMarkup();
         registerClickHandler();
+        registerNavClickHandler();
         registerAnimationEndHandler();
         spin({
             title: doc.body.dataset.title,

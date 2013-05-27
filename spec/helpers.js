@@ -71,6 +71,17 @@ var AppHelper = {
         });
     },
 
+    clear: function () {
+        var panels = document.getElementById('spin-panels'),
+            nav = document.getElementById('spin-nav');
+        while (nav.lastChild) {
+            nav.removeChild(nav.lastChild);
+        }
+        while (panels.lastChild) {
+            panels.removeChild(panels.lastChild);
+        }
+    },
+
     // Returns the home panel (i.e. the first panel)
     getHome: function () {
         return document.getElementById('spin-panels').firstChild;
@@ -119,6 +130,9 @@ var PanelHelper = {
     },
     getContent: function (panel) {
         return panel.querySelector('.spin-panel-bd').innerHTML;
+    },
+    getBreadCrumb: function (panel) {
+        return document.getElementById(panel.id + '-crumb');
     }
 };
 
