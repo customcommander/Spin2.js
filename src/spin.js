@@ -28,6 +28,11 @@
         throw new Error('spin already exists');
     }
 
+    // Returns true if o is undefined
+    function isUndefined(o) {
+        return toString.call(o) == '[object Undefined]';
+    }
+
     // Returns true if o is a finite number
     function isNumber(o) {
         return toString.call(o) == '[object Number]' && isFinite(o);
@@ -141,25 +146,51 @@
     }
 
     /**
-     * Validates the panel configuration object
+     * Validates the panel configuration object and returns it.
+     *
+     * Adds default properties to the returned object if they were missing.
+     *
      * @private
      * @throws {Error}
-     * @returns {Boolean} Returns true if cfg passes validation
+     * @param {Object} [cfg]
+     * @returns {Object} The configuration object
      */
-    function validateConfig(cfg) {
+    function config(cfg) {
+
+        var defaults = {
+            title: '',
+            content: ''
+        };
+
+        function has(o, p) {
+            return o.hasOwnProperty(p);
+        }
+
+        if (isUndefined(cfg)) {
+            return defaults;
+        }
+
         if (!isObject(cfg)) {
-            throw new Error('cfg is not an object');
+            throw new Error("cfg is not valid");
         }
-        if (cfg.hasOwnProperty('title') && !isString(cfg.title)) {
-            throw new Error('cfg.title is not a string');
+
+        cfg.title = has(cfg, "title") ? cfg.title : defaults.title;
+
+        if (!isString(cfg.title)) {
+            throw new Error("cfg.title is not valid");
         }
-        if (cfg.hasOwnProperty('content') && !isString(cfg.content)) {
-            throw new Error('cfg.content is not a string');
+
+        cfg.content = has(cfg, "content") ? cfg.content : defaults.content;
+
+        if (!isString(cfg.content)) {
+            throw new Error("cfg.content is not valid");
         }
-        if (cfg.hasOwnProperty('url') && (!isString(cfg.url) || !cfg.url.trim())) {
-            throw new Error('cfg.url is not a valid string');
+
+        if (has(cfg, "url") && ( !isString(cfg.url) || !cfg.url.trim() )) {
+            throw new Error("cfg.url is not a valid");
         }
-        return true;
+
+        return cfg;
     }
 
     /**
@@ -353,21 +384,10 @@
      *                 or if title is passed and is not a string.
      */
     window.spin = function (cfg) {
+
         var panel;
 
-        if (!arguments.length) {
-            cfg = {};
-        }
-
-        validateConfig(cfg);
-
-        if (!cfg.content) {
-            cfg.content = '';
-        }
-
-        if (!cfg.title) {
-            cfg.title = '';
-        }
+        cfg = config(cfg);
 
         if (cfg.url && elPanels.lastChild && elPanels.lastChild.classList.contains('loading')) {
             panel = elPanels.lastChild;

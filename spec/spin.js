@@ -1,97 +1,94 @@
-// Expected behaviour for spin()
-describe('spin([cfg])', function () {
+describe("spin() - in general", function () {
 
     var panel;
 
+    beforeEach(function () {
+        runs( AppHelper.clear );
+        runs(function () {
+            panel = spin({ title: 'spin_common' });
+        });
+        waitsFor( AppHelper.notMoving );
+    });
+
+    it("should create the panel", function () {
+        expect(document.querySelector('.spin-panel')).toBeDefined();
+    });
+
+    it("should return the panel", function () {
+        expect(document.querySelector('.spin-panel')).toBe(panel);
+    });
+
+    it("should make the panel visible", function () {
+        expect(panel.className).not.toMatch('hidden');
+    });
+
+    it("should throw if cfg is given but not an object", function () {
+        expect( spin.bind(null, 999) ).toThrow();
+    });
+});
+
+describe("spin() - config object", function () {
+
+    beforeEach(function () {
+        runs( AppHelper.clear );
+    });
+
     afterEach(function () {
-        waitsFor(AppHelper.notMoving);
+        waitsFor( AppHelper.notMoving );
     });
 
-    describe('cfg.content', function () {
+    describe("cfg.title", function () {
 
-        it('Sets panel content', function () {
-            panel = spin({ content: '<p>Hello</p>' });
-            expect(PanelHelper.getContent(panel)).toBe('<p>Hello</p>');
+        it("should set the title of the panel", function () {
+            var panel = spin({ title: "Hello" });
+            expect(PanelHelper.getTitle(panel)).toBe("Hello");
         });
 
-        it('Defaults to an empty string', function () {
-            panel = spin();
-            expect(PanelHelper.getContent(panel)).toBe('');
+        it("should default to an empty string if not given", function () {
+            var panel = spin();
+            expect(PanelHelper.getTitle(panel)).toBe("");
         });
 
-        it('should throw an error if it\'s not a string', function () {
-            function call() {
-                spin({ content: 999 });
-            }
-            expect(call).toThrow();
+        it("should throw an error if given but not a string", function () {
+            expect( spin.bind(null, { title: 999 }) ).toThrow();
         });
     });
 
-    describe('cfg.title', function () {
+    describe("cfg.content", function () {
 
-        it('Sets panel title', function () {
-            panel = spin({ title: 'Hello' });
-            expect(PanelHelper.getTitle(panel)).toBe('Hello');
+        it("should set the content of the panel", function () {
+            var panel = spin({ content: "<p>Hello</p>" });
+            expect(PanelHelper.getContent(panel)).toBe("<p>Hello</p>");
         });
 
-        it('Defaults to an empty string', function () {
-            panel = spin();
-            expect(PanelHelper.getTitle(panel)).toBe('');
+        it("should default to an empty string if not given", function () {
+            var panel = spin();
+            expect(PanelHelper.getContent(panel)).toBe("");
         });
 
-        it('should throw an error if it\'s not a string', function () {
-            function call() {
-                spin({ title: 999 });
-            }
-            expect(call).toThrow();
+        it("should throw an error if given but not a string", function () {
+            expect( spin.bind(null, { content: 999 }) ).toThrow();
+        });
+
+        it("should execute embedded code", function () {
+            window.mySpy = jasmine.createSpy('My Spy');
+            spin({ content: "<script>window.mySpy();</script>" });
+            expect(window.mySpy).toHaveBeenCalled();
         });
     });
 
-    it('Returns the panel that has been created', function () {
-        panel = spin();
-        expect(panel).toBeDefined();
-    });
+    describe("cfg.url", function () {
 
-    it('Appends the panel into the DOM', function () {
-        panel = spin();
-        expect(panel.parentNode).toBe(document.getElementById('spin-panels'));
-    });
-
-    it('Executes javascript', function () {
-        var panel;
-        window.foobar = jasmine.createSpy('foobar');
-        panel = spin({ content: '<script>window.foobar();</script>' });
-        expect(window.foobar).toHaveBeenCalled();
-    });
-
-    it('should throw an error if it\'s not an object', function () {
-        function call() {
-            spin(999);
-        }
-        expect(call).toThrow();
-    });
-
-    describe("spin({ url: 'panel.html' })", function () {
-
-        it('should throw an error if url is not a string', function () {
-            function call() {
-                spin({ url: 999 });
-            }
-            expect(call).toThrow();
+        it("should throw an error if given but not a string", function () {
+            expect( spin.bind(null, { url: 999 }) ).toThrow();
         });
 
-        it('should throw an error if url is empty', function () {
-            function call() {
-                spin({ url: "" });
-            }
-            expect(call).toThrow();
+        it("should throw an error if given but empty", function () {
+            expect( spin.bind(null, { url: "" }) ).toThrow();
         });
 
-        it('should throw an error if url only contains whitespaces', function () {
-            function call() {
-                spin({ url: "  \t\r\n  " });
-            }
-            expect(call).toThrow();
+        it("should throw an error if given but only contains whitespace(s)", function () {
+            expect( spin.bind(null, { url: "  \t\r\n  " }) ).toThrow();
         });
     });
 });
