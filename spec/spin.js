@@ -91,6 +91,68 @@ describe("spin() - config object", function () {
             expect( spin.bind(null, { url: "  \t\r\n  " }) ).toThrow();
         });
     });
+
+    describe("cfg.panel", function () {
+
+        it("should throw an error if given but not valid", function () {
+            expect( spin.bind(null, { panel: false }) ).toThrow();
+        });
+
+        it("should throw an error if given but doesn't exist", function () {
+            expect( spin.bind(null, { panel: 999 }) ).toThrow();
+        });
+    });
+});
+
+// What should happen when
+//
+//      spin({
+//          panel: <string>,<number>,<element>
+//          title: <string>
+//          content: <string>
+//      });
+// ???
+describe("spin() - with a panel", function () {
+
+    beforeEach(function () {
+        runs( AppHelper.clear );
+        runs( spin.bind(null, { title: "spin_panel_0" }) );
+        waitsFor( AppHelper.notMoving );
+        runs( spin.bind(null, { title: "spin_panel_1" }) );
+        waitsFor( AppHelper.notMoving );
+    });
+
+    afterEach(function () {
+        waitsFor( AppHelper.notMoving );
+    });
+
+    it("should delete everything after it", function () {
+        var panel = spin({ panel: 0 });
+        expect(panel.nextSibling).toBeNull();
+    });
+
+    it("should update its title", function () {
+        var panel = spin({ panel: 0, title: "updated" });
+        expect(PanelHelper.getTitle(panel)).toBe("updated");
+    });
+
+    it("should update its content", function () {
+        var panel = spin({ panel: 0, content: "<p>updated</p>" });
+        expect(PanelHelper.getContent(panel)).toBe("<p>updated</p>");
+    });
+
+    it("should update its content with a response from url", function () {
+        var panel;
+        runs(function () {
+            panel = spin({ panel: 0, url: "panel.central.html" });
+        });
+        waitsFor(function () {
+            return !panel.classList.contains("loading");
+        }, 3000, "panel has taken too long to load");
+        runs(function () {
+            expect(document.querySelector("#panelcentral")).not.toBeNull();
+        });
+    });
 });
 
 describe('the loading process', function () {

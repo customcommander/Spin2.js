@@ -146,16 +146,14 @@
     }
 
     /**
-     * Validates the panel configuration object and returns it.
-     *
-     * Adds default properties to the returned object if they were missing.
+     * Generates and validates a panel configuration object
      *
      * @private
-     * @throws {Error}
+     * @throws
      * @param {Object} [cfg]
      * @returns {Object} The configuration object
      */
-    function config(cfg) {
+    function generateConfig(cfg) {
 
         var defaults = {
             title: '',
@@ -188,6 +186,10 @@
 
         if (has(cfg, "url") && ( !isString(cfg.url) || !cfg.url.trim() )) {
             throw new Error("cfg.url is not a valid");
+        }
+
+        if (has(cfg, "panel")) {
+            cfg.panel = spin.getPanel(cfg.panel);
         }
 
         return cfg;
@@ -256,15 +258,49 @@
         panel.replaceChild(newcontent, oldcontent);
     }
 
-    function appendCrumb(panelId, title) {
-        var outer = document.createElement('div');
-        if (!title.trim()) {
-            title = '&nbsp;';
-        }
-        outer.innerHTML =
-            '<li id="' + panelId + '-crumb" class="crumb4">' + title + '</li>';
-        document.getElementById('spin-nav').appendChild(outer.firstChild);
-        syncNav();
+     /**
+     * Generates a bread crumb
+     * @private
+     * @param {String} id    panel id
+     * @param {String} title panel title
+     * @returns {HTMLElement}
+     */
+    function generateBreadCrumb(id, title) {
+        var el;
+        el = document.createElement('li');
+        el.id = id + '-crumb';
+        el.className = 'crumb4';
+        el.appendChild(document.createTextNode(title));
+        return el;
+    }
+
+    /**
+     * Generates a panel or updates it if given
+     * @private
+     * @param {Object} cfg Panel configuration
+     * @returns {HTMLElement} The panel that has been created
+     */
+    function generatePanel(cfg) {
+
+        var div,
+            panel;
+
+        spinId++;
+
+        div = document.createElement('div');
+
+        div.innerHTML =
+            '<li id="spin-id'+spinId+'" class="spin-panel spin-hiddenright">' +
+                '<div class="spin-panel-hd"></div>' +
+                '<div class="spin-panel-bd"></div>' +
+            '</li>';
+
+        panel = div.firstChild;
+
+        setTitle(panel, cfg.title);
+        setContent(panel, cfg.content);
+
+        return panel;
     }
 
     /**
@@ -332,33 +368,6 @@
     }
 
     /**
-     * Creates and appends a panel into the DOM
-     * @private
-     * @param {Object} cfg Panel configuration
-     * @returns {HTMLElement} The panel that has been created
-     */
-    function appendPanel(cfg) {
-        var div, panel;
-
-        spinId++;
-
-        div = document.createElement('div');
-
-        div.innerHTML =
-            '<li id="spin-id'+spinId+'" class="spin-panel spin-hiddenright">' +
-                '<div class="spin-panel-hd"></div>' +
-                '<div class="spin-panel-bd"></div>' +
-            '</li>';
-
-        panel = elPanels.appendChild(div.firstChild);
-        appendCrumb(panel.id, cfg.title);
-        setTitle(panel, cfg.title);
-        setContent(panel, cfg.content);
-
-        return panel;
-    }
-
-    /**
      * Appends a new panel and returns it.
      *
      * @example
@@ -385,39 +394,48 @@
      */
     window.spin = function (cfg) {
 
-        var panel;
-
-        cfg = config(cfg);
-
-        if (cfg.url && elPanels.lastChild && elPanels.lastChild.classList.contains('loading')) {
-            panel = elPanels.lastChild;
-            setTitle(panel, cfg.title);
-            setContent(panel, cfg.content);
-        }
-        else {
-            panel = appendPanel(cfg);
-            if (cfg.url) {
-                panel.classList.add('loading');
-            } else {
-                spin.moveTo(panel);
-                return panel;
-            }
-        }
+        var panel,
+            breadCrumb;
 
         if (spin.xhr instanceof XMLHttpRequest) {
             spin.xhr.abort();
             delete spin.xhr;
         }
 
-        spin.xhr = new XMLHttpRequest();
+        cfg = generateConfig(cfg);
 
-        spin.xhr.addEventListener('load', function () {
-            setContent(panel, this.responseText);
-            panel.classList.remove('loading');
-        }, false);
+        if (cfg.panel) {
+            panel = cfg.panel;
+            spin.deleteAfter(panel);
+            setTitle(panel, cfg.title);
+            setContent(panel, cfg.content);
+        } else {
+            panel = generatePanel(cfg);
+            breadCrumb = generateBreadCrumb(panel.id, cfg.title);
+            document.getElementById('spin-nav').appendChild(breadCrumb);
+            document.getElementById('spin-panels').appendChild(panel);
+        }
 
-        spin.xhr.open('GET', cfg.url);
-        spin.xhr.send();
+        syncNav();
+
+        if (cfg.url) {
+
+            panel.classList.add('loading');
+
+            spin.xhr = new XMLHttpRequest();
+
+            spin.xhr.addEventListener('load', function () {
+                setContent(panel, this.responseText);
+                panel.classList.remove('loading');
+            }, false);
+
+            spin.xhr.addEventListener('abort', function () {
+                panel.classList.remove('loading');
+            }, false);
+
+            spin.xhr.open('GET', cfg.url);
+            spin.xhr.send();
+        }
 
         spin.moveTo(panel);
 

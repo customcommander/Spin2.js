@@ -80,6 +80,7 @@ body,
     padding-right: 1.5em;
     padding-left: 0.5em;
     cursor: pointer;
+    white-space: pre;
 }
 
 /* last panel, not visible */
