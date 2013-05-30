@@ -146,12 +146,11 @@
     }
 
     /**
-     * Generates and validates a panel configuration object
-     *
+     * Generates and/or validates a panel configuration object.
      * @private
      * @throws
-     * @param {Object} [cfg]
-     * @returns {Object} The configuration object
+     * @params {Object} [cfg] 
+     * @returns {Object}
      */
     function generateConfig(cfg) {
 
@@ -196,9 +195,10 @@
     }
 
     /**
-     * Replaces the title of the panel.
+     * Updates panel title
      * @private
-     * @param {String} title the new title
+     * @param {HTMLElement} panel
+     * @param {String} title
      */
     function setTitle(panel, title) {
 
@@ -214,9 +214,10 @@
     }
 
     /**
-     * Replaces the content of the panel.
+     * Updates panel content
      * @private
-     * @param {String} content the new html content
+     * @param {HTMLElement} panel
+     * @param {String} content
      */
     function setContent(panel, content) {
 
@@ -259,12 +260,12 @@
     }
 
      /**
-     * Generates a bread crumb
-     * @private
-     * @param {String} id    panel id
-     * @param {String} title panel title
-     * @returns {HTMLElement}
-     */
+      * Generates a bread crumb
+      * @private
+      * @param {String} id    panel id
+      * @param {String} title panel title
+      * @returns {HTMLElement}
+      */
     function generateBreadCrumb(id, title) {
         var el;
         el = document.createElement('li');
@@ -275,9 +276,9 @@
     }
 
     /**
-     * Generates a panel or updates it if given
+     * Generates a panel
      * @private
-     * @param {Object} cfg Panel configuration
+     * @param {Object} cfg Panel configuration object
      * @returns {HTMLElement} The panel that has been created
      */
     function generatePanel(cfg) {
@@ -304,11 +305,8 @@
     }
 
     /**
-     * Synchronises the navigation menu
-     *
-     * Makes sure that the navigation menu always reflects the
-     * current state of the view.
-     *
+     * Synchronises the navigation menu.
+     * Makes sure that the navigation menu always reflects the current state of the view.
      * @private
      */
     function syncNav() {
@@ -384,13 +382,14 @@
      *
      * @name window.spin
      * @function
-     * @param {Object} [cfg] Settings for the new panel
-     * @param {String} [cfg.content] Panel content (html)
-     * @param {String} [cfg.title] Panel title
+     * @throws
+     * @param {Object}                    [cfg]         - Panel configuration object. Defaults to {title:'',content:''}.
+     * @param {String}                    [cfg.title]   - Title of the panel (and its bread crumb). Defaults to an empty string.
+     * @param {String}                    [cfg.content] - Content of the panel. Defaults to an empty string.
+     * @param {String}                    [cfg.url]     - If given will fetch content from that url
+     * @param {String|Number|HTMLElement} [cfg.panel]   - If given will use that panel instead of creating a new one.
+
      * @returns {HTMLElement}
-     * @throws {Error} If cfg is passed and is not an object,
-     *                 or if content is passed and is not a string,
-     *                 or if title is passed and is not a string.
      */
     window.spin = function (cfg) {
 
