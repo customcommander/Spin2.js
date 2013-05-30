@@ -185,7 +185,7 @@
         }
 
         if (has(cfg, "url") && ( !isString(cfg.url) || !cfg.url.trim() )) {
-            throw new Error("cfg.url is not a valid");
+            throw new Error("cfg.url is not valid");
         }
 
         if (has(cfg, "panel")) {
