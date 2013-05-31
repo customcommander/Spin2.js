@@ -19,7 +19,9 @@ describe("spin() - in general", function () {
     });
 
     it("should make the panel visible", function () {
-        expect(panel.className).not.toMatch('hidden');
+        // a panel can be hidden either on the left or on the right
+        // the correponding css classes are "spin-hiddenleft" and "spin-hiddenright"
+        expect(panel.className).not.toMatch('spin-hidden');
     });
 
     it("should throw if cfg is given but not an object", function () {
