@@ -71,12 +71,6 @@ describe("spin() - config object", function () {
         it("should throw an error if given but not a string", function () {
             expect( spin.bind(null, { content: 999 }) ).toThrow();
         });
-
-        it("should execute embedded code", function () {
-            window.mySpy = jasmine.createSpy('My Spy');
-            spin({ content: "<script>window.mySpy();</script>" });
-            expect(window.mySpy).toHaveBeenCalled();
-        });
     });
 
     describe("cfg.url", function () {
@@ -103,6 +97,53 @@ describe("spin() - config object", function () {
         it("should throw an error if given but doesn't exist", function () {
             expect( spin.bind(null, { panel: 999 }) ).toThrow();
         });
+    });
+});
+
+// When code is part of the content (cfg.content) it has to be executed
+// when the panel is created an appended to the DOM.
+describe("spin() - with javascript", function () {
+
+    beforeEach(function () {
+        runs( AppHelper.clear );
+        runs( function () {
+            window.exec_count = 0;
+            spin({
+                title: 'exec_code_test',
+                content:
+                    '<script src="/shouldload.js"></script>' +
+                    '<div id="div1">' +
+                        '<script id="js1" type="text/javascript">window.exec_count++;</script>' +
+                        '<div id="div2">' +
+                            '<script id="js2" type="text/javascript">window.exec_count++;</script>' +
+                            '<div id="div3">' +
+                                '<script id="js3" type="text/javascript">window.exec_count++;</script>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>'
+            });
+        });
+        waitsFor( AppHelper.notMoving );
+    });
+
+    it("should execute all code", function () {
+        expect(window.exec_count).toBe(3);
+    });
+
+    it("should preserve original script nodes order", function () {
+        var div3 = document.querySelector("#div3"),
+            js3  = document.querySelector("#js3");
+        expect(js3.parentNode).toBe(div3);
+    });
+
+    it("should preserve original script nodes attributes", function () {
+        var js3 = document.querySelector("#js3");
+        expect(js3.type).toBe("text/javascript");
+    });
+
+    it("should load script", function () {
+        // See shouldload.js
+        expect(window.has_loaded).toBe(true);
     });
 });
 

@@ -233,28 +233,20 @@
 
         newcontent = document.createElement('div');
         newcontent.className = 'spin-panel-bd';
+        newcontent.innerHTML = content;
 
-        // In order to transform our html content string into proper dom nodes
-        cont = document.createElement('div');
-        cont.innerHTML = content;
-
-        list = cont.childNodes;
-
-        for (i=0, n=list.length; i<n; i++) {
-            child = list[i].cloneNode(true);
-            // We need to do some hackery with script tags.
-            // Even though it is now a node, the code won't be executed
-            // because it was initially created through innerHTML.
-            if (child.nodeName.toLowerCase() == 'script') {
-                child = document.createElement('script');
-                if (list[i].type) {
-                    child.type = list[i].type;
-                }
-                // Reinjects code properly this time.
-                child.appendChild(document.createTextNode(list[i].textContent));
-            }
-            newcontent.appendChild(child);
-        }
+        // We need to do some hackery with script tags.
+        // Even though it is now a node, the code won't be executed
+        // because it was initially created through innerHTML.
+        [].forEach.call(newcontent.querySelectorAll('script'), function (script) {
+            var newscript = document.createElement('script');
+            [].forEach.call(script.attributes, function (attr) {
+                newscript.setAttribute(attr.nodeName, attr.nodeValue);
+            });
+            // this way the code will be executed.
+            newscript.appendChild(document.createTextNode(script.textContent));
+            script.parentNode.replaceChild(newscript, script)
+        });
 
         panel.replaceChild(newcontent, oldcontent);
     }
