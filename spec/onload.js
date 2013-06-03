@@ -1,71 +1,57 @@
-/*
- * Describes the expectations when page has finished to load.
- */
-describe('On page load', function () {
 
-    /*
-     * Ensures that Spin.js API is there.
-     */
-    it('Spin is available', function () {
-        expect(window.spin).toBeFunction();
-        expect(window.spin.getPanel).toBeFunction();
-        expect(window.spin.getPanelState).toBeFunction();
-        expect(window.spin.moveTo).toBeFunction();
-        expect(window.spin.deleteAfter).toBeFunction();
+describe("spin api", function () {
+
+    it("should expose spin()", function () {
+        expect(spin).toBeFunction();
     });
 
-    it('Spin panel states are defined', function () {
-        expect(window.spin.PANEL_HIDDENRIGHT).toBe('hiddenright');
-        expect(window.spin.PANEL_HIDDENLEFT).toBe('hiddenleft');
-        expect(window.spin.PANEL_FULL).toBe('full');
-        expect(window.spin.PANEL_BIG).toBe('big');
-        expect(window.spin.PANEL_SMALL).toBe('small');
+    it("should expose spin.getPanel()", function () {
+        expect(spin.getPanel).toBeFunction();
     });
 
-    /*
-     * Spin.js should have dropped its markup on the page.
-     *
-     *  <body>
-     *      <div id="spin">
-     *          <div id="spin-nav"></div>
-     *          <div id="spin-panels"></div>
-     *      </div>
-     *  </body>
-     */
-    it('Spin markup has been dropped', function () {
-        var spinElt       = document.getElementById('spin'),
-            spinNavElt    = document.getElementById('spin-nav'),
-            spinPanelsElt = document.getElementById('spin-panels');
-
-        expect(spinElt).toBeDefined();
-        expect(spinNavElt).toBeDefined();
-        expect(spinPanelsElt).toBeDefined();
-        expect(spinElt.parentNode).toBe(document.body);
-        expect(spinElt.childNodes.length).toBe(2);
-        expect(spinElt.childNodes[0]).toBe(spinNavElt);
-        expect(spinElt.childNodes[1]).toBe(spinPanelsElt);
+    it("should expose spin.moveTo()", function () {
+        expect(spin.moveTo).toBeFunction();
     });
+});
 
-    /*
-     * Spin.js should load the first panel (home panel).
-     */
-    // @todo this test is not accurate. fix or remove.
-    xit('Home panel has loaded', function () {
+describe("spin html markup", function () {
 
-        // Waits for the panel to arrive
-        waitsFor(AppHelper.getHome, 'Timeout', 1000);
+    describe("main element", function () {
 
-        runs(function () {
-            var home = AppHelper.getHome();
-            expect(home).toBecomeFull('spin-hiddenright');
+        it("should be defined", function () {
+            expect(document.querySelector("#spin")).toBeDefined();
         });
 
-        // Waits for animation to finish
-        waitsFor(AppHelper.notMoving);
-
-        runs(function () {
-            var home = AppHelper.getHome();
-            expect(home).toBeFull();
+        it("should have two children", function () {
+            expect(document.querySelector("#spin").childNodes.length).toBe(2);
         });
+    });
+
+    describe("navigation element", function () {
+
+        it("should be defined", function () {
+            expect(document.querySelector("#spin-nav")).toBeDefined();
+        });
+
+        it("should be inside the main element", function () {
+            expect(document.querySelector("#spin-nav").parentNode).toBe(document.querySelector("#spin"));
+        });
+    });
+
+    describe("panels element", function () {
+
+        it("should be defined", function () {
+            expect(document.querySelector("#spin-panels")).toBeDefined();
+        });
+
+        it("should be inside the main element", function () {
+            expect(document.querySelector("#spin-panels").parentNode).toBe(document.querySelector("#spin"));
+        });
+    });
+});
+
+describe("home panel", function () {
+    it("should have loaded", function () {
+        expect(document.querySelector("#spin-panels").firstChild).toBeDefined();
     });
 });
