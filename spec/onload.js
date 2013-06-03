@@ -49,7 +49,8 @@ describe('On page load', function () {
     /*
      * Spin.js should load the first panel (home panel).
      */
-    it('Home panel has loaded', function () {
+    // @todo this test is not accurate. fix or remove.
+    xit('Home panel has loaded', function () {
 
         // Waits for the panel to arrive
         waitsFor(AppHelper.getHome, 'Timeout', 1000);
