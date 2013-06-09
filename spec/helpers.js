@@ -1,3 +1,16 @@
+// A non destructive way to spy on spin.
+// When doing a classic spyOn(window, 'spin')
+// it will remove every other static functions attached to it
+// like spin.getPanel, spin.moveTo, etc.
+function spinSpy() {
+    var spy, copy = spin;
+    spy = spyOn(window, 'spin');
+    Object.keys(copy).forEach(function (key) {
+        spy[key] = copy[key];
+    });
+    return spy;
+}
+
 function triggerEvent(type, el) {
     var ev = document.createEvent('Event');
     ev.initEvent(type, true, true);
