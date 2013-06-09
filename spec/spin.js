@@ -184,6 +184,11 @@ describe("spin() - with a panel", function () {
         expect(PanelHelper.getTitle(panel)).toBe("updated");
     });
 
+    it("should update its bread crumb", function () {
+        var panel = spin({ panel: 0, title: "updated" });
+        expect(PanelHelper.getBreadCrumb(panel)).toBe("updated");
+    });
+
     it("should update its content", function () {
         var panel = spin({ panel: 0, content: "<p>updated</p>" });
         expect(PanelHelper.getContent(panel)).toBe("<p>updated</p>");

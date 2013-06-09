@@ -260,6 +260,27 @@
         panel.replaceChild(newcontent, oldcontent);
     }
 
+    /**
+     * Returns panel bread crumb
+     * @private
+     * @returns {HTMLElement}
+     */
+    function getBreadCrumb(panel) {
+        return document.querySelector('#' + panel.id + '-crumb');
+    }
+
+    /**
+     * Updates panel bread crumb
+     * @private
+     * @param {HTMLElement} panel
+     * @param {String} title
+     */
+    function setBreadCrumb(panel, title) {
+        var crumb = getBreadCrumb(panel);
+        title = document.createTextNode(title);
+        crumb.replaceChild(title, crumb.lastChild);
+    }
+
      /**
       * Generates a bread crumb
       * @private
@@ -327,11 +348,6 @@
             return cl.contains('spin-' + spin.PANEL_FULL)
                 || cl.contains('spin-' + spin.PANEL_SMALL)
                 || cl.contains('spin-' + spin.PANEL_BIG);
-        }
-
-        // Helper - Returns the corresponding bread crumb
-        function getBreadCrumb(panel) {
-            return curNav.querySelector('#' + panel.id + '-crumb');
         }
 
         // Helper - Returns the css class for the bread crumb
@@ -407,6 +423,7 @@
         if (cfg.panel) {
             panel = cfg.panel;
             spin.deleteAfter(panel);
+            setBreadCrumb(panel, cfg.title);
             setTitle(panel, cfg.title);
             setContent(panel, cfg.content);
         } else {
