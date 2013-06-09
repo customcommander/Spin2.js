@@ -3,7 +3,7 @@
  * @fileoverview This is the source code for Spin.js
  * @author Julien Gonzalez
  */
-(function (window, doc) {
+(function (window, document) {
 
     var toString = Object.prototype.toString,
         spinId = 0;
@@ -70,7 +70,7 @@
                 '<ol id="spin-panels"></ol>' +
             '</div>';
         // Keeping references to these important elements.
-        elSpin   = doc.body.appendChild(outer.firstChild);
+        elSpin   = document.body.appendChild(outer.firstChild);
         elPanels = elSpin.lastChild;
     }
 
@@ -504,7 +504,7 @@
             elt = elPanels.childNodes[elt];
         }
         else if (isString(elt)) {
-            elt = doc.getElementById(elt);
+            elt = document.getElementById(elt);
         }
 
         while (isElement(elt)) {
@@ -668,8 +668,8 @@
         registerNavClickHandler();
         registerAnimationEndHandler();
         spin({
-            title: doc.body.dataset.title,
-            url: doc.body.dataset.url
+            title: document.body.dataset.title,
+            url: document.body.dataset.url
         });
     }, false);
 
