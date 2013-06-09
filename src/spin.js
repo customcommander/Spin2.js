@@ -80,21 +80,30 @@
      */
     function registerClickHandler() {
         elPanels.addEventListener('click', function (ev) {
-            var t = ev.target;
+            var t = ev.target, panel, cfg, prevNav;
             if (!t.classList.contains('nav')) {
                 return;
             }
+            panel = spin.getPanel(t);
             if (!t.classList.contains('loaded')) {
                 if (!t.dataset.url) {
                     throw new Error('no data-url attribute on a navigable element');
                 }
-                spin({
-                    url: t.dataset.url,
+                cfg = {
+                    url:   t.dataset.url,
                     title: t.dataset.title
-                });
+                };
+                prevNav = panel.querySelector('.nav.loaded');
+                if (prevNav) {
+                    prevNav.classList.remove('loaded');
+                }
+                if (panel.nextSibling) {
+                    cfg.panel = panel.nextSibling.id;
+                }
+                spin(cfg);
                 t.classList.add('loaded');
             } else {
-                spin.moveTo(spin.getPanel(t).nextSibling);
+                spin.moveTo(panel.nextSibling);
             }
         }, false);
     }
