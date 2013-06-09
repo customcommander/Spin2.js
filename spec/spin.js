@@ -46,6 +46,11 @@ describe("spin() - config object", function () {
             expect(PanelHelper.getTitle(panel)).toBe("Hello");
         });
 
+        it("should set the title of the bread crumb", function () {
+            var panel = spin({ title: "Hello" });
+            expect(PanelHelper.getBreadCrumb(panel)).toBe("Hello");
+        });
+
         it("should default to an empty string if not given", function () {
             var panel = spin();
             expect(PanelHelper.getTitle(panel)).toBe("");
