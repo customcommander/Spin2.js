@@ -145,7 +145,7 @@ var PanelHelper = {
         return panel.querySelector('.spin-panel-bd').innerHTML;
     },
     getBreadCrumb: function (panel) {
-        return document.getElementById(panel.id + '-crumb');
+        return document.getElementById(panel.id + '-crumb').innerHTML;
     }
 };
 
