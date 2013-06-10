@@ -557,7 +557,8 @@
             panel,
             panelState,
             state,
-            states;
+            states,
+            nextState;
 
         // Simple helper that works out whether state is hidden.
         function isHiddenState(state) {
