@@ -291,29 +291,23 @@ Error Panel
 
 
 .spin-item.nav {
-    background-image: url('item-arrow-black.png');
+    background-image: url('arrow-7-right.png');
     background-repeat: no-repeat;
-    background-position: right center;               
-    -webkit-background-origin: content;         /* old webkit syntax */    
-    -webkit-background-origin: content-box;     /* new webkit syntax */
-    -moz-background-origin: content;            /* old gecko syntax  */
-    background-origin: content-box;             /* new gecko syntax  */
+    background-position: right center;
+    -webkit-background-origin: border-box;     /* new webkit syntax */
+    background-origin: border-box;             /* new gecko syntax  */
     cursor: pointer;
 }
 
 .spin-item.nav:hover {  
 /** webkit ********************************************************************/
-    background-image: url('item-arrow-black.png'), -webkit-gradient(linear, left top, left bottom,from(#efefef),to(#d6d6d6));
-    -webkit-background-origin: content, border;
-    -webkit-background-origin: content-box, border-box;    
-/** gecko *********************************************************************/
-    background-image: url('item-arrow-black.png'), -moz-linear-gradient(center top , #EFEFEF, #D6D6D6);
-    -moz-background-origin: content, border;    
-/** no vendor prefix **********************************************************/
-    background-origin: content-box, border-box;    
+    background-image: url('arrow-7-right.png'), -webkit-gradient(linear, left top, left bottom,from(#efefef),to(#d6d6d6));
+    -webkit-background-origin: border-box, border-box;
 /** shared ********************************************************************/
-    background-repeat: no-repeat, repeat;    
-    background-attachment: scroll, scroll; 
+    background-image: url('arrow-7-right.png'), -moz-linear-gradient(center top , #EFEFEF, #D6D6D6);
+    background-origin: border-box, border-box;
+    background-repeat: no-repeat, repeat;
+    background-attachment: scroll, scroll;
     background-position: right center, 0 0;
 }
 
@@ -333,16 +327,14 @@ Error Panel
     background-position: 0 0;
 }
 
-.spin-item.loaded {    
-    background-image: url('item-arrow-black.png'), -moz-linear-gradient(center top , #186AB9, #6AA4DC);
-    background-image: url('item-arrow-black.png'), -webkit-gradient(linear, left top, left bottom,from(#186ab9),to(#6aa4dc));
+.spin-item.loaded {
+    background-image: url('arrow-7-right.png'), -moz-linear-gradient(center top , #186AB9, #6AA4DC);
+    background-image: url('arrow-7-right.png'), -webkit-gradient(linear, left top, left bottom,from(#186ab9),to(#6aa4dc));
     background-repeat: no-repeat, repeat;
     background-attachment: scroll, scroll; 
     background-position: right center, 0 0;
-    -webkit-background-origin: content, border;
-    -webkit-background-origin: content-box, border-box;
-    -moz-background-origin: content, border;
-    background-origin: content-box, border-box;
+    -webkit-background-origin: border-box, border-box;
+    background-origin: border-box, border-box;
 }
 
 /*///////////////////////////////////////////////////////////////////////////*/
