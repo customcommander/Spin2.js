@@ -231,12 +231,7 @@
     function setContent(panel, content) {
 
         var oldcontent,
-            newcontent,
-            cont,
-            i,
-            n,
-            list,
-            child;
+            newcontent;
 
         oldcontent = panel.querySelector('.spin-panel-bd');
 
