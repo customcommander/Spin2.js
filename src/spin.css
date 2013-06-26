@@ -337,6 +337,15 @@ Error Panel
     background-origin: border-box, border-box;
 }
 
+.spin-left-margin {
+    display: inline-block;
+    position: absolute;
+    top: 0.625em;
+    bottom: 0.625em;
+    left: 0.625em;
+    width: 1.25em;
+}
+
 /*///////////////////////////////////////////////////////////////////////////*/
 /*/// Panel Animation                                                     ///*/
 /*///////////////////////////////////////////////////////////////////////////*/
