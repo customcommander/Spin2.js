@@ -249,7 +249,7 @@
             });
             // this way the code will be executed.
             newscript.appendChild(document.createTextNode(script.textContent));
-            script.parentNode.replaceChild(newscript, script)
+            script.parentNode.replaceChild(newscript, script);
         });
 
         panel.replaceChild(newcontent, oldcontent);
