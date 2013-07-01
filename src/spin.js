@@ -340,9 +340,9 @@
         // Helper - Returns true if panel is visible
         function isVisible(panel) {
             var cl = panel.classList;
-            return cl.contains('spin-' + spin.PANEL_FULL)
-                || cl.contains('spin-' + spin.PANEL_SMALL)
-                || cl.contains('spin-' + spin.PANEL_BIG);
+            return cl.contains('spin-' + spin.PANEL_FULL) ||
+                cl.contains('spin-' + spin.PANEL_SMALL) ||
+                cl.contains('spin-' + spin.PANEL_BIG);
         }
 
         // Helper - Returns the css class for the bread crumb
@@ -485,12 +485,10 @@
      */
     spin.getPanel = function (elt) {
         if (
-            !arguments.length
-            || (
-                !isElement(elt)
-                && (!isString(elt) || !elt.trim())
-                && (!isNumber(elt) || !isFinite(elt))
-                )
+            !arguments.length || (
+                !isElement(elt) &&
+                (!isString(elt) || !elt.trim()) &&
+                (!isNumber(elt) || !isFinite(elt)))
             ) {
             throw new Error('bad function call');
         }
