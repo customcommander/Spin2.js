@@ -513,8 +513,7 @@
     /**
      * Returns the current state of corresponding panel.
      *
-     * @name spin.getPanelState
-     * @function
+     * @private
      * @param {Number|String|HTMLElement} elt
      * @returns {String} Current state of corresponding panel
      * @throws {Error} If panel has no state.
@@ -524,7 +523,7 @@
      * @see spin#PANEL_HIDDENRIGHT
      * @see spin#PANEL_HIDDENLEFT
      */
-    spin.getPanelState = function (elt) {
+    function getPanelState(elt) {
         var panel = spin.getPanel(elt);
         var cls = panel.classList;
         if (cls.contains('spin-' + spin.PANEL_FULL)) return spin.PANEL_FULL;
@@ -562,7 +561,7 @@
         // If a panel is currently hidden on one side and is going to stay hidden on the
         // other side, then we do not animate it but rather switch sides instead.
         function animate(panel, nextState) {
-            var curState = spin.getPanelState(panel);
+            var curState = getPanelState(panel);
 
             if (isHiddenState(curState) && isHiddenState(nextState)) {
                 // This wont animate but just swap sides instead.
@@ -580,7 +579,7 @@
         }
 
         dest      = spin.getPanel(elt);          // panel of destination
-        destState = spin.getPanelState(dest);    // current state of destination panel
+        destState = getPanelState(dest);    // current state of destination panel
 
         // Don't move if destination panel is already visible and either big or full
         if (destState == spin.PANEL_BIG || destState == spin.PANEL_FULL) {
@@ -609,7 +608,7 @@
                 nextState = states.shift() || 'hiddenleft';
                 animate(panel, nextState);
                 panel = panel.previousSibling;
-            } while (panel && spin.getPanelState(panel) != spin.PANEL_HIDDENLEFT);
+            } while (panel && getPanelState(panel) != spin.PANEL_HIDDENLEFT);
         }
         // Moving backward, right animation
         else {
@@ -633,7 +632,7 @@
                 nextState = states.shift() || 'hiddenright';
                 animate(panel, nextState);
                 panel = panel.nextSibling;
-            } while (panel && spin.getPanelState(panel) != spin.PANEL_HIDDENRIGHT);
+            } while (panel && getPanelState(panel) != spin.PANEL_HIDDENRIGHT);
         }
 
         return dest;
