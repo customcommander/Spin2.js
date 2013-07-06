@@ -417,7 +417,7 @@
 
         if (cfg.panel) {
             panel = cfg.panel;
-            spin.deleteAfter(panel);
+            deleteAfter(panel);
             setBreadCrumb(panel, cfg.title);
             setTitle(panel, cfg.title);
             setContent(panel, cfg.content);
@@ -641,13 +641,12 @@
     /**
      * Deletes all panels after corresponding panel.
      *
-     * @name spin.deleteAfter
-     * @function
+     * @private
      * @param {Number|String|HTMLElement} elt
      * @returns {HTMLElement}
      * @throws 'panel not found'
      */
-    spin.deleteAfter = function (elt) {
+    function deleteAfter(elt) {
         var panel = spin.getPanel(elt);
         while ( elPanels.lastChild != panel ) {
             elPanels.removeChild(elPanels.lastChild);
