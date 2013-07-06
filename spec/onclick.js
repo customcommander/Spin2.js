@@ -123,3 +123,45 @@ describe("click on a non nav element", function () {
         expect(spin).not.toHaveBeenCalled();
     });
 });
+
+// Makes sure that if we click on an element that is not defined as
+// a navigable element but is contained inside one that is,
+// we still handle the click correctly.
+describe("click inside a nav element", function () {
+
+    beforeEach(function () {
+        runs(AppHelper.clear);
+    });
+
+    it("should call spin", function () {
+        var panel;
+        runs(function () {
+            panel = spin({
+                title: 'click inside a nav element',
+                content:
+                    '<ol>' +
+                    '   <li class="nav" ' +
+                    '       data-title="Tube Map" ' +
+                    '       data-url="panel.tubemap.html">' +
+                    '       <ol>' +
+                    '           <li id="should_be_clickable">click</li>' +
+                    '       </ol>' +
+                    '   </li>' +
+                    '</ol>'
+            });
+        });
+
+        waitsFor(AppHelper.notMoving);
+
+        runs(function () {
+            spinSpy();
+            click(document.querySelector('#should_be_clickable'));
+            expect(spin).toHaveBeenCalledWith({
+                title: 'Tube Map',
+                url: 'panel.tubemap.html'
+            });
+        });
+
+        waitsFor(AppHelper.notMoving);
+    });
+});

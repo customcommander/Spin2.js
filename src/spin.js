@@ -58,6 +58,21 @@
         return !!o && o.parentNode === elPanels;
     }
 
+    // Looks for the nav element that contains el and returns it.
+    // Returns null if not found.
+    function getNav(el) {
+        if (!isElement(el)) {
+            return null;
+        }
+        do {
+            if (el.classList.contains('nav')) {
+                return el;
+            }
+            el = el.parentNode;
+        } while (el);
+        return null;
+    }
+
     /**
      * Drops Spin markup on the page.
      * @private
@@ -79,19 +94,27 @@
      * @private
      */
     function registerClickHandler() {
+
         elPanels.addEventListener('click', function (ev) {
-            var t = ev.target, panel, cfg, prevNav;
-            if (!t.classList.contains('nav')) {
+
+            var nav = getNav(ev.target),
+                panel,
+                cfg,
+                prevNav;
+
+            if (!nav) {
                 return;
             }
-            panel = spin.getPanel(t);
-            if (!t.classList.contains('loaded')) {
-                if (!t.dataset.url) {
+
+            panel = spin.getPanel(nav);
+
+            if (!nav.classList.contains('loaded')) {
+                if (!nav.dataset.url) {
                     throw new Error('no data-url attribute on a navigable element');
                 }
                 cfg = {
-                    url:   t.dataset.url,
-                    title: t.dataset.title
+                    url:   nav.dataset.url,
+                    title: nav.dataset.title
                 };
                 prevNav = panel.querySelector('.nav.loaded');
                 if (prevNav) {
@@ -101,7 +124,7 @@
                     cfg.panel = panel.nextSibling.id;
                 }
                 spin(cfg);
-                t.classList.add('loaded');
+                nav.classList.add('loaded');
             } else {
                 spin.moveTo(panel.nextSibling);
             }
