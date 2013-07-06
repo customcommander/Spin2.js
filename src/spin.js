@@ -555,7 +555,7 @@
         if (cls.contains('spin-' + spin.PANEL_HIDDENRIGHT)) return spin.PANEL_HIDDENRIGHT;
         if (cls.contains('spin-' + spin.PANEL_HIDDENLEFT)) return spin.PANEL_HIDDENLEFT;
         throw new Error('panel has no state');
-    };
+    }
 
     /**
      * Moves to corresponding panel.
@@ -675,7 +675,7 @@
             elPanels.removeChild(elPanels.lastChild);
         }
         return panel;
-    };
+    }
 
     window.addEventListener('load', function () {
         dropBaseMarkup();
