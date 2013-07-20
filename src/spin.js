@@ -112,10 +112,7 @@
                 if (!nav.dataset.url) {
                     throw new Error('no data-url attribute on a navigable element');
                 }
-                cfg = {
-                    url:   nav.dataset.url,
-                    title: nav.dataset.title
-                };
+                cfg = config.get(nav);
                 prevNav = panel.querySelector('.nav.loaded');
                 if (prevNav) {
                     prevNav.classList.remove('loaded');
