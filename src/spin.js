@@ -99,8 +99,7 @@
 
             var nav = getNav(ev.target),
                 panel,
-                cfg,
-                prevNav;
+                cfg;
 
             if (!nav) {
                 return;
@@ -110,9 +109,9 @@
 
             if (!nav.classList.contains('loaded')) {
                 cfg = config.get(nav);
-                prevNav = panel.querySelector('.nav.loaded');
-                if (prevNav) {
-                    prevNav.classList.remove('loaded');
+                // reset previously loaded nav item in the current panel (if any)
+                if (panel.querySelector('.nav.loaded')) {
+                    panel.querySelector('.nav.loaded').classList.remove('loaded');
                 }
                 if (panel.nextSibling) {
                     cfg.panel = panel.nextSibling.id;
