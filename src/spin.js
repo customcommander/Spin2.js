@@ -178,53 +178,83 @@
     }
 
     /**
-     * Generates and/or validates a panel configuration object.
+     * Generates, validates and normalizes the panel configuration object
      * @private
-     * @throws
-     * @params {Object} [cfg] 
-     * @returns {Object}
+     * @param {Object|HTMLElement} [o]
      */
-    function generateConfig(cfg) {
-
-        var defaults = {
-            title: '',
-            content: ''
-        };
-
-        function has(o, p) {
-            return o.hasOwnProperty(p);
+    function config(o) {
+        var cfg;
+        if (isUndefined(o)) { /*i.e. call with no argument*/
+            cfg = {};
+        } else if (isElement(o)) {
+            cfg = config.get(o);
+        } else {
+            cfg = o;
         }
-
-        if (isUndefined(cfg)) {
-            return defaults;
-        }
-
-        if (!isObject(cfg)) {
-            throw new Error("cfg is not valid");
-        }
-
-        cfg.title = has(cfg, "title") ? cfg.title : defaults.title;
-
-        if (!isString(cfg.title)) {
-            throw new Error("cfg.title is not valid");
-        }
-
-        cfg.content = has(cfg, "content") ? cfg.content : defaults.content;
-
-        if (!isString(cfg.content)) {
-            throw new Error("cfg.content is not valid");
-        }
-
-        if (has(cfg, "url") && ( !isString(cfg.url) || !cfg.url.trim() )) {
-            throw new Error("cfg.url is not valid");
-        }
-
-        if (has(cfg, "panel")) {
-            cfg.panel = spin.getPanel(cfg.panel);
-        }
-
+        cfg = config.validate(cfg);
+        cfg = config.defaults(cfg);
+        cfg = config.normalize(cfg);
         return cfg;
     }
+
+    /**
+     * @private
+     */
+    config.get = function (el) {
+        var cfg = {};
+        if (el.dataset.url) {
+            cfg.url = el.dataset.url;
+        }
+        if (el.dataset.title) {
+            cfg.title = el.dataset.title;
+        }
+        return cfg;
+    };
+
+    /**
+     * @private
+     */
+    config.validate = function (cfg) {
+        if (!isObject(cfg)) {
+            throw new Error('cfg is not an object');
+        }
+        if (cfg.hasOwnProperty('title') && !isString(cfg.title)) {
+            throw new Error('cfg.title looks dodgy');
+        }
+        if (cfg.hasOwnProperty('content') && !isString(cfg.content)) {
+            throw new Error('cfg.content looks dodgy');
+        }
+        if (cfg.hasOwnProperty('url') && (!isString(cfg.url) || !cfg.url.trim())) {
+            throw new Error('cfg.url looks dodgy');
+        }
+        if (cfg.hasOwnProperty('panel') && !isNumber(cfg.panel) && !isElement(cfg.panel) && !isString(cfg.panel)) {
+            throw new Error('cfg.panel looks dodgy');
+        }
+        return cfg;
+    };
+
+    /**
+     * @private
+     */
+    config.defaults = function (cfg) {
+        if (!cfg.hasOwnProperty('title')) {
+            cfg.title = '';
+        }
+        if (!cfg.hasOwnProperty('content')) {
+            cfg.content = '';
+        }
+        return cfg;
+    };
+
+    /**
+     * @private
+     */
+    config.normalize = function (cfg) {
+        if (cfg.hasOwnProperty('panel') && !isElement(cfg.panel)) {
+            cfg.panel = spin.getPanel(cfg.panel);
+        }
+        return cfg;
+    };
 
     /**
      * Updates panel title
@@ -436,7 +466,7 @@
             delete spin.xhr;
         }
 
-        cfg = generateConfig(cfg);
+        cfg = config(cfg);
 
         if (cfg.panel) {
             panel = cfg.panel;
@@ -682,10 +712,7 @@
         registerClickHandler();
         registerNavClickHandler();
         registerAnimationEndHandler();
-        spin({
-            title: document.body.dataset.title,
-            url: document.body.dataset.url
-        });
+        spin(config(document.body));
     }, false);
 
 })(window, document);
