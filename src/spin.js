@@ -695,12 +695,11 @@
      * Deletes all panels after corresponding panel.
      *
      * @private
-     * @param {Number|String|HTMLElement} elt
+     * @param {HTMLElement} panel
      * @returns {HTMLElement}
      * @throws 'panel not found'
      */
-    function deleteAfter(elt) {
-        var panel = spin.getPanel(elt);
+    function deleteAfter(panel) {
         while ( elPanels.lastChild != panel ) {
             elPanels.removeChild(elPanels.lastChild);
         }
