@@ -65,20 +65,6 @@ describe("click on a non loaded nav element (not last panel)", function () {
     });
 });
 
-describe("click on a non loaded nav element (all)", function () {
-
-    beforeEach(function () {
-        runs(AppHelper.restart);
-        waitsFor(AppHelper.notMoving);
-    });
-
-    it("should not call spin if there is no url", function () {
-        spinSpy();
-        click(document.querySelector("#piccadilly"));
-        expect(spin).not.toHaveBeenCalled();
-    });
-});
-
 describe("click on a loaded nav element", function () {
 
     beforeEach(function () {

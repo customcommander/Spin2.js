@@ -109,9 +109,6 @@
             panel = spin.getPanel(nav);
 
             if (!nav.classList.contains('loaded')) {
-                if (!nav.dataset.url) {
-                    throw new Error('no data-url attribute on a navigable element');
-                }
                 cfg = config.get(nav);
                 prevNav = panel.querySelector('.nav.loaded');
                 if (prevNav) {
