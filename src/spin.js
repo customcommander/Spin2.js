@@ -250,36 +250,54 @@
     };
 
     /**
+     * Generates a panel
+     * @private
+     * @param {Object} cfg Panel configuration object
+     * @returns {HTMLElement} The panel that has been created
+     */
+    function panel(cfg) {
+        var div, pnl;
+        spinId++;
+        div = document.createElement('div');
+        div.innerHTML =
+            '<li id="spin-id'+spinId+'" class="spin-panel spin-hiddenright">' +
+                '<div class="spin-panel-hd"></div>' +
+                '<div class="spin-panel-bd"></div>' +
+            '</li>';
+        pnl = div.firstChild;
+        panel.setTitle(pnl, cfg.title);
+        panel.setContent(pnl, cfg.content);
+        return pnl;
+    }
+
+    /**
      * Updates panel title
      * @private
-     * @param {HTMLElement} panel
-     * @param {String} title
+     * @param {HTMLElement} pnl corresponding dom element
+     * @param {String} title panel title
      */
-    function setTitle(panel, title) {
-
+    panel.setTitle = function (pnl, title) {
         var oldtitle, newtitle;
-
-        oldtitle = panel.querySelector('.spin-panel-hd');
-
+        oldtitle = pnl.querySelector('.spin-panel-hd');
         newtitle = document.createElement('div');
         newtitle.className = 'spin-panel-hd';
         newtitle.innerHTML = '<span class="spin-title">' + title + '</span>';
+        pnl.replaceChild(newtitle, oldtitle);
+    };
 
-        panel.replaceChild(newtitle, oldtitle);
-    }
 
     /**
      * Updates panel content
      * @private
-     * @param {HTMLElement} panel
+     * @param {HTMLElement} pnl corresponding dom element
      * @param {String} content
      */
-    function setContent(panel, content) {
+    panel.setContent = function (pnl, content) {
 
         var oldcontent,
             newcontent;
 
-        oldcontent = panel.querySelector('.spin-panel-bd');
+        oldcontent = pnl.querySelector('.spin-panel-bd');
 
         newcontent = document.createElement('div');
         newcontent.className = 'spin-panel-bd';
@@ -298,8 +316,44 @@
             script.parentNode.replaceChild(newscript, script);
         });
 
-        panel.replaceChild(newcontent, oldcontent);
-    }
+        pnl.replaceChild(newcontent, oldcontent);
+    };
+
+    /**
+     * Sets or unsets a panel loading state
+     * @private
+     * @param {HTMLElement} pnl corresponding dom element
+     * @param {Boolean} loading
+     */
+    panel.setLoading = function (pnl, loading) {
+        if (loading) {
+            pnl.classList.add('loading');
+        } else {
+            pnl.classList.remove('loading');
+        }
+    };
+
+    /**
+     * Appens a panel into the dom
+     * @private
+     * @param {HTMLElement} pnl corresponding dom element
+     */
+    panel.append = function (pnl) {
+        document.querySelector('#spin-panels').appendChild(pnl);
+    };
+
+    /**
+     * Deletes all panels after given panel.
+     * @private
+     * @param {HTMLElement} pnl corresponding dom element
+     * @returns {HTMLElement}
+     */
+    panel.deleteAfter = function (pnl) {
+        while ( elPanels.lastChild != pnl ) {
+            elPanels.removeChild(elPanels.lastChild);
+        }
+        return pnl;
+    };
 
     /**
      * Returns panel bread crumb
@@ -336,35 +390,6 @@
         el.className = 'crumb4';
         el.appendChild(document.createTextNode(title));
         return el;
-    }
-
-    /**
-     * Generates a panel
-     * @private
-     * @param {Object} cfg Panel configuration object
-     * @returns {HTMLElement} The panel that has been created
-     */
-    function generatePanel(cfg) {
-
-        var div,
-            panel;
-
-        spinId++;
-
-        div = document.createElement('div');
-
-        div.innerHTML =
-            '<li id="spin-id'+spinId+'" class="spin-panel spin-hiddenright">' +
-                '<div class="spin-panel-hd"></div>' +
-                '<div class="spin-panel-bd"></div>' +
-            '</li>';
-
-        panel = div.firstChild;
-
-        setTitle(panel, cfg.title);
-        setContent(panel, cfg.content);
-
-        return panel;
     }
 
     /**
@@ -451,7 +476,7 @@
      */
     window.spin = function (cfg) {
 
-        var panel,
+        var pnl, // panel
             breadCrumb;
 
         if (spin.xhr instanceof XMLHttpRequest) {
@@ -462,42 +487,42 @@
         cfg = config(cfg);
 
         if (cfg.panel) {
-            panel = cfg.panel;
-            deleteAfter(panel);
-            setBreadCrumb(panel, cfg.title);
-            setTitle(panel, cfg.title);
-            setContent(panel, cfg.content);
+            pnl = cfg.panel;
+            panel.deleteAfter(pnl);
+            setBreadCrumb(pnl, cfg.title);
+            panel.setTitle(pnl, cfg.title);
+            panel.setContent(pnl, cfg.content);
         } else {
-            panel = generatePanel(cfg);
-            breadCrumb = generateBreadCrumb(panel.id, cfg.title);
+            pnl = panel(cfg);
+            breadCrumb = generateBreadCrumb(pnl.id, cfg.title);
             document.getElementById('spin-nav').appendChild(breadCrumb);
-            document.getElementById('spin-panels').appendChild(panel);
+            panel.append(pnl);
         }
 
         syncNav();
 
         if (cfg.url) {
 
-            panel.classList.add('loading');
+            panel.setLoading(pnl, true);
 
             spin.xhr = new XMLHttpRequest();
 
             spin.xhr.addEventListener('load', function () {
-                setContent(panel, this.responseText);
-                panel.classList.remove('loading');
+                panel.setContent(pnl, this.responseText);
+                panel.setLoading(pnl, false);
             }, false);
 
             spin.xhr.addEventListener('abort', function () {
-                panel.classList.remove('loading');
+                panel.setLoading(pnl, false);
             }, false);
 
             spin.xhr.open('GET', cfg.url);
             spin.xhr.send();
         }
 
-        spin.moveTo(panel);
+        spin.moveTo(pnl);
 
-        return panel;
+        return pnl;
     };
 
     // Panel states
@@ -683,21 +708,6 @@
 
         return dest;
     };
-
-    /**
-     * Deletes all panels after corresponding panel.
-     *
-     * @private
-     * @param {HTMLElement} panel
-     * @returns {HTMLElement}
-     * @throws 'panel not found'
-     */
-    function deleteAfter(panel) {
-        while ( elPanels.lastChild != panel ) {
-            elPanels.removeChild(elPanels.lastChild);
-        }
-        return panel;
-    }
 
     window.addEventListener('load', function () {
         dropBaseMarkup();
