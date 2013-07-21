@@ -166,7 +166,7 @@
             panel.classList.remove(animCls);
             panel.classList.remove(oldCls);
             panel.classList.add(newCls);
-            syncNav();
+            breadcrumb.syncAll();
         });
     }
 
@@ -285,7 +285,6 @@
         pnl.replaceChild(newtitle, oldtitle);
     };
 
-
     /**
      * Updates panel content
      * @private
@@ -355,27 +354,6 @@
         return pnl;
     };
 
-    /**
-     * Returns panel bread crumb
-     * @private
-     * @returns {HTMLElement}
-     */
-    function getBreadCrumb(panel) {
-        return document.querySelector('#' + panel.id + '-crumb');
-    }
-
-    /**
-     * Updates panel bread crumb
-     * @private
-     * @param {HTMLElement} panel
-     * @param {String} title
-     */
-    function setBreadCrumb(panel, title) {
-        var crumb = getBreadCrumb(panel);
-        title = document.createTextNode(title);
-        crumb.replaceChild(title, crumb.lastChild);
-    }
-
      /**
       * Generates a bread crumb
       * @private
@@ -383,9 +361,8 @@
       * @param {String} title panel title
       * @returns {HTMLElement}
       */
-    function generateBreadCrumb(id, title) {
-        var el;
-        el = document.createElement('li');
+    function breadcrumb(id, title) {
+        var el = document.createElement('li');
         el.id = id + '-crumb';
         el.className = 'crumb4';
         el.appendChild(document.createTextNode(title));
@@ -393,13 +370,44 @@
     }
 
     /**
-     * Synchronises the navigation menu.
-     * Makes sure that the navigation menu always reflects the current state of the view.
+     * Returns bread crumb of given panel
+     * @private
+     * @param {HTMLElement} pnl panel dom element
+     * @returns {HTMLElement}
+     */
+    breadcrumb.get = function (pnl) {
+        return document.querySelector('#' + pnl.id + '-crumb');
+    };
+
+    /**
+     * Updates bread crumb title
+     * @private
+     * @param {HTMLElement} brd bread crumb dom element
+     * @param {String} title
+     */
+    breadcrumb.setTitle = function (brd, title) {
+        var oldtitle, newtitle;
+        oldtitle = brd.lastChild;
+        newtitle = document.createTextNode(title);
+        brd.replaceChild(newtitle, oldtitle);
+    };
+
+    /**
+     * Appends a bread crumb to the dom
+     * @private
+     * @param {HTMLElement} brd bread crumb dom element
+     */
+    breadcrumb.append = function (brd) {
+        document.querySelector('#spin-nav').appendChild(brd);
+    };
+
+    /**
+     * Synchronizes all bread crumbs with the current state of the view
      * @private
      */
-    function syncNav() {
+    breadcrumb.syncAll = function () {
 
-        var curNav = document.getElementById('spin-nav'),
+        var curNav = document.querySelector('#spin-nav'),
             newNav,
             frag;
 
@@ -421,11 +429,9 @@
         function getClassName(panel) {
             if (isLast(panel)) {
                 return isVisible(panel) ? 'crumb4' : 'crumb1';
-            }
-            else if (isVisible(panel)) {
+            } else if (isVisible(panel)) {
                 return isVisible(panel.nextSibling) ? 'crumb5' : 'crumb6';
-            }
-            else {
+            } else {
                 return isVisible(panel.nextSibling) ? 'crumb3' : 'crumb2';
             }
         }
@@ -436,9 +442,9 @@
         // of the panel is reflected on its corresponding bread crumb
         // in the navigation.
         [].forEach.call(elPanels.childNodes, function (panel) {
-            var breadcrumb = getBreadCrumb(panel).cloneNode(true);
-            breadcrumb.className = getClassName(panel);
-            frag.appendChild(breadcrumb);
+            var brd = breadcrumb.get(panel).cloneNode(true);
+            brd.className = getClassName(panel);
+            frag.appendChild(brd);
         });
 
         newNav = document.createElement('ol');
@@ -446,7 +452,7 @@
         newNav.appendChild(frag);
 
         elSpin.replaceChild(newNav, curNav);
-    }
+    };
 
     /**
      * Appends a new panel and returns it.
@@ -477,7 +483,7 @@
     window.spin = function (cfg) {
 
         var pnl, // panel
-            breadCrumb;
+            brd; // bread crumb
 
         if (spin.xhr instanceof XMLHttpRequest) {
             spin.xhr.abort();
@@ -488,18 +494,19 @@
 
         if (cfg.panel) {
             pnl = cfg.panel;
+            brd = breadcrumb.get(pnl);
             panel.deleteAfter(pnl);
-            setBreadCrumb(pnl, cfg.title);
+            breadcrumb.setTitle(brd, cfg.title);
             panel.setTitle(pnl, cfg.title);
             panel.setContent(pnl, cfg.content);
         } else {
             pnl = panel(cfg);
-            breadCrumb = generateBreadCrumb(pnl.id, cfg.title);
-            document.getElementById('spin-nav').appendChild(breadCrumb);
+            brd = breadcrumb(pnl.id, cfg.title);
+            breadcrumb.append(brd);
             panel.append(pnl);
         }
 
-        syncNav();
+        breadcrumb.syncAll();
 
         if (cfg.url) {
 
