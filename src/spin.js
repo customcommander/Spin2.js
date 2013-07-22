@@ -24,10 +24,6 @@
      */
     var elPanels;
 
-    if (window.spin) {
-        throw new Error('spin already exists');
-    }
-
     // Returns true if o is undefined
     function isUndefined(o) {
         return toString.call(o) == '[object Undefined]';
