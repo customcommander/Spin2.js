@@ -187,7 +187,9 @@
     }
 
     /**
+     * Gets a config object out of a dom element
      * @private
+     * @param {HTMLElement} el
      */
     config.get = function (el) {
         var cfg = {};
@@ -201,6 +203,9 @@
     };
 
     /**
+     * Makes sure that the configuration object is valid
+     * @param {Object} cfg key/value pairs object
+     * @returns {Object} the configuration object
      * @private
      */
     config.validate = function (cfg) {
@@ -223,7 +228,10 @@
     };
 
     /**
+     * Adds in default properties if they were not given
      * @private
+     * @param {Object} cfg key/value pairs object
+     * @returns {Object} the configuration object
      */
     config.defaults = function (cfg) {
         if (!cfg.hasOwnProperty('title')) {
@@ -236,7 +244,10 @@
     };
 
     /**
+     * Makes sure that values are what they are expected to be
      * @private
+     * @param {Object} cfg key/value pairs object
+     * @returns {Object} the configuration object
      */
     config.normalize = function (cfg) {
         if (cfg.hasOwnProperty('panel') && !isElement(cfg.panel)) {
