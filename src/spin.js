@@ -29,6 +29,11 @@
         return toString.call(o) == '[object Undefined]';
     }
 
+    // Returns true if o is a boolean
+    function isBoolean(o) {
+        return toString.call(o) == '[object Boolean]';
+    }
+
     // Returns true if o is a finite number
     function isNumber(o) {
         return toString.call(o) == '[object Number]' && isFinite(o);
@@ -224,6 +229,9 @@
         if (cfg.hasOwnProperty('panel') && !isNumber(cfg.panel) && !isElement(cfg.panel) && !isString(cfg.panel)) {
             throw new Error('cfg.panel looks dodgy');
         }
+        if (cfg.hasOwnProperty('error') && !isBoolean(cfg.error)) {
+            throw new Error('cfg.error looks dodgy');
+        }
         return cfg;
     };
 
@@ -239,6 +247,9 @@
         }
         if (!cfg.hasOwnProperty('content')) {
             cfg.content = '';
+        }
+        if (!cfg.hasOwnProperty('error')) {
+            cfg.error = false;
         }
         return cfg;
     };
@@ -274,6 +285,7 @@
         pnl = div.firstChild;
         panel.setTitle(pnl, cfg.title);
         panel.setContent(pnl, cfg.content);
+        panel.setError(pnl, cfg.error);
         return pnl;
     }
 
@@ -336,6 +348,20 @@
             pnl.classList.add('loading');
         } else {
             pnl.classList.remove('loading');
+        }
+    };
+
+    /**
+     * Sets or unsets a panel error state
+     * @private
+     * @param {HTMLElement} pnl corresponding dom element
+     * @param {Boolean} err
+     */
+    panel.setError = function (pnl, err) {
+        if (err) {
+            pnl.classList.add('error');
+        } else {
+            pnl.classList.remove('error');
         }
     };
 
@@ -484,7 +510,7 @@
      * @param {String}                    [cfg.content] - Content of the panel. Defaults to an empty string.
      * @param {String}                    [cfg.url]     - If given will fetch content from that url
      * @param {String|Number|HTMLElement} [cfg.panel]   - If given will use that panel instead of creating a new one.
-
+     * @param {Boolean}                   [cfg.error]   - If given will create an error panel
      * @returns {HTMLElement}
      */
     window.spin = function (cfg) {
@@ -506,6 +532,7 @@
             breadcrumb.setTitle(brd, cfg.title);
             panel.setTitle(pnl, cfg.title);
             panel.setContent(pnl, cfg.content);
+            panel.setError(pnl, cfg.error);
         } else {
             pnl = panel(cfg);
             brd = breadcrumb(pnl.id, cfg.title);

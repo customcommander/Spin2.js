@@ -103,6 +103,33 @@ describe("spin() - config object", function () {
             expect( spin.bind(null, { panel: 999 }) ).toThrow();
         });
     });
+
+    describe("cfg.error", function () {
+
+        it("should return an error panel", function () {
+            var panel = spin({ error: true });
+            expect(panel.classList.contains('error')).toBe(true);
+        });
+
+        it("should update an existing panel", function () {
+            runs(spin.bind(null, {}));
+            waitsFor(AppHelper.notMoving);
+            runs(spin.bind(null, { panel: 0, error: true }));
+            runs(function () {
+                var panel = spin.getPanel(0);
+                expect(panel.classList.contains('error')).toBe(true);
+            });
+        });
+
+        it("should throw if given but not a boolean", function () {
+            expect(spin.bind(null, { error: 999 })).toThrow();
+        });
+
+        it("should default to false", function () {
+            var panel = spin();
+            expect(panel.classList.contains('error')).toBe(false);
+        });
+    });
 });
 
 // When code is part of the content (cfg.content) it has to be executed
