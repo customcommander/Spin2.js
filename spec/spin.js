@@ -112,11 +112,19 @@ describe("spin() - config object", function () {
         });
 
         it("should update an existing panel", function () {
-            runs(spin.bind(null, {}));
-            waitsFor(AppHelper.notMoving);
-            runs(spin.bind(null, { panel: 0, error: true }));
+
+            // adds a panel
             runs(function () {
-                var panel = spin.getPanel(0);
+                spin();
+            });
+
+            // waits for the animation to finish
+            waitsFor(AppHelper.notMoving);
+
+            // we want to update the panel that we just added (0)
+            // and mark it as being an error panel.
+            runs(function () {
+                var panel = spin({ panel: 0, error: true });
                 expect(panel.classList.contains('error')).toBe(true);
             });
         });
