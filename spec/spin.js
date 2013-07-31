@@ -243,6 +243,28 @@ describe("spin() - with a panel", function () {
     });
 });
 
+describe("spin() - with an url", function () {
+
+    beforeEach(function () {
+        runs(AppHelper.clear);
+    });
+
+    afterEach(function () {
+        waitsFor(AppHelper.notMoving);
+    });
+
+    it("should display an error panel if url fails", function () {
+        var panel;
+        runs(function () {
+            panel = spin({ url: "404.html" });
+        });
+        waitsFor(AppHelper.notMoving);
+        runs(function () {
+            expect(panel.classList.contains('error')).toBe(true);
+        });
+    });
+});
+
 describe('the loading process', function () {
 
     beforeEach(function () {

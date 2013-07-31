@@ -548,12 +548,18 @@
 
             spin.xhr = new XMLHttpRequest();
 
-            spin.xhr.addEventListener('load', function () {
-                panel.setContent(pnl, this.responseText);
-                panel.setLoading(pnl, false);
-            }, false);
-
-            spin.xhr.addEventListener('abort', function () {
+            spin.xhr.addEventListener('loadend', function (e) {
+                if (this.status >= 400) { /* i.e. if error */
+                    spin({
+                        error: true,
+                        title: this.status + ' ' + this.statusText,
+                        content: '<p>Could not load ' + cfg.url +'</p>',
+                        panel: pnl.id
+                    });
+                } else {
+                    panel.setContent(pnl, this.responseText);
+                }
+                // whatever happened panel is not loading any more
                 panel.setLoading(pnl, false);
             }, false);
 
