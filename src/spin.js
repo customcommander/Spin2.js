@@ -387,6 +387,16 @@
         return pnl;
     };
 
+    /**
+     * True if given panel is the last one.
+     * @private
+     * @param {HTMLElement} pnl
+     * @returns {Boolean}
+     */
+    panel.isLast = function (pnl) {
+        return elPanels.lastChild === pnl;
+    };
+
      /**
       * Generates a bread crumb
       * @private
@@ -444,11 +454,6 @@
             newNav,
             frag;
 
-        // Helper - Returns true if panel is the last one
-        function isLast(panel) {
-            return !panel.nextSibling;
-        }
-
         // Helper - Returns true if panel is visible
         function isVisible(panel) {
             var cl = panel.classList;
@@ -459,13 +464,13 @@
 
         // Helper - Returns the css class for the bread crumb
         // according to its corresponding panel
-        function getClassName(panel) {
-            if (isLast(panel)) {
-                return isVisible(panel) ? 'crumb4' : 'crumb1';
-            } else if (isVisible(panel)) {
-                return isVisible(panel.nextSibling) ? 'crumb5' : 'crumb6';
+        function getClassName(pnl) {
+            if (panel.isLast(pnl)) {
+                return isVisible(pnl) ? 'crumb4' : 'crumb1';
+            } else if (isVisible(pnl)) {
+                return isVisible(pnl.nextSibling) ? 'crumb5' : 'crumb6';
             } else {
-                return isVisible(panel.nextSibling) ? 'crumb3' : 'crumb2';
+                return isVisible(pnl.nextSibling) ? 'crumb3' : 'crumb2';
             }
         }
 
