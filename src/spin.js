@@ -458,6 +458,22 @@
     };
 
     /**
+     * Returns the css class corresponding to the visibility of given panel.
+     * @private
+     * @param {HTMLElement} pnl
+     * @returns {String}
+     */
+    breadcrumb.getClassFromPanel = function (pnl) {
+        if (panel.isLast(pnl)) {
+            return panel.isVisible(pnl) ? 'crumb4' : 'crumb1';
+        } else if (panel.isVisible(pnl)) {
+            return panel.isVisible(pnl.nextSibling) ? 'crumb5' : 'crumb6';
+        } else {
+            return panel.isVisible(pnl.nextSibling) ? 'crumb3' : 'crumb2';
+        }
+    };
+
+    /**
      * Synchronizes all bread crumbs with the current state of the view
      * @private
      */
@@ -467,26 +483,14 @@
             newNav,
             frag;
 
-        // Helper - Returns the css class for the bread crumb
-        // according to its corresponding panel
-        function getClassName(pnl) {
-            if (panel.isLast(pnl)) {
-                return panel.isVisible(pnl) ? 'crumb4' : 'crumb1';
-            } else if (panel.isVisible(pnl)) {
-                return panel.isVisible(pnl.nextSibling) ? 'crumb5' : 'crumb6';
-            } else {
-                return panel.isVisible(pnl.nextSibling) ? 'crumb3' : 'crumb2';
-            }
-        }
-
         frag = document.createDocumentFragment();
 
         // We loop through all panels and make sure that the state
         // of the panel is reflected on its corresponding bread crumb
         // in the navigation.
-        [].forEach.call(elPanels.childNodes, function (panel) {
-            var brd = breadcrumb.get(panel).cloneNode(true);
-            brd.className = getClassName(panel);
+        [].forEach.call(elPanels.childNodes, function (pnl) {
+            var brd = breadcrumb.get(pnl).cloneNode(true);
+            brd.className = breadcrumb.getClassFromPanel(pnl);
             frag.appendChild(brd);
         });
 
