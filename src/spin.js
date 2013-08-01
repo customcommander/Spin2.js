@@ -388,6 +388,19 @@
     };
 
     /**
+     * True if given panel is currently visible.
+     * @private
+     * @param {HTMLElement} pnl
+     * @returns {Boolean}
+     */
+    panel.isVisible = function (pnl) {
+        var cl = pnl.classList;
+        return cl.contains('spin-' + spin.PANEL_FULL) ||
+               cl.contains('spin-' + spin.PANEL_SMALL) ||
+               cl.contains('spin-' + spin.PANEL_BIG);
+    };
+
+    /**
      * True if given panel is the last one.
      * @private
      * @param {HTMLElement} pnl
@@ -454,23 +467,15 @@
             newNav,
             frag;
 
-        // Helper - Returns true if panel is visible
-        function isVisible(panel) {
-            var cl = panel.classList;
-            return cl.contains('spin-' + spin.PANEL_FULL) ||
-                cl.contains('spin-' + spin.PANEL_SMALL) ||
-                cl.contains('spin-' + spin.PANEL_BIG);
-        }
-
         // Helper - Returns the css class for the bread crumb
         // according to its corresponding panel
         function getClassName(pnl) {
             if (panel.isLast(pnl)) {
-                return isVisible(pnl) ? 'crumb4' : 'crumb1';
-            } else if (isVisible(pnl)) {
-                return isVisible(pnl.nextSibling) ? 'crumb5' : 'crumb6';
+                return panel.isVisible(pnl) ? 'crumb4' : 'crumb1';
+            } else if (panel.isVisible(pnl)) {
+                return panel.isVisible(pnl.nextSibling) ? 'crumb5' : 'crumb6';
             } else {
-                return isVisible(pnl.nextSibling) ? 'crumb3' : 'crumb2';
+                return panel.isVisible(pnl.nextSibling) ? 'crumb3' : 'crumb2';
             }
         }
 
