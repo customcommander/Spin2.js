@@ -401,6 +401,30 @@
     };
 
     /**
+     * Returns the current visibility state of given panel
+     * @private
+     * @param {HTMLElement} pnl
+     * @returns {String}
+     */
+    panel.getVisibility = function (pnl) {
+        var state;
+        // we're not interested in css classes that don't relate to panel visibility
+        state = [].filter.call(pnl.classList, function (cls) {
+            return cls === 'spin-' + spin.PANEL_FULL ||
+                   cls === 'spin-' + spin.PANEL_BIG ||
+                   cls === 'spin-' + spin.PANEL_SMALL ||
+                   cls === 'spin-' + spin.PANEL_HIDDENRIGHT ||
+                   cls === 'spin-' + spin.PANEL_HIDDENLEFT;
+        });
+        // a panel must have one and only one visibility state
+        if (state.length!==1) {
+            throw new Error('panel visibility state looks dodgy');
+        }
+        // removes the 'spin-' prefix
+        return state[0].substr(5);
+    };
+
+    /**
      * True if given panel is the last one.
      * @private
      * @param {HTMLElement} pnl
@@ -643,30 +667,6 @@
     };
 
     /**
-     * Returns the current state of corresponding panel.
-     *
-     * @private
-     * @param {Number|String|HTMLElement} elt
-     * @returns {String} Current state of corresponding panel
-     * @throws {Error} If panel has no state.
-     * @see spin#PANEL_SMALL
-     * @see spin#PANEL_BIG
-     * @see spin#PANEL_FULL
-     * @see spin#PANEL_HIDDENRIGHT
-     * @see spin#PANEL_HIDDENLEFT
-     */
-    function getPanelState(elt) {
-        var panel = spin.getPanel(elt);
-        var cls = panel.classList;
-        if (cls.contains('spin-' + spin.PANEL_FULL)) return spin.PANEL_FULL;
-        if (cls.contains('spin-' + spin.PANEL_BIG)) return spin.PANEL_BIG;
-        if (cls.contains('spin-' + spin.PANEL_SMALL)) return spin.PANEL_SMALL;
-        if (cls.contains('spin-' + spin.PANEL_HIDDENRIGHT)) return spin.PANEL_HIDDENRIGHT;
-        if (cls.contains('spin-' + spin.PANEL_HIDDENLEFT)) return spin.PANEL_HIDDENLEFT;
-        throw new Error('panel has no state');
-    }
-
-    /**
      * Moves to corresponding panel.
      *
      * @name spin.moveTo
@@ -678,8 +678,8 @@
     spin.moveTo = function (elt) {
         var dest,
             destState,
-            panel,
-            panelState,
+            pnl,
+            pnlState,
             state,
             states,
             nextState;
@@ -692,37 +692,37 @@
         // Works out and adds the required css classes in order to animate the panels.
         // If a panel is currently hidden on one side and is going to stay hidden on the
         // other side, then we do not animate it but rather switch sides instead.
-        function animate(panel, nextState) {
-            var curState = getPanelState(panel);
+        function animate(pnl, nextState) {
+            var curState = panel.getVisibility(pnl);
 
             if (isHiddenState(curState) && isHiddenState(nextState)) {
                 // This wont animate but just swap sides instead.
                 // e.g. replaces 'spin-hiddenright' with 'spin-hiddenleft'
-                panel.classList.remove('spin-' + curState);
-                panel.classList.add('spin-' + nextState);
+                pnl.classList.remove('spin-' + curState);
+                pnl.classList.add('spin-' + nextState);
             }
             else {
                 // Works out the animation we need.
                 // If a panel is currently minimized (small) and has to
                 // disappear to the left (hiddenleft),
                 // we need this css animation: 'spin-small-hiddenleft'
-                panel.classList.add('spin-' + curState + '-' + nextState);
+                pnl.classList.add('spin-' + curState + '-' + nextState);
             }
         }
 
         dest      = spin.getPanel(elt);          // panel of destination
-        destState = getPanelState(dest);    // current state of destination panel
+        destState = panel.getVisibility(dest);    // current state of destination panel
 
         // Don't move if destination panel is already visible and either big or full
         if (destState == spin.PANEL_BIG || destState == spin.PANEL_FULL) {
             return dest;
         }
 
-        panel = dest;
+        pnl = dest;
 
         // Moving forward, left animation
         if (destState == spin.PANEL_HIDDENRIGHT) {
-            if (!panel.previousSibling) { /* i.e. home panel */
+            if (!pnl.previousSibling) { /* i.e. home panel */
                 // If home panel is the destination, it takes all the space.
                 // The only case where home panel is on the right is when
                 // it loads for the first time.
@@ -738,13 +738,13 @@
             // and the currently first visible panel.
             do {
                 nextState = states.shift() || 'hiddenleft';
-                animate(panel, nextState);
-                panel = panel.previousSibling;
-            } while (panel && getPanelState(panel) != spin.PANEL_HIDDENLEFT);
+                animate(pnl, nextState);
+                pnl = pnl.previousSibling;
+            } while (pnl && panel.getVisibility(pnl) != spin.PANEL_HIDDENLEFT);
         }
         // Moving backward, right animation
         else {
-            if (!panel.previousSibling) { /* i.e. home panel */
+            if (!pnl.previousSibling) { /* i.e. home panel */
                 // If home panel is the destination, it takes all the space
                 states = ['full'];
             }
@@ -755,16 +755,16 @@
 
                 // When moving backward we need to start looping from the panel
                 // sitting right before to the destination panel.
-                panel  = panel.previousSibling;
+                pnl  = pnl.previousSibling;
             }
 
             // Animates all panels between the panel sitting right before the
             // destination panel and the currently last visible panel.
             do {
                 nextState = states.shift() || 'hiddenright';
-                animate(panel, nextState);
-                panel = panel.nextSibling;
-            } while (panel && getPanelState(panel) != spin.PANEL_HIDDENRIGHT);
+                animate(pnl, nextState);
+                pnl = pnl.nextSibling;
+            } while (pnl && panel.getVisibility(pnl) != spin.PANEL_HIDDENRIGHT);
         }
 
         return dest;
