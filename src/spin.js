@@ -155,23 +155,6 @@
     }
 
     /**
-     * Handler for animation end events occuring inside Spin.
-     * @private
-     */
-    function registerAnimationEndHandler() {
-        elPanels.addEventListener('animationend', function (e) {
-            var panel   = e.target,
-                animCls = e.animationName,
-                oldCls  = 'spin-' + animCls.split('-')[1],
-                newCls  = 'spin-' + animCls.split('-')[2];
-            panel.classList.remove(animCls);
-            panel.classList.remove(oldCls);
-            panel.classList.add(newCls);
-            breadcrumb.syncAll();
-        });
-    }
-
-    /**
      * Generates, validates and normalizes the panel configuration object
      * @private
      * @param {Object|HTMLElement} [o]
@@ -422,6 +405,50 @@
         }
         // removes the 'spin-' prefix
         return state[0].substr(5);
+    };
+
+    /**
+     * Updates the visibility of given panel.
+     * Doing so could trigger a panel animation.
+     * @private
+     * @param {HTMLElement} pnl
+     * @param {String} vis the new visibility state
+     */
+    panel.setVisibility = function (pnl, vis) {
+        var cur = panel.getVisibility(pnl);
+        // small helper to work out if given visibility is hidden
+        function hiddenState(vis) {
+            return vis === spin.PANEL_HIDDENLEFT ||
+                   vis === spin.PANEL_HIDDENRIGHT;
+        }
+        // updates css class if currently hidden and stays hidden
+        // simply swap sides (spin-hiddenright <-> spin-hiddenleft)
+        if (hiddenState(cur) && hiddenState(vis)) {
+            pnl.classList.remove('spin-' + cur);
+            pnl.classList.add('spin-' + vis);
+        // otherwise works out the appropriate animation class
+        // e.g. if currently full and set to small
+        // corresponding anim class should be 'spin-full-small'
+        } else {
+            pnl.classList.add('spin-' + cur + '-' + vis);
+        }
+        pnl.addEventListener('animationend', panel.onAnimEnd, false);
+    };
+
+    /**
+     * Executes when panel animation has finished.
+     * @private
+     * @this {HTMLElement} panel
+     */
+    panel.onAnimEnd = function (e) {
+        var animCls = e.animationName;                 // e.g. spin-full-small
+        var oldCls  = 'spin-' + animCls.split('-')[1]; // e.g. spin-full
+        var newCls  = 'spin-' + animCls.split('-')[2]; // e.g. spin-small
+        this.classList.remove(animCls);
+        this.classList.remove(oldCls);
+        this.classList.add(newCls);
+        breadcrumb.syncAll();
+        this.removeEventListener('animationend', panel.onAnimEnd);
     };
 
     /**
@@ -684,32 +711,6 @@
             states,
             nextState;
 
-        // Simple helper that works out whether state is hidden.
-        function isHiddenState(state) {
-            return state == spin.PANEL_HIDDENLEFT || state == spin.PANEL_HIDDENRIGHT;
-        }
-
-        // Works out and adds the required css classes in order to animate the panels.
-        // If a panel is currently hidden on one side and is going to stay hidden on the
-        // other side, then we do not animate it but rather switch sides instead.
-        function animate(pnl, nextState) {
-            var curState = panel.getVisibility(pnl);
-
-            if (isHiddenState(curState) && isHiddenState(nextState)) {
-                // This wont animate but just swap sides instead.
-                // e.g. replaces 'spin-hiddenright' with 'spin-hiddenleft'
-                pnl.classList.remove('spin-' + curState);
-                pnl.classList.add('spin-' + nextState);
-            }
-            else {
-                // Works out the animation we need.
-                // If a panel is currently minimized (small) and has to
-                // disappear to the left (hiddenleft),
-                // we need this css animation: 'spin-small-hiddenleft'
-                pnl.classList.add('spin-' + curState + '-' + nextState);
-            }
-        }
-
         dest      = spin.getPanel(elt);          // panel of destination
         destState = panel.getVisibility(dest);    // current state of destination panel
 
@@ -738,7 +739,7 @@
             // and the currently first visible panel.
             do {
                 nextState = states.shift() || spin.PANEL_HIDDENLEFT;
-                animate(pnl, nextState);
+                panel.setVisibility(pnl, nextState);
                 pnl = pnl.previousSibling;
             } while (pnl && panel.getVisibility(pnl) != spin.PANEL_HIDDENLEFT);
         }
@@ -762,7 +763,7 @@
             // destination panel and the currently last visible panel.
             do {
                 nextState = states.shift() || spin.PANEL_HIDDENRIGHT;
-                animate(pnl, nextState);
+                panel.setVisibility(pnl, nextState);
                 pnl = pnl.nextSibling;
             } while (pnl && panel.getVisibility(pnl) != spin.PANEL_HIDDENRIGHT);
         }
@@ -774,7 +775,6 @@
         dropBaseMarkup();
         registerClickHandler();
         registerNavClickHandler();
-        registerAnimationEndHandler();
         spin(config(document.body));
     }, false);
 
