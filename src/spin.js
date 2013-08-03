@@ -394,10 +394,10 @@
      * @returns {Boolean}
      */
     panel.isVisible = function (pnl) {
-        var cl = pnl.classList;
-        return cl.contains('spin-' + spin.PANEL_FULL) ||
-               cl.contains('spin-' + spin.PANEL_SMALL) ||
-               cl.contains('spin-' + spin.PANEL_BIG);
+        var vis = panel.getVisibility(pnl);
+        return vis === spin.PANEL_FULL ||
+               vis === spin.PANEL_SMALL ||
+               vis === spin.PANEL_BIG;
     };
 
     /**
