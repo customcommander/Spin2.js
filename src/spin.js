@@ -471,6 +471,26 @@
         return elPanels.lastChild === pnl;
     };
 
+    /**
+     * Returns the panel following given panel.
+     * @private
+     * @param {HTMLElement} pnl
+     * @returns {HTMLElement}
+     */
+    panel.getNext = function (pnl) {
+        return pnl.nextSibling;
+    };
+
+    /**
+     * Returns the panel preceding given panel.
+     * @private
+     * @param {HTMLElement} pnl
+     * @returns {HTMLElement}
+     */
+    panel.getPrevious = function (pnl) {
+        return pnl.previousSibling;
+    };
+
      /**
       * Generates a bread crumb
       * @private
@@ -750,7 +770,7 @@
             do {
                 nextState = states.shift() || spin.PANEL_HIDDENLEFT;
                 panel.setVisibility(pnl, nextState);
-                pnl = pnl.previousSibling;
+                pnl = panel.getPrevious(pnl);
             } while (pnl && panel.getVisibility(pnl) != spin.PANEL_HIDDENLEFT);
         }
         // Moving backward, right animation
@@ -766,7 +786,7 @@
 
                 // When moving backward we need to start looping from the panel
                 // sitting right before to the destination panel.
-                pnl  = pnl.previousSibling;
+                pnl  = panel.getPrevious(pnl);
             }
 
             // Animates all panels between the panel sitting right before the
@@ -774,7 +794,7 @@
             do {
                 nextState = states.shift() || spin.PANEL_HIDDENRIGHT;
                 panel.setVisibility(pnl, nextState);
-                pnl = pnl.nextSibling;
+                pnl = panel.getNext(pnl);
             } while (pnl && panel.getVisibility(pnl) != spin.PANEL_HIDDENRIGHT);
         }
 
