@@ -431,8 +431,8 @@
         // corresponding anim class should be 'spin-full-small'
         } else {
             pnl.classList.add('spin-' + cur + '-' + vis);
+            pnl.addEventListener('animationend', panel.onAnimEnd, false);
         }
-        pnl.addEventListener('animationend', panel.onAnimEnd, false);
     };
 
     /**
