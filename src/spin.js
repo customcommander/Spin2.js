@@ -726,18 +726,18 @@
                 // If home panel is the destination, it takes all the space.
                 // The only case where home panel is on the right is when
                 // it loads for the first time.
-                states = ['full'];
+                states = [ spin.PANEL_FULL ];
             }
             else {
                 // The next state of the destination panel is big
                 // and the one on its left small.
-                states = ['big', 'small'];
+                states = [ spin.PANEL_BIG, spin.PANEL_SMALL ];
             }
 
             // Animates all panels between the destination panel
             // and the currently first visible panel.
             do {
-                nextState = states.shift() || 'hiddenleft';
+                nextState = states.shift() || spin.PANEL_HIDDENLEFT;
                 animate(pnl, nextState);
                 pnl = pnl.previousSibling;
             } while (pnl && panel.getVisibility(pnl) != spin.PANEL_HIDDENLEFT);
@@ -746,12 +746,12 @@
         else {
             if (!pnl.previousSibling) { /* i.e. home panel */
                 // If home panel is the destination, it takes all the space
-                states = ['full'];
+                states = [ spin.PANEL_FULL ];
             }
             else {
                 // The next state of the destination panel is big
                 // and the one on its left small.
-                states = ['small', 'big'];
+                states = [ spin.PANEL_SMALL, spin.PANEL_BIG ];
 
                 // When moving backward we need to start looping from the panel
                 // sitting right before to the destination panel.
@@ -761,7 +761,7 @@
             // Animates all panels between the panel sitting right before the
             // destination panel and the currently last visible panel.
             do {
-                nextState = states.shift() || 'hiddenright';
+                nextState = states.shift() || spin.PANEL_HIDDENRIGHT;
                 animate(pnl, nextState);
                 pnl = pnl.nextSibling;
             } while (pnl && panel.getVisibility(pnl) != spin.PANEL_HIDDENRIGHT);
