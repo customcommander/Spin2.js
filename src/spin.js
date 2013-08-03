@@ -452,6 +452,16 @@
     };
 
     /**
+     * True if given panel is the home panel (i.e. the first panel).
+     * @private
+     * @param {HTMLElement} pnl
+     * @returns {Boolean}
+     */
+    panel.isHome = function (pnl) {
+        return elPanels.firstChild === pnl;
+    };
+
+    /**
      * True if given panel is the last one.
      * @private
      * @param {HTMLElement} pnl
@@ -723,7 +733,7 @@
 
         // Moving forward, left animation
         if (destState == spin.PANEL_HIDDENRIGHT) {
-            if (!pnl.previousSibling) { /* i.e. home panel */
+            if (panel.isHome(pnl)) {
                 // If home panel is the destination, it takes all the space.
                 // The only case where home panel is on the right is when
                 // it loads for the first time.
@@ -745,7 +755,7 @@
         }
         // Moving backward, right animation
         else {
-            if (!pnl.previousSibling) { /* i.e. home panel */
+            if (panel.isHome(pnl)) {
                 // If home panel is the destination, it takes all the space
                 states = [ spin.PANEL_FULL ];
             }
