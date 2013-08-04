@@ -5,8 +5,14 @@
  */
 (function (window, document) {
 
-    var toString = Object.prototype.toString,
-        spinId = 0;
+    var toString = Object.prototype.toString;
+
+    /**
+     * Counter used to generate ids.
+     * @private
+     * @type {Number}
+     */
+    var spinId = 0;
 
     /**
      * Reference to #spin node
