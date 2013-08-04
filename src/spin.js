@@ -149,20 +149,13 @@
      * @todo merge with other click handler
      */
     function registerNavClickHandler() {
-
         var el = document.getElementById('spin');
-
         el.addEventListener('click', function (ev) {
-
-            var id, panel;
-
+            var id, pnl;
             if (isBreadCrumb(ev.target)) {
-                // extracting the panel id from the bread crumb id:
-                // "spin-id99-crumb" ~> "spin-id99"
-                id = ev.target.id;
-                id = id.substr(0, id.lastIndexOf('-'));
-                panel = document.getElementById(id);
-                spin.moveTo(panel);
+                id  = breadcrumb.getPanelId(ev.target);
+                pnl = document.getElementById(id);
+                spin.moveTo(pnl);
             }
         }, false);
     }
@@ -550,6 +543,18 @@
     breadcrumb.append = function (brd) {
         document.querySelector('#spin-nav').appendChild(brd);
     };
+
+    /**
+     * Returns the corresponding panel id.
+     * A breadcrumb id contains a reference to the panel it is linked to.
+     * @private
+     * @param {HTMLElement} brd
+     * @returns {String}
+     */
+    breadcrumb.getPanelId = function (brd) {
+        // "spin-id99-crumb" ~> "spin-id99"
+        return brd.id.substr(0, brd.id.lastIndexOf('-'));
+    }
 
     /**
      * Returns the css class corresponding to the visibility of given panel.
