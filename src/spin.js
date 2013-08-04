@@ -708,8 +708,7 @@
 
         if (isNumber(elt)) {
             elt = elPanels.childNodes[elt];
-        }
-        else if (isString(elt)) {
+        } else if (isString(elt)) {
             elt = document.getElementById(elt);
         }
 
@@ -741,8 +740,8 @@
             states,
             nextState;
 
-        dest      = spin.getPanel(elt);          // panel of destination
-        destState = panel.getVisibility(dest);    // current state of destination panel
+        dest      = spin.getPanel(elt);        // panel of destination
+        destState = panel.getVisibility(dest); // current state of destination panel
 
         // Don't move if destination panel is already visible and either big or full
         if (destState == spin.PANEL_BIG || destState == spin.PANEL_FULL) {
@@ -753,18 +752,14 @@
 
         // Moving forward, left animation
         if (destState == spin.PANEL_HIDDENRIGHT) {
+            // If home panel is the destination, it takes all the space.
+            // The only case where home panel is on the right is when it loads for the first time.
             if (panel.isHome(pnl)) {
-                // If home panel is the destination, it takes all the space.
-                // The only case where home panel is on the right is when
-                // it loads for the first time.
                 states = [ spin.PANEL_FULL ];
-            }
-            else {
-                // The next state of the destination panel is big
-                // and the one on its left small.
+            // The next state of the destination panel is big and the one on its left small.
+            } else {
                 states = [ spin.PANEL_BIG, spin.PANEL_SMALL ];
             }
-
             // Animates all panels between the destination panel
             // and the currently first visible panel.
             do {
@@ -772,23 +767,19 @@
                 panel.setVisibility(pnl, nextState);
                 pnl = panel.getPrevious(pnl);
             } while (pnl && panel.getVisibility(pnl) != spin.PANEL_HIDDENLEFT);
-        }
         // Moving backward, right animation
-        else {
+        } else {
+            // If home panel is the destination, it takes all the space
             if (panel.isHome(pnl)) {
-                // If home panel is the destination, it takes all the space
                 states = [ spin.PANEL_FULL ];
-            }
-            else {
-                // The next state of the destination panel is big
-                // and the one on its left small.
+            // The next state of the destination panel is big
+            // and the one on its left small.
+            } else {
                 states = [ spin.PANEL_SMALL, spin.PANEL_BIG ];
-
                 // When moving backward we need to start looping from the panel
                 // sitting right before to the destination panel.
                 pnl  = panel.getPrevious(pnl);
             }
-
             // Animates all panels between the panel sitting right before the
             // destination panel and the currently last visible panel.
             do {
