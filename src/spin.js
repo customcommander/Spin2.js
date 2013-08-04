@@ -65,6 +65,11 @@
         return !!o && o.parentNode === elPanels;
     }
 
+    // Returns true if o is a breadcrumb
+    function isBreadCrumb(o) {
+        return !!o && o.parentNode === document.querySelector('#spin-nav');
+    }
+
     // Looks for the nav element that contains el and returns it.
     // Returns null if not found.
     function getNav(el) {
@@ -150,11 +155,6 @@
         el.addEventListener('click', function (ev) {
 
             var id, panel;
-
-            function isBreadCrumb(el) {
-                //@todo look for "crumb" in css class also?
-                return el.parentNode.id === 'spin-nav';
-            }
 
             if (isBreadCrumb(ev.target)) {
                 // extracting the panel id from the bread crumb id:
