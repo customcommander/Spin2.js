@@ -106,8 +106,7 @@
      * @private
      */
     function registerClickHandler() {
-
-        elPanels.addEventListener('click', function (ev) {
+        document.querySelector('#spin').addEventListener('click', function (ev) {
             var nav, // nav element that contains the event target
                 pnl, // panel that contains the nav element
                 cfg; // new panel configuration
