@@ -430,8 +430,8 @@
         // e.g. if currently full and set to small
         // corresponding anim class should be 'spin-full-small'
         } else {
-            pnl.classList.add('spin-' + cur + '-' + vis);
             pnl.addEventListener('animationend', panel.onAnimEnd, false);
+            pnl.classList.add('spin-' + cur + '-' + vis);
         }
     };
 
