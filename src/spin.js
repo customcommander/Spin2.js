@@ -107,9 +107,17 @@
      */
     function registerClickHandler() {
         document.querySelector('#spin').addEventListener('click', function (ev) {
-            var nav, // nav element that contains the event target
+            var id,
+                nav, // nav element that contains the event target
                 pnl, // panel that contains the nav element
                 cfg; // new panel configuration
+
+            if (isBreadCrumb(ev.target)) {
+                id  = breadcrumb.getPanelId(ev.target);
+                pnl = document.getElementById(id);
+                spin.moveTo(pnl);
+                return;
+            }
 
             // The click might not have been made on the nav element itself
             // but on a child element instead. So we need to work out whether
@@ -138,23 +146,6 @@
             // has been loaded too. So we simply need to move there.
             } else {
                 spin.moveTo(panel.getNext(pnl));
-            }
-        }, false);
-    }
-
-    /**
-     * Register handler for clicks on bread crumbs.
-     * @private
-     * @todo merge with other click handler
-     */
-    function registerNavClickHandler() {
-        var el = document.getElementById('spin');
-        el.addEventListener('click', function (ev) {
-            var id, pnl;
-            if (isBreadCrumb(ev.target)) {
-                id  = breadcrumb.getPanelId(ev.target);
-                pnl = document.getElementById(id);
-                spin.moveTo(pnl);
             }
         }, false);
     }
@@ -804,7 +795,6 @@
     window.addEventListener('load', function () {
         dropBaseMarkup();
         registerClickHandler();
-        registerNavClickHandler();
         spin(config(document.body));
     }, false);
 
