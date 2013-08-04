@@ -697,34 +697,26 @@
      *
      * @name spin.getPanel
      * @function
-     * @param {HTMLElement|String|Number} elt
+     * @param {Number|HTMLElement|String} elt
      * @returns {HTMLElement}
      * @throws {Error} 'bad function call'
      * @throws {Error} 'panel not found'
      */
     spin.getPanel = function (elt) {
-        if (
-            !arguments.length || (
-                !isElement(elt) &&
-                (!isString(elt) || !elt.trim()) &&
-                (!isNumber(elt) || !isFinite(elt)))
-            ) {
+        if (!isNumber(elt) && !isElement(elt) && !isString(elt)) {
             throw new Error('bad function call');
         }
-
         if (isNumber(elt)) {
             elt = elPanels.childNodes[elt];
         } else if (isString(elt)) {
             elt = document.getElementById(elt);
         }
-
         while (isElement(elt)) {
             if (isPanel(elt)) {
                 return elt;
             }
             elt = elt.parentNode;
         }
-
         throw new Error('panel not found');
     };
 

@@ -403,8 +403,6 @@ describe('spin.moveTo(elt)', function () {
         }
 
         expect(badCall()).toThrow(badCallErr);
-        expect(badCall('')).toThrow(badCallErr);
-        expect(badCall('   ')).toThrow(badCallErr);
         expect(badCall(Infinity)).toThrow(badCallErr);
         expect(badCall(-Infinity)).toThrow(badCallErr);
         expect(badCall(NaN)).toThrow(badCallErr);
