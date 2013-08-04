@@ -103,30 +103,37 @@
     function registerClickHandler() {
 
         elPanels.addEventListener('click', function (ev) {
+            var nav, // nav element that contains the event target
+                pnl, // panel that contains the nav element
+                cfg; // new panel configuration
 
-            var nav = getNav(ev.target),
-                panel,
-                cfg;
+            // The click might not have been made on the nav element itself
+            // but on a child element instead. So we need to work out whether
+            // the click target is contained within a nav element.
+            nav = getNav(ev.target);
 
             if (!nav) {
                 return;
             }
 
-            panel = spin.getPanel(nav);
+            pnl = spin.getPanel(nav);
 
             if (!nav.classList.contains('loaded')) {
                 cfg = config.get(nav);
                 // reset previously loaded nav item in the current panel (if any)
-                if (panel.querySelector('.nav.loaded')) {
-                    panel.querySelector('.nav.loaded').classList.remove('loaded');
+                if (pnl.querySelector('.nav.loaded')) {
+                    pnl.querySelector('.nav.loaded').classList.remove('loaded');
                 }
-                if (panel.nextSibling) {
-                    cfg.panel = panel.nextSibling.id;
+                // we reuse the panel following the one from where the click originated
+                if (panel.getNext(pnl)) {
+                    cfg.panel = panel.getNext(pnl).id;
                 }
                 spin(cfg);
                 nav.classList.add('loaded');
+            // If nav is already loaded it means that the corresponding panel
+            // has been loaded too. So we simply need to move there.
             } else {
-                spin.moveTo(panel.nextSibling);
+                spin.moveTo(panel.getNext(pnl));
             }
         }, false);
     }
