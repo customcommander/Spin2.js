@@ -1,417 +1,458 @@
-describe('spin.moveTo(elt)', function () {
-
-    describe('Use Case', function () {
-
-        var panels = {};
-
-        // Case 1
-        it('Home panel loads', function () {
-            runs(AppHelper.restart);
-
-            waitsFor(function () {
-                panels.home = AppHelper.getHome();
-                return panels.home;
-            });
-
-            runs(function () {
-                expect(panels.home).toBecomeFull('spin-hiddenright');
-            });
-
-            waitsFor(AppHelper.notMoving);
-
-            runs(function () {
-                expect(panels.home).toBeFull();
-            });
+describe("spin.moveTo(elt)", function () {
+    beforeEach(function () {
+        runs(AppHelper.clear);
+        runs(function () {
+            spin({ content: '<p id="para1">foobar</p>' });
         });
-
-        // Case 2
-        it('Click on "Hammersmith & City Line"', function () {
-
-            runs(function () {
-                AppHelper.clickNav('hammersmithandcity');
-            });
-
-            waitsFor(function () {
-                panels.hammersmithAndCity = panels.home.nextSibling;
-                return panels.hammersmithAndCity;
-            });
-
-            runs(function () {
-                expect(panels.home).toBecomeSmall('spin-full');
-                expect(panels.hammersmithAndCity).toBecomeBig('spin-hiddenright');
-            });
-
-            waitsFor(AppHelper.notMoving);
-
-            runs(function () {
-                expect(panels.home).toBeSmall();
-                expect(panels.hammersmithAndCity).toBeBig();
-            });
-        });
-
-        // Case 3
-        it('Click on "Moorgate"', function () {
-
-            runs(function () {
-                AppHelper.clickNav('moorgate');
-            });
-
-            waitsFor(function () {
-                panels.moorgate = panels.hammersmithAndCity.nextSibling;
-                return panels.moorgate;
-            });
-
-            runs(function () {
-                expect(panels.home).toBecomeHiddenLeft('spin-small');
-                expect(panels.hammersmithAndCity).toBecomeSmall('spin-big');
-                expect(panels.moorgate).toBecomeBig('spin-hiddenright');
-            });
-
-            waitsFor(AppHelper.notMoving);
-
-            runs(function () {
-                expect(panels.home).toBeHiddenLeft();
-                expect(panels.hammersmithAndCity).toBeSmall();
-                expect(panels.moorgate).toBeBig();
-            });
-        });
-
-        // Case 4
-        it('Go back to "Hammersmith & City Line"', function () {
-
-            runs(function () {
-                spin.moveTo(panels.hammersmithAndCity);
-                expect(panels.home).toBecomeSmall('spin-hiddenleft');
-                expect(panels.hammersmithAndCity).toBecomeBig('spin-small');
-                expect(panels.moorgate).toBecomeHiddenRight('spin-big');
-            });
-
-            waitsFor(AppHelper.notMoving);
-
-            runs(function () {
-                expect(panels.home).toBeSmall();
-                expect(panels.hammersmithAndCity).toBeBig();
-                expect(panels.moorgate).toBeHiddenRight();
-            });
-        });
-
-        // Case 5
-        it('Go back to Home', function () {
-
-            runs(function () {
-                spin.moveTo(panels.home);
-                expect(panels.home).toBecomeFull('spin-small');
-                expect(panels.hammersmithAndCity).toBecomeHiddenRight('spin-big');
-                expect(panels.moorgate).toBeHiddenRight();
-            });
-
-            waitsFor(AppHelper.notMoving);
-
-            runs(function () {
-                expect(panels.home).toBeFull();
-                expect(panels.hammersmithAndCity).toBeHiddenRight();
-                expect(panels.moorgate).toBeHiddenRight();
-            });
-        });
-
-        // Case 6
-        it('Go back to "Moorgate"', function () {
-
-            runs(function () {
-                spin.moveTo(panels.moorgate);
-                expect(panels.home).toBecomeHiddenLeft('spin-full');
-                expect(panels.hammersmithAndCity).toBecomeSmall('spin-hiddenright');
-                expect(panels.moorgate).toBecomeBig('spin-hiddenright');
-            });
-
-            waitsFor(AppHelper.notMoving);
-
-            runs(function () {
-                expect(panels.home).toBeHiddenLeft();
-                expect(panels.hammersmithAndCity).toBeSmall();
-                expect(panels.moorgate).toBeBig();
-            });
-        });
-
-        // Case 7
-        // We need to load a new panel beforehand
-        it('Click on "Circle Line"', function () {
-
-            runs(function () {
-                AppHelper.clickNav('circle');
-            });
-
-            waitsFor(function () {
-                panels.circle = panels.moorgate.nextSibling;
-                return panels.circle;
-            }, 'panel is not available', 1000);
-
-            runs(function () {
-                expect(panels.home).toBeHiddenLeft();
-                expect(panels.hammersmithAndCity).toBecomeHiddenLeft('spin-small');
-                expect(panels.moorgate).toBecomeSmall('spin-big');
-                expect(panels.circle).toBecomeBig('spin-hiddenright');
-            });
-
-            waitsFor(AppHelper.notMoving);
-
-            runs(function () {
-                expect(panels.home).toBeHiddenLeft();
-                expect(panels.hammersmithAndCity).toBeHiddenLeft();
-                expect(panels.moorgate).toBeSmall();
-                expect(panels.circle).toBeBig();
-            });
-        });
-
-        it('Go back to "Hammersmith & City Line"', function () {
-
-            runs(function () {
-                spin.moveTo(panels.hammersmithAndCity);
-                expect(panels.home).toBecomeSmall('spin-hiddenleft');
-                expect(panels.hammersmithAndCity).toBecomeBig('spin-hiddenleft');
-                expect(panels.moorgate).toBecomeHiddenRight('spin-small');
-                expect(panels.circle).toBecomeHiddenRight('spin-big');
-            });
-
-            waitsFor(AppHelper.notMoving);
-
-            runs(function () {
-                expect(panels.home).toBeSmall();
-                expect(panels.hammersmithAndCity).toBeBig();
-                expect(panels.moorgate).toBeHiddenRight();
-                expect(panels.circle).toBeHiddenRight();
-            });
-        });
-
-        // Case 8
-        it('Go to "Circle Line"', function () {
-            runs(function () {
-                spin.moveTo(panels.circle);
-                expect(panels.home).toBecomeHiddenLeft('spin-small');
-                expect(panels.hammersmithAndCity).toBecomeHiddenLeft('spin-big');
-                expect(panels.moorgate).toBecomeSmall('spin-hiddenright');
-                expect(panels.circle).toBecomeBig('spin-hiddenright');
-            });
-
-            waitsFor(AppHelper.notMoving);
-
-            runs(function () {
-                expect(panels.home).toBeHiddenLeft();
-                expect(panels.hammersmithAndCity).toBeHiddenLeft();
-                expect(panels.moorgate).toBeSmall();
-                expect(panels.circle).toBeBig();
-            });
-        });
-
-        // Case 9
-        it('Go back to Home', function () {
-            runs(function () {
-                spin.moveTo(panels.home);
-                expect(panels.home).toBecomeFull('spin-hiddenleft');
-                expect(panels.hammersmithAndCity).toBeHiddenRight();
-                expect(panels.moorgate).toBecomeHiddenRight('spin-small');
-                expect(panels.circle).toBecomeHiddenRight('spin-big');
-            });
-
-            waitsFor(AppHelper.notMoving);
-
-            runs(function () {
-                expect(panels.home).toBeFull();
-                expect(panels.hammersmithAndCity).toBeHiddenRight();
-                expect(panels.moorgate).toBeHiddenRight();
-                expect(panels.circle).toBeHiddenRight();
-            });
-        });
-
-        // Case 10
-        it('Go to "Circle Line"', function () {
-
-            runs(function () {
-                spin.moveTo(panels.circle);
-                expect(panels.home).toBecomeHiddenLeft('spin-full');
-                expect(panels.hammersmithAndCity).toBeHiddenLeft();
-                expect(panels.moorgate).toBecomeSmall('spin-hiddenright');
-                expect(panels.circle).toBecomeBig('spin-hiddenright');
-            });
-
-            waitsFor(AppHelper.notMoving);
-
-            runs(function () {
-                expect(panels.home).toBeHiddenLeft();
-                expect(panels.hammersmithAndCity).toBeHiddenLeft();
-                expect(panels.moorgate).toBeSmall();
-                expect(panels.circle).toBeBig();
-            });
-        });
-
-        it('Click to "Monument"', function () {
-
-            runs(function () {
-                AppHelper.clickNav('monument');
-            });
-
-            waitsFor(function () {
-                panels.monument = panels.circle.nextSibling;
-                return panels.monument;
-            });
-
-            runs(function () {
-                expect(panels.home).toBeHiddenLeft();
-                expect(panels.hammersmithAndCity).toBeHiddenLeft();
-                expect(panels.moorgate).toBecomeHiddenLeft('spin-small');
-                expect(panels.circle).toBecomeSmall('spin-big');
-                expect(panels.monument).toBecomeBig('spin-hiddenright');
-            });
-
-            waitsFor(AppHelper.notMoving);
-
-            runs(function () {
-                expect(panels.home).toBeHiddenLeft();
-                expect(panels.hammersmithAndCity).toBeHiddenLeft();
-                expect(panels.moorgate).toBeHiddenLeft();
-                expect(panels.circle).toBeSmall();
-                expect(panels.monument).toBeBig();
-            });
-        });
-
-        it('Go back to "Moorgate"', function () {
-
-            runs(function () {
-                spin.moveTo(panels.moorgate);
-                expect(panels.home).toBeHiddenLeft();
-                expect(panels.hammersmithAndCity).toBecomeSmall('spin-hiddenleft');
-                expect(panels.moorgate).toBecomeBig('spin-hiddenleft');
-                expect(panels.circle).toBecomeHiddenRight('spin-small');
-                expect(panels.monument).toBecomeHiddenRight('spin-big');
-            });
-
-            waitsFor(AppHelper.notMoving);
-
-            runs(function () {
-                expect(panels.home).toBeHiddenLeft();
-                expect(panels.hammersmithAndCity).toBeSmall();
-                expect(panels.moorgate).toBeBig();
-                expect(panels.circle).toBeHiddenRight();
-                expect(panels.monument).toBeHiddenRight();
-            });
-        });
-
-        // Case 11
-        it('Go back to Home', function () {
-
-            runs(function () {
-                spin.moveTo(panels.home);
-                expect(panels.home).toBecomeFull('spin-hiddenleft');
-                expect(panels.hammersmithAndCity).toBecomeHiddenRight('spin-small');
-                expect(panels.moorgate).toBecomeHiddenRight('spin-big');
-                expect(panels.circle).toBeHiddenRight();
-                expect(panels.monument).toBeHiddenRight();
-            });
-
-            waitsFor(AppHelper.notMoving);
-
-            runs(function () {
-                expect(panels.home).toBeFull();
-                expect(panels.hammersmithAndCity).toBeHiddenRight();
-                expect(panels.moorgate).toBeHiddenRight();
-                expect(panels.circle).toBeHiddenRight();
-                expect(panels.monument).toBeHiddenRight();
-            });
-        });
-
-        it('Go to "Circle Line"', function () {
-
-            runs(function () {
-                spin.moveTo(panels.circle);
-                expect(panels.home).toBecomeHiddenLeft('spin-full');
-                expect(panels.hammersmithAndCity).toBeHiddenLeft();
-                expect(panels.moorgate).toBecomeSmall('spin-hiddenright');
-                expect(panels.circle).toBecomeBig('spin-hiddenright');
-                expect(panels.monument).toBeHiddenRight();
-            });
-
-            waitsFor(AppHelper.notMoving);
-
-            runs(function () {
-                expect(panels.home).toBeHiddenLeft();
-                expect(panels.hammersmithAndCity).toBeHiddenLeft();
-                expect(panels.moorgate).toBeSmall();
-                expect(panels.circle).toBeBig();
-                expect(panels.monument).toBeHiddenRight();
-            });
-        });
-
-        // We should not move if we try to go to a panel that is big or full
-        it('Does not move if we go to a panel that is big or full', function () {
-
-            // The "Circle Line" panel should already be 'big' at this point.
-            runs(function () {
-                spin.moveTo(panels.circle);
-                expect(panels.home).toBeHiddenLeft();
-                expect(panels.hammersmithAndCity).toBeHiddenLeft();
-                expect(panels.moorgate).toBeSmall();
-                expect(panels.circle).toBeBig();
-                expect(panels.monument).toBeHiddenRight();
-            });
-
-            // Home panel should currently be hidden on the left and moving there will expand it to 'full'.
-            // We're not testing panels states again as this is already toroughly done above.
-            runs(function () {
-                spin.moveTo(panels.home);
-            });
-
-            // Waiting for the animation to finish.
-            waitsFor(AppHelper.notMoving);
-
-            // At this point Home panel should be 'full' and moving to there should have no effect.
-            runs(function () {
-                spin.moveTo(panels.home);
-                expect(panels.home).toBeFull();
-                expect(panels.hammersmithAndCity).toBeHiddenRight();
-                expect(panels.moorgate).toBeHiddenRight();
-                expect(panels.circle).toBeHiddenRight();
-                expect(panels.monument).toBeHiddenRight();
-            });
-        });
-    }); // describe: Use Case
-
-
-    it('Returns the corresponding panel', function () {
-        expect(spin.moveTo(0)).toBe(spin.getPanel(0));
+        waitsFor(AppHelper.notMoving);
     });
-
-    it('Throws an error if corresponding panel cannot be found', function () {
-        var notFoundErr = new Error('panel not found');
-
-        function notFound(elt) {
-            return spin.moveTo.bind({}, elt);
-        }
-
-        // Valid calls but we are not expecting to find a panel
-        expect(notFound('unknown_id')).toThrow(notFoundErr);
-        expect(notFound(document.body)).toThrow(notFoundErr);
-        expect(notFound(-999)).toThrow(notFoundErr);
-        expect(notFound(999)).toThrow(notFoundErr);
+    it("should return the corresponding panel", function () {
+        var panel = spin.moveTo(document.querySelector(".spin-panel"));
+        expect(panel).toBe(document.querySelector(".spin-panel"));
     });
-
-    it('Throws an error if a bad call is made', function () {
-
-        var badCallErr  = new Error('bad function call');
-
-        function badCall(elt) {
-            return spin.moveTo.bind({}, elt);
-        }
-
-        expect(badCall()).toThrow(badCallErr);
-        expect(badCall(Infinity)).toThrow(badCallErr);
-        expect(badCall(-Infinity)).toThrow(badCallErr);
-        expect(badCall(NaN)).toThrow(badCallErr);
-        expect(badCall(null)).toThrow(badCallErr);
-        expect(badCall(undefined)).toThrow(badCallErr);
-        expect(badCall(true)).toThrow(badCallErr);
-        expect(badCall(false)).toThrow(badCallErr);
-        expect(badCall([])).toThrow(badCallErr);
-        expect(badCall({})).toThrow(badCallErr);
-        expect(badCall(function () {})).toThrow(badCallErr);
+    it("should accept a number", function () {
+        var panel = spin.moveTo(0);
+        expect(panel).toBe(document.querySelector(".spin-panel"));
     });
-});// describe
+    it("should accept an id", function () {
+        var panel = spin.moveTo("para1");
+        expect(panel).toBe(document.querySelector(".spin-panel"));
+    });
+    it("should accept an element", function () {
+        var panel = spin.moveTo(document.querySelector("#para1"));
+        expect(panel).toBe(document.querySelector(".spin-panel"));
+    });
+    it("should throw if number is out of range", function () {
+        expect(function () {
+            spin.moveTo(99); }).toThrow();
+    });
+    it("should throw if id is not found", function () {
+        expect(function () {
+            spin.moveTo("unknown_id"); }).toThrow();
+    });
+    it("should throw if element is not within a panel", function () {
+        expect(function () {
+            spin.moveTo(document.body); }).toThrow();
+    });
+});
+
+describe("spin.moveTo()", function () {
+    beforeEach(function () {
+        runs(AppHelper.clear);
+    });
+    it("should not move if destination is already in full view", function () {
+        runs(spin);
+        waitsFor(AppHelper.notMoving);
+        runs(function () {
+            var panel = spin.moveTo(0);
+            expect(thisAnim(panel)).toBe("");
+        });
+    });
+    it("should not move if destination is already in big view", function () {
+        runs(spin);
+        waitsFor(AppHelper.notMoving);
+        runs(spin);
+        waitsFor(AppHelper.notMoving);
+        runs(function () {
+            var panel = spin.moveTo(1);
+            expect(thisAnim(panel)).toBe("");
+        });
+    });
+});
+
+/******************************************************************************/
+/*** Animation Tests Suite ****************************************************/
+/******************************************************************************/
+
+// All the css animation classes
+var anims = [
+    'spin-small-hiddenleft',
+    'spin-hiddenleft-small',
+    'spin-big-hiddenleft',
+    'spin-hiddenleft-big',
+    'spin-full-hiddenleft',
+    'spin-hiddenleft-full',
+    'spin-small-hiddenright',
+    'spin-hiddenright-small',
+    'spin-big-hiddenright',
+    'spin-hiddenright-big',
+    'spin-full-hiddenright',
+    'spin-hiddenright-full',
+    'spin-big-small',
+    'spin-small-big',
+    'spin-full-small',
+    'spin-small-full'
+];
+
+// All the css visibility classes
+var states = [
+    'spin-full',
+    'spin-big',
+    'spin-small',
+    'spin-hiddenright',
+    'spin-hiddenleft'
+];
+
+// Returns the animation class set on the panel
+function thisAnim(pnl) {
+    return [].filter.call(pnl.classList, function (cls) {
+        return anims.indexOf(cls)>-1; }).join();
+}
+
+// Returns the visibility class set on the panel
+function thisState(pnl) {
+    return [].filter.call(pnl.classList, function (cls) {
+        return states.indexOf(cls)>-1; }).join();
+}
+
+describe("moving a panel: small ~> hiddenleft", function () {
+    beforeEach(function () {
+        runs(AppHelper.clear);
+        runs(spin); // 0: full
+        waitsFor(AppHelper.notMoving);
+        runs(spin); // 0: small, 1: big
+        waitsFor(AppHelper.notMoving);
+        runs(spin); // 0: hiddenleft (to test), 1: small, 2: big
+    });
+    it("should have the corresponding animation class", function () {
+        var panel = spin.getPanel(0);
+        expect(thisAnim(panel)).toBe("spin-small-hiddenleft");
+    });
+    it("should end up hidden on the left", function () {
+        waitsFor(AppHelper.notMoving);
+        runs(function () {
+            var panel = spin.getPanel(0);
+            expect(thisState(panel)).toBe("spin-hiddenleft");
+        });
+    });
+});
+
+describe("moving a panel: hiddenleft ~> small", function () {
+    beforeEach(function () {
+        runs(AppHelper.clear);
+        runs(spin);         // 0: full
+        waitsFor(AppHelper.notMoving);
+        runs(spin);         // 0: small, 1: big
+        waitsFor(AppHelper.notMoving);
+        runs(spin);         // 0: hiddenleft, 1: small, 2: big
+        waitsFor(AppHelper.notMoving);
+        runs(function () {  // 0: small (to test), 1: big, 2: hiddenright
+            spin.moveTo(1);
+        });
+    });
+    it("should have the corresponding animation class", function () {
+        var panel = spin.getPanel(0);
+        expect(thisAnim(panel)).toBe("spin-hiddenleft-small");
+    });
+    it("should end up being small", function () {
+        waitsFor(AppHelper.notMoving);
+        runs(function () {
+            var panel = spin.getPanel(0);
+            expect(thisState(panel)).toBe("spin-small");
+        });
+    });
+});
+
+describe("moving a panel: big ~> hiddenleft", function () {
+    beforeEach(function () {
+        runs(AppHelper.clear);
+        runs(spin);         // 0: full
+        waitsFor(AppHelper.notMoving);
+        runs(spin);         // 0: small, 1: big
+        waitsFor(AppHelper.notMoving);
+        runs(spin);         // 0: hiddenleft, 1: small, 2: big
+        waitsFor(AppHelper.notMoving);
+        runs(spin);         // 0: hiddenleft, 1: hiddenleft, 2: small, 3: big
+        waitsFor(AppHelper.notMoving);
+        runs(function () {
+            spin.moveTo(1); // 0: small, 1: big, 2: hiddenright, 3: hiddenright
+        });
+        waitsFor(AppHelper.notMoving);
+        runs(function () {
+            spin.moveTo(3); // 0: hiddenleft, 1: hiddenleft (to test), 2: small, 3: big
+        });
+    });
+    it("should have the corresponding animation class", function () {
+        var panel = spin.getPanel(1);
+        expect(thisAnim(panel)).toBe("spin-big-hiddenleft");
+    });
+    it("should end up being hidden on the left", function () {
+        waitsFor(AppHelper.notMoving);
+        runs(function () {
+            var panel = spin.getPanel(1);
+            expect(thisState(panel)).toBe("spin-hiddenleft");
+        });
+    });
+});
+
+describe("moving a panel: hiddenleft ~> big", function () {
+    beforeEach(function () {
+        runs(AppHelper.clear);
+        runs(spin);         // 0: full
+        waitsFor(AppHelper.notMoving);
+        runs(spin);         // 0: small, 1: big
+        waitsFor(AppHelper.notMoving);
+        runs(spin);         // 0: hiddenleft, 1: small, 2: big
+        waitsFor(AppHelper.notMoving);
+        runs(spin);         // 0: hiddenleft, 1: hiddenleft, 2: small, 3: big
+        waitsFor(AppHelper.notMoving);
+        runs(function () {  // 0: small, 1: big (to test), 2: hiddenright, 3: hiddenright
+            spin.moveTo(1);
+        })
+    });
+    it("should have the corresponding animation class", function () {
+        var panel = spin.getPanel(1);
+        expect(thisAnim(panel)).toBe("spin-hiddenleft-big");
+    });
+    it("should end up being big", function () {
+        waitsFor(AppHelper.notMoving);
+        runs(function () {
+            var panel = spin.getPanel(1);
+            expect(thisState(panel)).toBe("spin-big");
+        });
+    });
+});
+
+describe("moving a panel: full ~> hiddenleft", function () {
+    beforeEach(function () {
+        runs(AppHelper.clear);
+        runs(spin);         // 0: full
+        waitsFor(AppHelper.notMoving);
+        runs(spin);         // 0: small, 1: big
+        waitsFor(AppHelper.notMoving);
+        runs(spin);         // 0: hiddenleft, 1: small, 2: big
+        waitsFor(AppHelper.notMoving);
+        runs(function () {  // 0: full, 1: hiddenright, 2: hiddenright
+            spin.moveTo(0); 
+        });
+        waitsFor(AppHelper.notMoving);
+        runs(function () {  // 0: hiddenleft (to test), 1: small, 2: big
+            spin.moveTo(2);
+        });
+    });
+    it("should have the corresponding animation class", function () {
+        var panel = spin.getPanel(0);
+        expect(thisAnim(panel)).toBe("spin-full-hiddenleft");
+    });
+    it("should end up being hidden on the left", function () {
+        waitsFor(AppHelper.notMoving);
+        runs(function () {
+            var panel = spin.getPanel(0);
+            expect(thisState(panel)).toBe("spin-hiddenleft");
+        });
+    });
+});
+
+describe("moving a panel: hiddenleft ~> full", function () {
+    beforeEach(function () {
+        runs(AppHelper.clear);
+        runs(spin);         // 0: full
+        waitsFor(AppHelper.notMoving);
+        runs(spin);         // 0: small, 1: big
+        waitsFor(AppHelper.notMoving);
+        runs(spin);         // 0: hiddenleft, 1: small, 2: big
+        waitsFor(AppHelper.notMoving);
+        runs(function () {  // 0: full (to test), 1: hiddenright, 2: hiddenright
+            spin.moveTo(0);
+        });
+    });
+    it("should have the corresponding animation class", function () {
+        var panel = spin.moveTo(0);
+        expect(thisAnim(panel)).toBe("spin-hiddenleft-full");
+    });
+    it("should end up being full", function () {
+        waitsFor(AppHelper.notMoving);
+        runs(function () {
+            var panel = spin.moveTo(0);
+            expect(thisState(panel)).toBe("spin-full");
+        });
+    });
+});
+
+describe("moving a panel: small ~> hiddenright", function () {
+    beforeEach(function () {
+        runs(AppHelper.clear);
+        runs(spin);         // 0: full
+        waitsFor(AppHelper.notMoving);
+        runs(spin);         // 0: small, 1: big
+        waitsFor(AppHelper.notMoving);
+        runs(spin);         // 0: hiddenleft, 1: small, 2: big
+        waitsFor(AppHelper.notMoving);
+        runs(function () {  // 0: full, 1: hiddenright (to test), 2: hiddenright
+            spin.moveTo(0);
+        });
+    });
+    it("should have the corresponding animation class", function () {
+        var panel = spin.getPanel(1);
+        expect(thisAnim(panel)).toBe("spin-small-hiddenright");
+    });
+    it("should end up being hidden on the right", function () {
+        waitsFor(AppHelper.notMoving);
+        runs(function () {
+            var panel = spin.getPanel(1);
+            expect(thisState(panel)).toBe("spin-hiddenright")
+        });
+    });
+});
+
+describe("moving a panel: hiddenright ~> small", function () {
+    beforeEach(function () {
+        runs(AppHelper.clear);
+        runs(spin);         // 0: full
+        waitsFor(AppHelper.notMoving);
+        runs(spin);         // 0: small, 1: big
+        waitsFor(AppHelper.notMoving);
+        runs(spin);         // 0: hiddenleft, 1: small, 2: big
+        waitsFor(AppHelper.notMoving);
+        runs(function () {  // 0: full, 1: hiddenright, 2: hiddenright
+            spin.moveTo(0);
+        });
+        waitsFor(AppHelper.notMoving);
+        runs(function () {  // 0: hiddenleft, 1: small (to test), 2: big
+            spin.moveTo(2);
+        });
+    });
+    it("should have the corresponding animation class", function () {
+        var panel = spin.getPanel(1);
+        expect(thisAnim(panel)).toBe("spin-hiddenright-small");
+    });
+    it("should end up being small", function () {
+        waitsFor(AppHelper.notMoving);
+        runs(function () {
+            var panel = spin.getPanel(1);
+            expect(thisState(panel)).toBe("spin-small");
+        });
+    });
+});
+
+describe("moving a panel: big ~> hiddenright", function () {
+    beforeEach(function () {
+        runs(AppHelper.clear);
+        runs(spin);         // 0: full
+        waitsFor(AppHelper.notMoving);
+        runs(spin);         // 0: small, 1: big
+        waitsFor(AppHelper.notMoving);
+        runs(function () {  // 0: full, 1: hiddenright (to test)
+            spin.moveTo(0);
+        });
+    });
+    it("should have the corresponding animation class", function () {
+        var panel = spin.getPanel(1);
+        expect(thisAnim(panel)).toBe("spin-big-hiddenright");
+    });
+    it("should end up being hidden on the right", function () {
+        waitsFor(AppHelper.notMoving)
+        runs(function () {
+            var panel = spin.getPanel(1);
+            expect(thisState(panel)).toBe("spin-hiddenright");
+        });
+    });
+});
+
+describe("moving a panel: hiddenright ~> big", function () {
+    beforeEach(function () {
+        runs(AppHelper.clear);
+        runs(spin); // 0: full
+        waitsFor(AppHelper.notMoving);
+        runs(spin); // 0: small, 1: big (to test, was: hiddenright)
+    });
+    it("should have the corresponding animation class", function () {
+        var panel = spin.getPanel(1);
+        expect(thisAnim(panel)).toBe("spin-hiddenright-big");
+    });
+    it("should end up being big", function () {
+        waitsFor(AppHelper.notMoving);
+        runs(function () {
+            var panel = spin.getPanel(1);
+            expect(thisState(panel)).toBe("spin-big")
+        });
+    });
+});
+
+describe("moving a panel: hiddenright ~> full", function () {
+    beforeEach(function () {
+        runs(AppHelper.clear);
+        runs(spin); // 0: full (to test, was: hiddenright)
+    });
+    it("should have the corresponding animation class", function () {
+        var panel = spin.getPanel(0);
+        expect(thisAnim(panel)).toBe("spin-hiddenright-full");
+    });
+    it("should end up being full", function () {
+        waitsFor(AppHelper.notMoving);
+        runs(function () {
+            var panel = spin.getPanel(0);
+            expect(thisState(panel)).toBe("spin-full");
+        });
+    });
+});
+
+describe("moving a panel: small ~> big", function () {
+    beforeEach(function () {
+        runs(AppHelper.clear);
+        runs(spin);         // 0: full
+        waitsFor(AppHelper.notMoving);
+        runs(spin);         // 0: small, 1: big
+        waitsFor(AppHelper.notMoving);
+        runs(spin);         // 0: hiddenleft, 1: small, 2: big
+        waitsFor(AppHelper.notMoving);
+        runs(function () {  // 0: small, 1: big (to test), 2: hiddenright
+            spin.moveTo(1);
+        });
+    });
+    it("should have the corresponding animation class", function () {
+        var panel = spin.getPanel(1);
+        expect(thisAnim(panel)).toBe("spin-small-big");
+    });
+    it("should end up being big", function () {
+        waitsFor(AppHelper.notMoving);
+        runs(function () {
+            var panel = spin.getPanel(1);
+            expect(thisState(panel)).toBe("spin-big");
+        });
+    });
+});
+
+describe("moving a panel: full ~> small", function () {
+    beforeEach(function () {
+        runs(AppHelper.clear);
+        runs(spin); // 0: full
+        waitsFor(AppHelper.notMoving);
+        runs(spin); // 0: small (to test), 1: big
+    });
+    it("should have the corresponding animation class", function () {
+        var panel = spin.getPanel(0);
+        expect(thisAnim(panel)).toBe("spin-full-small");
+    });
+    it("should end up being small", function () {
+        waitsFor(AppHelper.notMoving);
+        runs(function () {
+            var panel = spin.getPanel(0);
+            expect(thisState(panel)).toBe("spin-small");
+        });
+    });
+});
+
+describe("moving a panel: small ~> full", function () {
+    beforeEach(function () {
+        runs(AppHelper.clear);
+        runs(spin);         // 0: full
+        waitsFor(AppHelper.notMoving);
+        runs(spin);         // 0: small, 1: big
+        waitsFor(AppHelper.notMoving);
+        runs(function () {  // 0: full (to test), 1: hiddenright
+            spin.moveTo(0);
+        });
+    });
+    it("should have the corresponding animation class", function () {
+        var panel = spin.getPanel(0);
+        expect(thisAnim(panel)).toBe("spin-small-full");
+    });
+    it("should end up being full", function () {
+        waitsFor(AppHelper.notMoving);
+        runs(function () {
+            var panel = spin.getPanel(0);
+            expect(thisState(panel)).toBe("spin-full");
+        });
+    });
+});
