@@ -77,7 +77,8 @@
             return null;
         }
         do {
-            if (el.classList.contains('nav')) {
+            // only element nodes have a classList property
+            if (isElement(el) && el.classList.contains('nav')) {
                 return el;
             }
             el = el.parentNode;
