@@ -545,7 +545,7 @@
     breadcrumb.getPanelId = function (brd) {
         // "spin-id99-crumb" ~> "spin-id99"
         return brd.id.substr(0, brd.id.lastIndexOf('-'));
-    }
+    };
 
     /**
      * Returns the css class corresponding to the visibility of given panel.
