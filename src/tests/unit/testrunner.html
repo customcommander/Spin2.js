@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<script src="http://yui.yahooapis.com/3.14.1/build/yui/yui-min.js"></script>
+
+<script>
+YUI({
+    modules: {
+        'spinjs-css-combo': {
+            fullpath: '../../combo.css',
+            type: 'css'
+        },
+        'spinjs-css-base': {
+            fullpath: '../../spin.css',
+            type: 'css'
+        },
+        'spinjs': {
+            fullpath: '../../spin.js',
+            requires: ['spinjs-css-combo', 'spinjs-css-base']
+        },
+        'onload-tests': {
+            fullpath: './js/onload-tests.js',
+            requires: ['test', 'node', 'spinjs']
+        }
+    }
+}).use('onload-tests', function (Y) {
+    Y.Test.Runner.run();
+});
+</script>
+
+</head>
+
+<body data-url="./assets/panels/home.html"></body>
+
+</html>
