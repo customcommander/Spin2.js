@@ -1,6 +1,6 @@
 {
     "test_page": "index.html",
     "routes": {
-        "/src": "../src"
+        "/build": "../build"
     }
 }
