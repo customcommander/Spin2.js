@@ -56,7 +56,7 @@ function isElement(o) {
 
 // Returns true if o is a panel
 function isPanel(o) {
-    return !!o && o.parentNode === elPanels;
+    return !!o && o.parentNode.id === 'spin-panels';
 }
 
 // Returns true if o is a breadcrumb
