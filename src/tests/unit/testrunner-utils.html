@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://yui.yahooapis.com/3.14.1/build/yui/yui-min.js"></script>
+<script>
+YUI({
+    modules: {
+        'spinjs-utils': {
+            fullpath: '../../js/utils.js'
+        },
+        'utils-tests': {
+            fullpath: './js/utils-tests.js',
+            requires: ['test', 'node', 'spinjs-utils']
+        }
+    }
+}).use('utils-tests', function (Y) {
+    Y.Test.Runner.run();
+});
+</script>
+</head>
+<body></body>
+</html>
