@@ -8,29 +8,6 @@
 
 var toString = Object.prototype.toString;
 
-/**
- * Counter used to generate ids.
- * @private
- * @type {Number}
- */
-var spinId = 0;
-
-/**
- * Reference to #spin node
- * @private
- * @see dropBaseMarkup
- * @type {HTMLElement}
- */
-var elSpin;
-
-/**
- * Reference to #spin-panels node
- * @private
- * @see dropBaseMarkup
- * @type {HTMLElement}
- */
-var elPanels;
-
 // Returns true if o is undefined
 function isUndefined(o) {
     return toString.call(o) == '[object Undefined]';
@@ -86,6 +63,32 @@ function getNav(el) {
     } while (el);
     return null;
 }
+
+
+/**
+ * Counter used to generate ids.
+ * @private
+ * @type {Number}
+ */
+var spinId = 0;
+
+/**
+ * Reference to #spin node
+ * @private
+ * @see dropBaseMarkup
+ * @type {HTMLElement}
+ */
+var elSpin;
+
+/**
+ * Reference to #spin-panels node
+ * @private
+ * @see dropBaseMarkup
+ * @type {HTMLElement}
+ */
+var elPanels;
+
+
 
 /**
  * Drops Spin markup on the page.
