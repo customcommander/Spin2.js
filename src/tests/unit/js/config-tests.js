@@ -87,6 +87,28 @@ suite.add(new Y.Test.Case({
     }
 }));
 
+suite.add(new Y.Test.Case({
+
+    name: "config.defaults(cfg)",
+
+    "adds default values if they are not present": function () {
+        var cfg = {};
+        cfg = config.defaults(cfg);
+        Y.ObjectAssert.ownsKeys(['title','content','error'], cfg, 'some default values have not been added');
+        Y.Assert.areSame(''   , cfg.title  , 'expected default value for title to be an empty string');
+        Y.Assert.areSame(''   , cfg.content, 'expected default value for content to be an empty string');
+        Y.Assert.areSame(false, cfg.error  , 'expected default value for error to be false');
+    },
+
+    "do not touch existing values": function () {
+        var cfg = { title: 'aa', content: 'bb', error: true };
+        cfg = config.defaults(cfg);
+        Y.Assert.areSame('aa', cfg.title  , 'expected cfg.title to be "aa"');
+        Y.Assert.areSame('bb', cfg.content, 'expected cfg.content to be "bb"');
+        Y.Assert.areSame(true, cfg.error  , 'expected cfg.error to be true')
+    }
+}));
+
 Y.Test.Runner.add(suite);
 
 });
