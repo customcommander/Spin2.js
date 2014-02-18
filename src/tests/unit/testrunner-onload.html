@@ -1,43 +1,13 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
+<script src="./js/yui_config.js"></script>
 <script src="http://yui.yahooapis.com/3.14.1/build/yui/yui-min.js"></script>
-
 <script>
-YUI({
-    modules: {
-        'spinjs-css-combo': {
-            fullpath: '../../css/combo.css',
-            type: 'css'
-        },
-        'spinjs-css-base': {
-            fullpath: '../../css/spin.css',
-            type: 'css'
-        },
-        'spinjs-utils': {
-            fullpath: '../../js/utils.js'
-        },
-        'spinjs-config': {
-            fullpath: '../../js/config.js'
-        },
-        'spinjs': {
-            fullpath: '../../js/spin.js',
-            requires: ['spinjs-css-combo', 'spinjs-css-base', 'spinjs-utils', 'spinjs-config']
-        },
-        'onload-tests': {
-            fullpath: './js/onload-tests.js',
-            requires: ['test', 'node', 'spinjs']
-        }
-    }
-}).use('onload-tests', function (Y) {
+YUI().use('onload-tests', function (Y) {
     Y.Test.Runner.run();
 });
 </script>
-
 </head>
-
 <body data-url="./assets/panels/home.html"></body>
-
 </html>
