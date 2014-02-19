@@ -169,16 +169,6 @@ config.normalize = function (cfg) {
 var spinId = 0;
 
 /**
- * Reference to #spin-panels node
- * @private
- * @see dropBaseMarkup
- * @type {HTMLElement}
- */
-var elPanels;
-
-
-
-/**
  * Drops Spin markup on the page.
  * @private
  */
@@ -189,8 +179,7 @@ function dropBaseMarkup() {
             '<ol id="spin-nav"></ol>' +
             '<ol id="spin-panels"></ol>' +
         '</div>';
-    // Keeping references to these important elements.
-    elPanels = document.body.appendChild(outer.firstChild).lastChild;
+    document.body.appendChild(outer.firstChild);
 }
 
 /**
