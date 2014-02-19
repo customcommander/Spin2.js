@@ -160,76 +160,12 @@ config.normalize = function (cfg) {
     return cfg;
 };
 
-
 /**
  * Counter used to generate ids.
  * @private
  * @type {Number}
  */
 var spinId = 0;
-
-/**
- * Drops Spin markup on the page.
- * @private
- */
-function dropBaseMarkup() {
-    var outer = document.createElement('div');
-    outer.innerHTML =
-        '<div id="spin">' +
-            '<ol id="spin-nav"></ol>' +
-            '<ol id="spin-panels"></ol>' +
-        '</div>';
-    document.body.appendChild(outer.firstChild);
-}
-
-/**
- * Handler for click events occuring inside Spin.
- * @private
- */
-function registerClickHandler() {
-    document.querySelector('#spin').addEventListener('click', function (ev) {
-        var id,
-            nav, // nav element that contains the event target
-            pnl, // panel that contains the nav element
-            cfg; // new panel configuration
-
-        if (isBreadCrumb(ev.target)) {
-            id  = breadcrumb.getPanelId(ev.target);
-            pnl = document.getElementById(id);
-            spin.moveTo(pnl);
-            return;
-        }
-
-        // The click might not have been made on the nav element itself
-        // but on a child element instead. So we need to work out whether
-        // the click target is contained within a nav element.
-        nav = getNav(ev.target);
-
-        if (!nav) {
-            return;
-        }
-
-        pnl = spin.getPanel(nav);
-
-        if (!nav.classList.contains('loaded')) {
-            cfg = config.get(nav);
-            // reset previously loaded nav item in the current panel (if any)
-            if (pnl.querySelector('.nav.loaded')) {
-                pnl.querySelector('.nav.loaded').classList.remove('loaded');
-            }
-            // we reuse the panel following the one from where the click originated
-            if (panel.getNext(pnl)) {
-                cfg.panel = panel.getNext(pnl).id;
-            }
-            spin(cfg);
-            nav.classList.add('loaded');
-        // If nav is already loaded it means that the corresponding panel
-        // has been loaded too. So we simply need to move there.
-        } else {
-            spin.moveTo(panel.getNext(pnl));
-        }
-    }, false);
-}
 
 /**
  * Generates a panel
@@ -472,6 +408,69 @@ panel.getNext = function (pnl) {
 panel.getPrevious = function (pnl) {
     return pnl.previousSibling;
 };
+
+/**
+ * Drops Spin markup on the page.
+ * @private
+ */
+function dropBaseMarkup() {
+    var outer = document.createElement('div');
+    outer.innerHTML =
+        '<div id="spin">' +
+            '<ol id="spin-nav"></ol>' +
+            '<ol id="spin-panels"></ol>' +
+        '</div>';
+    document.body.appendChild(outer.firstChild);
+}
+
+/**
+ * Handler for click events occuring inside Spin.
+ * @private
+ */
+function registerClickHandler() {
+    document.querySelector('#spin').addEventListener('click', function (ev) {
+        var id,
+            nav, // nav element that contains the event target
+            pnl, // panel that contains the nav element
+            cfg; // new panel configuration
+
+        if (isBreadCrumb(ev.target)) {
+            id  = breadcrumb.getPanelId(ev.target);
+            pnl = document.getElementById(id);
+            spin.moveTo(pnl);
+            return;
+        }
+
+        // The click might not have been made on the nav element itself
+        // but on a child element instead. So we need to work out whether
+        // the click target is contained within a nav element.
+        nav = getNav(ev.target);
+
+        if (!nav) {
+            return;
+        }
+
+        pnl = spin.getPanel(nav);
+
+        if (!nav.classList.contains('loaded')) {
+            cfg = config.get(nav);
+            // reset previously loaded nav item in the current panel (if any)
+            if (pnl.querySelector('.nav.loaded')) {
+                pnl.querySelector('.nav.loaded').classList.remove('loaded');
+            }
+            // we reuse the panel following the one from where the click originated
+            if (panel.getNext(pnl)) {
+                cfg.panel = panel.getNext(pnl).id;
+            }
+            spin(cfg);
+            nav.classList.add('loaded');
+        // If nav is already loaded it means that the corresponding panel
+        // has been loaded too. So we simply need to move there.
+        } else {
+            spin.moveTo(panel.getNext(pnl));
+        }
+    }, false);
+}
 
  /**
   * Generates a bread crumb

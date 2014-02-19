@@ -26,9 +26,17 @@ YUI_config = {
                     path: 'config.js',
                     requires: ['spinjs-utils']
                 },
+                'spinjs-panel': {
+                    path: 'panel.js'
+                },
                 'spinjs-core': {
                     path: 'spin.js',
-                    requires: ['spinjs-csscore', 'spinjs-utils', 'spinjs-config']
+                    requires: [
+                        'spinjs-csscore',
+                        'spinjs-utils',
+                        'spinjs-config',
+                        'spinjs-panel'
+                    ]
                 }
             }
         },
