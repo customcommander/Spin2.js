@@ -450,7 +450,7 @@ panel.onAnimEnd = function (e) {
  * @returns {Boolean}
  */
 panel.isHome = function (pnl) {
-    return elPanels.firstChild === pnl;
+    return pnl.previousSibling === null;
 };
 
 /**
@@ -460,7 +460,7 @@ panel.isHome = function (pnl) {
  * @returns {Boolean}
  */
 panel.isLast = function (pnl) {
-    return elPanels.lastChild === pnl;
+    return pnl.nextSibling === null;
 };
 
 /**
