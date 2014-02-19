@@ -8,14 +8,6 @@
 var spinId = 0;
 
 /**
- * Reference to #spin node
- * @private
- * @see dropBaseMarkup
- * @type {HTMLElement}
- */
-var elSpin;
-
-/**
  * Reference to #spin-panels node
  * @private
  * @see dropBaseMarkup
@@ -37,8 +29,7 @@ function dropBaseMarkup() {
             '<ol id="spin-panels"></ol>' +
         '</div>';
     // Keeping references to these important elements.
-    elSpin   = document.body.appendChild(outer.firstChild);
-    elPanels = elSpin.lastChild;
+    elPanels = document.body.appendChild(outer.firstChild).lastChild;
 }
 
 /**
@@ -431,7 +422,7 @@ breadcrumb.syncAll = function () {
     newNav.id = 'spin-nav';
     newNav.appendChild(frag);
 
-    elSpin.replaceChild(newNav, curNav);
+    document.querySelector('#spin').replaceChild(newNav, curNav);
 };
 
 /**
