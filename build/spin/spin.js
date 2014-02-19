@@ -565,7 +565,8 @@ breadcrumb.getClassFromPanel = function (pnl) {
  */
 breadcrumb.syncAll = function () {
 
-    var curNav = document.querySelector('#spin-nav'),
+    var panels = document.querySelector('#spin-panels'),
+        curNav = document.querySelector('#spin-nav'),
         newNav,
         frag;
 
@@ -574,7 +575,7 @@ breadcrumb.syncAll = function () {
     // We loop through all panels and make sure that the state
     // of the panel is reflected on its corresponding bread crumb
     // in the navigation.
-    [].forEach.call(elPanels.childNodes, function (pnl) {
+    [].forEach.call(panels.childNodes, function (pnl) {
         var brd = breadcrumb.get(pnl).cloneNode(true);
         brd.className = breadcrumb.getClassFromPanel(pnl);
         frag.appendChild(brd);
