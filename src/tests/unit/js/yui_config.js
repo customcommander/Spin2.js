@@ -29,13 +29,17 @@ YUI_config = {
                 'spinjs-panel': {
                     path: 'panel.js'
                 },
+                'spinjs-breadcrumb': {
+                    path: 'breadcrumb.js'
+                },
                 'spinjs-core': {
                     path: 'spin.js',
                     requires: [
                         'spinjs-csscore',
                         'spinjs-utils',
                         'spinjs-config',
-                        'spinjs-panel'
+                        'spinjs-panel',
+                        'spinjs-breadcrumb'
                     ]
                 }
             }
