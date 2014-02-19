@@ -546,7 +546,7 @@ spin.getPanel = function (elt) {
         throw new Error('bad function call');
     }
     if (isNumber(elt)) {
-        elt = elPanels.childNodes[elt];
+        elt = document.querySelector('#spin-panels').childNodes[elt];
     } else if (isString(elt)) {
         elt = document.getElementById(elt);
     }
