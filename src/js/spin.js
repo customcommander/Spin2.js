@@ -195,8 +195,9 @@ panel.append = function (pnl) {
  * @returns {HTMLElement}
  */
 panel.deleteAfter = function (pnl) {
-    while ( elPanels.lastChild != pnl ) {
-        elPanels.removeChild(elPanels.lastChild);
+    var panels = document.querySelector('#spin-panels');
+    while ( panels.lastChild !== pnl ) {
+        panels.removeChild(panels.lastChild);
     }
     return pnl;
 };
