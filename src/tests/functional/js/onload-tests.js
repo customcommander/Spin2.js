@@ -1,4 +1,4 @@
-YUI.add('onload-tests', function (Y) {
+YUI.add('functional-onload-tests', function (Y) {
 
 var suite = new Y.Test.Suite('onload tests');
 
