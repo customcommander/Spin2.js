@@ -65,6 +65,10 @@ YUI_config = {
                 'css-for-tests': {
                     path: 'css/tests.css',
                     type: 'css'
+                },
+                'helpers-for-tests': {
+                    path: 'js/helpers.js',
+                    requires: ['node', 'promise']
                 }
             }
         },
@@ -90,7 +94,13 @@ YUI_config = {
                 },
                 'functional-onload-tests': {
                     path: 'onload-tests.js',
-                    requires: ['test', 'node', 'css-for-tests', 'spinjs']
+                    requires: [
+                        'test',
+                        'node',
+                        'css-for-tests',
+                        'helpers-for-tests',
+                        'spinjs'
+                    ]
                 }
             }
         }
