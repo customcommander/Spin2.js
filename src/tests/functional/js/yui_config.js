@@ -16,13 +16,19 @@ YUI_config = {
         'spinjs-tests': {
             base: './',
             modules: {
-                'tests-css': {
-                    path: 'css/tests.css',
-                    type: 'css'
-                },
                 'onload-tests': {
                     path: 'js/onload-tests.js',
-                    requires: ['test', 'node', 'tests-css', 'spinjs']
+                    requires: ['test', 'node', 'css-for-tests', 'spinjs']
+                }
+            }
+        },
+        // shared resources for tests
+        'spinjs-tests-share': {
+            base: '../share/',
+            modules: {
+                'css-for-tests': {
+                    path: 'css/tests.css',
+                    type: 'css'
                 }
             }
         }
