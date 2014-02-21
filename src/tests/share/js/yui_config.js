@@ -84,6 +84,10 @@ YUI_config = {
                     path: 'config-tests.js',
                     requires: ['test', 'node', 'dev-config']
                 },
+                'unit-breadcrumb-tests': {
+                    path: 'breadcrumb-tests.js',
+                    requires: ['test', 'node', 'dev-breadcrumb']
+                },
                 'functional-onload-tests': {
                     path: 'onload-tests.js',
                     requires: ['test', 'node', 'css-for-tests', 'spinjs']
