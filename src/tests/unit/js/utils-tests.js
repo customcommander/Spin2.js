@@ -1,4 +1,4 @@
-YUI.add('utils-tests', function (Y) {
+YUI.add('unit-utils-tests', function (Y) {
 
 var suite = new Y.Test.Suite('utils tests');
 

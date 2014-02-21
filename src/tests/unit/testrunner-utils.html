@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="./js/yui_config.js"></script>
-<script src="http://yui.yahooapis.com/3.14.1/build/yui/yui-min.js"></script>
-<script>
-YUI().use('utils-tests', function (Y) {
-    Y.Test.Runner.run();
-});
-</script>
+    <script src="../share/js/yui_config.js"></script>
+    <script src="http://yui.yahooapis.com/3.14.1/build/yui/yui-min.js"></script>
 </head>
-<body></body>
+<body>
+    <script>
+        YUI().use('unit-utils-tests', function (Y) {
+            Y.Test.Runner.run();
+        });
+    </script>
+</body>
 </html>

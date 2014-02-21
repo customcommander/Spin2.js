@@ -1,4 +1,4 @@
-YUI.add('config-tests', function (Y) {
+YUI.add('unit-config-tests', function (Y) {
 
 var suite = new Y.Test.Suite("config tests");
 
