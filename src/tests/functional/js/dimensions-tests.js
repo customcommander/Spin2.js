@@ -55,8 +55,8 @@ suite.add(new Y.Test.Case({
                 expected_width = (win_width / 3) * 2;
 
                 self.resume(function () {
-                    // allows a 10px margin to account for scrollbars and other quirkiness
-                    Y.Assert.isTrue(expected_width-10<panel_width && panel_width<expected_width+10);
+                    // allows a margin to account for scrollbars and other quirkiness
+                    Y.Assert.isTrue(expected_width-20<panel_width && panel_width<expected_width+20);
                 });
             });
 
@@ -86,8 +86,8 @@ suite.add(new Y.Test.Case({
                 expected_width = win_width / 3;
 
                 self.resume(function () {
-                    // allows a 10px margin to account for scrollbars and other quirkiness
-                    Y.Assert.isTrue(expected_width-10<panel_width && panel_width<expected_width+10);
+                    // allows margin to account for scrollbars and other quirkiness
+                    Y.Assert.isTrue(expected_width-20<panel_width && panel_width<expected_width+20);
                 });
             });
 
