@@ -101,6 +101,16 @@ YUI_config = {
                         'helpers-for-tests',
                         'spinjs'
                     ]
+                },
+                'functional-dimensions-tests': {
+                    path: 'dimensions-tests.js',
+                    requires: [
+                        'test',
+                        'node',
+                        'css-for-tests',
+                        'helpers-for-tests',
+                        'spinjs'
+                    ]
                 }
             }
         }
