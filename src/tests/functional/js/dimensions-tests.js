@@ -8,7 +8,8 @@ suite.add(new Y.Test.Case({
         Y.helpers.removeAllPanels();
     },
 
-    "when the home panel loads, it takes all the available space": function () {
+    "when the home panel loads, its width is 100% of the viewport": function () {
+
         var self = this;
 
         Y.helpers.loadPanel()()
@@ -33,7 +34,7 @@ suite.add(new Y.Test.Case({
         this.wait();
     },
 
-    "when a panel loads it takes 2/3 of the available space": function () {
+    "when a panel loads, its width is 2/3 of the viewport": function () {
 
         var self  = this;
 
@@ -63,7 +64,7 @@ suite.add(new Y.Test.Case({
         this.wait();
     },
 
-    "when a panel loads, the previous panel takes 1/3 of the available space": function () {
+    "when a panel loads, the previous panel width is 1/3 of the viewport": function () {
 
         var self = this;
 
