@@ -6,7 +6,14 @@
 </head>
 <body data-url="./assets/panels/tubemap.html" data-title="Tube Map">
     <script>
-        YUI().use('functional-onload-tests', function (Y) {
+        YUI({
+            filters: {
+                'spinjs': {
+                    searchExp: '.js',
+                    replaceStr: '-coverage.js'
+                }
+            }
+        }).use('functional-onload-tests', function (Y) {
             Y.Test.Runner.run();
         });
     </script>
