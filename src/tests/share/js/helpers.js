@@ -47,6 +47,28 @@ Y.helpers = {
 
             wait = Y.later(50, null, check, [], true);
         });
+    },
+
+    /**
+     * Helper to be used in a Promise chain.
+     * @param {Object} [cfg] A config object that will be given to `spin()`.
+     * @return {Function} A function that returns a Promise to load a panel.
+     */
+    loadPanel: function (cfg) {
+        return function () {
+            return new Y.Promise(function (resolve) {
+                spin(cfg);
+                resolve();
+            });
+        };
+    },
+
+    /**
+     * Removes all panels.
+     */
+    removeAllPanels: function () {
+        Y.one('#spin-panels').empty();
+        Y.one('#spin-nav').empty();
     }
 };
 
