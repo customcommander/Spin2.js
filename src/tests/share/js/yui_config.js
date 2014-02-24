@@ -121,6 +121,17 @@ YUI_config = {
                         'helpers-for-tests',
                         'spinjs'
                     ]
+                },
+                'functional-navclick-tests': {
+                    path: 'navclick-tests.js',
+                    requires: [
+                        'test',
+                        'node',
+                        'node-event-simulate',
+                        'css-for-tests',
+                        'helpers-for-tests',
+                        'spinjs'
+                    ]
                 }
             }
         }
