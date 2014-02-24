@@ -111,6 +111,16 @@ YUI_config = {
                         'helpers-for-tests',
                         'spinjs'
                     ]
+                },
+                'functional-position-tests': {
+                    path: 'position-tests.js',
+                    requires: [
+                        'test',
+                        'node',
+                        'css-for-tests',
+                        'helpers-for-tests',
+                        'spinjs'
+                    ]
                 }
             }
         }
