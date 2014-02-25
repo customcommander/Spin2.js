@@ -25,28 +25,24 @@ suite.add(new Y.Test.Case({
 
     "should not load anything": function () {
 
-        var self = this;
-
-        this.initTest().then(function () {
-            self.resume(function () {
+        this.initTest().then(Y.bind(function () {
+            this.resume(function () {
                 Y.Assert.areSame(1, Y.all('.spin-panel').size());
             });
-        });
+        }, this));
 
         this.wait();
     },
 
     "should not move the panel": function () {
 
-        var self = this;
-
-        this.initTest().then(function () {
-            self.resume(function () {
+        this.initTest().then(Y.bind(function () {
+            this.resume(function () {
                 var panel = Y.one(spin.getPanel(0));
                 Y.Assert.areSame('0px', panel.getComputedStyle('left'));
                 Y.Assert.areSame('0px', panel.getComputedStyle('right'));
             });
-        });
+        }, this));
 
         this.wait();
     }
