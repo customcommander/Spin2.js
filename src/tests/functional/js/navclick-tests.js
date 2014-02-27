@@ -48,6 +48,39 @@ suite.add(new Y.Test.Case({
     }
 }));
 
+suite.add(new Y.Test.Case({
+
+    name: "click on a non loaded navigable element",
+
+    setUp: function () {
+        Y.helpers.removeAllPanels();
+    },
+
+    clickOnNav: function () {
+        Y.one('#piccadilly').simulate('click');
+        return new Y.Promise(function (resolve) {
+            Y.later(20, null, resolve);
+        });
+    },
+
+    initTest: function () {
+        return Y.helpers.loadPanel({ url: './assets/panels/tubemap.html' })()
+            .then(Y.helpers.waitUntilNothingMoves)
+            .then(this.clickOnNav);
+    },
+
+    "should load a panel": function () {
+
+        this.initTest().then(Y.bind(function () {
+            this.resume(function () {
+                Y.Assert.areSame(2, Y.all('.spin-panel').size());
+            });
+        }, this));
+
+        this.wait();
+    }
+}));
+
 Y.Test.Runner.add(suite);
 
 });
