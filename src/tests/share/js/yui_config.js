@@ -132,6 +132,17 @@ YUI_config = {
                         'helpers-for-tests',
                         'spinjs'
                     ]
+                },
+                'functional-breadcrumb-tests': {
+                    path: 'breadcrumb-tests.js',
+                    requires: [
+                        'test',
+                        'node',
+                        'node-event-simulate',
+                        'css-for-tests',
+                        'helpers-for-tests',
+                        'spinjs'
+                    ]
                 }
             }
         }
