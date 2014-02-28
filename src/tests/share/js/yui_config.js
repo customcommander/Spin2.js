@@ -102,6 +102,14 @@ YUI_config = {
                     path: 'breadcrumb-tests.js',
                     requires: ['test', 'node', 'dev-breadcrumb']
                 },
+
+// functional tests
+//
+// the tests below have no knowledge of the underlying code.
+// they only make sure that the requirements are met.
+// for example: if the user clicks on the close button, we should not test
+// that function a or b has been called but only that the window has been closed.
+
                 'functional-onload-tests': {
                     path: 'onload-tests.js',
                     requires: ['functional-test-resources', 'spinjs']
