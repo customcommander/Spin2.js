@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .iframe_box {
+            width: 100%;
+            border: 1px solid gainsboro;
+            background-color: whitesmoke;
+        }
+        .iframe_box_content {
+            margin: 2%;
+        }
+        iframe {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Manual Visual Testing For Breadcrumbs</h1>
+
+    <h3>empty breadcrumb</h3>
+    <div class="iframe_box">
+        <div class="iframe_box_content">
+            <iframe src="empty.html" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <h3>.crumb1: last panel, hidden</h3>
+    <p>use it when the corresponding panel is the last one and is not currently visible.</p>
+    <div class="iframe_box">
+        <div class="iframe_box_content">
+            <iframe src="crumb1.html" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <h3>.crumb2: hidden</h3>
+    <p>use it when the corresponding panel is not visible and its next sibling isn't neither.</p>
+    <div class="iframe_box">
+        <div class="iframe_box_content">
+            <iframe src="crumb2.html" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <h3>.crumb3: hidden</h3>
+    <p>use it when the corresponding panel is not visible but its next sibling is.</p>
+    <div class="iframe_box">
+        <div class="iframe_box_content">
+            <iframe src="crumb3.html" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <h3>.crumb4: last panel, visible</h3>
+    <p>use it when the corresponding panel is the last one and is visible.</p>
+    <div class="iframe_box">
+        <div class="iframe_box_content">
+            <iframe src="crumb4.html" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <h3>.crumb5: visible</h3>
+    <p>use it when the corresponding panel is visible and so is its next sibling.</p>
+    <div class="iframe_box">
+        <div class="iframe_box_content">
+            <iframe src="crumb5.html" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <h3>.crumb6: visible</h3>
+    <p>use it when the corresponding panel is visible and its next sibling isn't.</p>
+    <div class="iframe_box">
+        <div class="iframe_box_content">
+            <iframe src="crumb6.html" frameborder="0"></iframe>
+        </div>
+    </div>
+</body>
+</html>
