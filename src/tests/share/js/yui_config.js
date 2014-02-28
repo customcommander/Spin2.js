@@ -75,6 +75,16 @@ YUI_config = {
         // tests files
         'tests': {
             base: './js/',
+            aliases: {
+                // stuff you (always) need for functional tests
+                'functional-test-resources': [
+                    'test',
+                    'node',
+                    'node-event-simulate',
+                    'css-for-tests',
+                    'helpers-for-tests'
+                ]
+            },
             modules: {
                 'unit-onload-tests': {
                     path: 'onload-tests.js',
@@ -94,55 +104,23 @@ YUI_config = {
                 },
                 'functional-onload-tests': {
                     path: 'onload-tests.js',
-                    requires: [
-                        'test',
-                        'node',
-                        'css-for-tests',
-                        'helpers-for-tests',
-                        'spinjs'
-                    ]
+                    requires: ['functional-test-resources', 'spinjs']
                 },
                 'functional-dimensions-tests': {
                     path: 'dimensions-tests.js',
-                    requires: [
-                        'test',
-                        'node',
-                        'css-for-tests',
-                        'helpers-for-tests',
-                        'spinjs'
-                    ]
+                    requires: ['functional-test-resources', 'spinjs']
                 },
                 'functional-position-tests': {
                     path: 'position-tests.js',
-                    requires: [
-                        'test',
-                        'node',
-                        'css-for-tests',
-                        'helpers-for-tests',
-                        'spinjs'
-                    ]
+                    requires: ['functional-test-resources', 'spinjs']
                 },
                 'functional-navclick-tests': {
                     path: 'navclick-tests.js',
-                    requires: [
-                        'test',
-                        'node',
-                        'node-event-simulate',
-                        'css-for-tests',
-                        'helpers-for-tests',
-                        'spinjs'
-                    ]
+                    requires: ['functional-test-resources', 'spinjs']
                 },
                 'functional-breadcrumb-tests': {
                     path: 'breadcrumb-tests.js',
-                    requires: [
-                        'test',
-                        'node',
-                        'node-event-simulate',
-                        'css-for-tests',
-                        'helpers-for-tests',
-                        'spinjs'
-                    ]
+                    requires: ['functional-test-resources', 'spinjs']
                 }
             }
         }
