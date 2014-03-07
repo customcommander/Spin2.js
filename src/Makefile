@@ -1,6 +1,7 @@
-build:
+all: buildjs buildcss copyassets coverage
 
-	# putting all js dev files into one big file in the release directory
+# combine all javascript files into one.
+buildjs:
 	@cat \
 		js/intro.js \
 		js/utils.js \
@@ -10,14 +11,19 @@ build:
 		js/spin.js \
 		js/outro.js >../build/spin/spin.js
 
-	# putting all css dev files into one big file in the release directory
+# combine all css files into one.
+buildcss:
 	@cat \
 		css/combo.css \
 		css/spin.css \
 		css/animation.css >../build/spin/spin.css
 
-	# adding code coverage support
+# copy all assets into the release directory
+copyassets:
+	@cp assets/* ../build/spin/
+
+# adding code coverage support
+coverage:
 	@istanbul instrument ../build/spin/spin.js >../build/spin/spin-coverage.js
 
-	# moving all assets into the release directory
-	@cp assets/* ../build/spin/
+.PHONY: all
