@@ -264,8 +264,6 @@ spin.moveTo = function (elt) {
     return dest;
 };
 
-window.addEventListener('load', function () {
-    dropBaseMarkup();
-    registerClickHandler();
-    spin(config(document.body));
-}, false);
+dropBaseMarkup();
+registerClickHandler();
+spin(config(document.body));
