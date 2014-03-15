@@ -3,7 +3,7 @@ var toString = Object.prototype.toString;
 
 // Returns true if o is undefined
 function isUndefined(o) {
-    return toString.call(o) == '[object Undefined]';
+    return o === undefined;
 }
 
 // Returns true if o is a boolean
