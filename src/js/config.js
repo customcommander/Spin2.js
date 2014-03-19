@@ -1,8 +1,12 @@
 
 /**
- * Generates, validates and normalizes the panel configuration object
- * @private
+ * Generates, validates and normalizes the panel configuration object.
+ *
+ * @class config
+ * @constructor
  * @param {Object|HTMLElement} [o]
+ * @return {Object} a configuration object.
+ * @private
  */
 function config(o) {
     var cfg;
@@ -20,9 +24,13 @@ function config(o) {
 }
 
 /**
- * Gets a config object out of a dom element
- * @private
+ * Gets a config object out of a dom element.
+ *
+ * @method get
  * @param {HTMLElement} el
+ * @return {Object} the configuration object.
+ * @private
+ * @static
  */
 config.get = function (el) {
     var cfg = {};
@@ -36,10 +44,13 @@ config.get = function (el) {
 };
 
 /**
- * Makes sure that the configuration object is valid
- * @param {Object} cfg key/value pairs object
- * @returns {Object} the configuration object
+ * Makes sure that the configuration object is valid.
+ *
+ * @method validate
+ * @param {Object} cfg key/value pairs object.
+ * @return {Object} the configuration object.
  * @private
+ * @static
  */
 config.validate = function (cfg) {
     if (!isObject(cfg)) {
@@ -64,10 +75,13 @@ config.validate = function (cfg) {
 };
 
 /**
- * Adds in default properties if they were not given
+ * Adds in default properties if they were not given.
+ *
+ * @method defaults
+ * @param {Object} cfg key/value pairs object.
+ * @return {Object} the configuration object.
  * @private
- * @param {Object} cfg key/value pairs object
- * @returns {Object} the configuration object
+ * @static
  */
 config.defaults = function (cfg) {
     if (!cfg.hasOwnProperty('title')) {
@@ -83,10 +97,13 @@ config.defaults = function (cfg) {
 };
 
 /**
- * Makes sure that values are what they are expected to be
+ * Makes sure that values are what they are expected to be.
+ *
+ * @method normalize
+ * @param {Object} cfg key/value pairs object.
+ * @return {Object} the configuration object.
  * @private
- * @param {Object} cfg key/value pairs object
- * @returns {Object} the configuration object
+ * @static
  */
 config.normalize = function (cfg) {
     if (cfg.hasOwnProperty('panel') && !isElement(cfg.panel)) {

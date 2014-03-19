@@ -66,26 +66,26 @@ function registerClickHandler() {
  * Appends a new panel and returns it.
  *
  * @example
- * // Adds an empty panel (no content, no title)
- * spin();
+ *      // Adds an empty panel (no content, no title)
+ *      spin();
  *
  * @example
- * // Adds a panel with content and title
- * spin({ content: '<p>Hello World!</p>', title: 'Hi' });
+ *      // Adds a panel with content and title
+ *      spin({ content: '<p>Hello World!</p>', title: 'Hi' });
  *
  * @example
- * // Adds a panel with content only
- * spin({ content: '<p>Hello Again!</p>' });
+ *      // Adds a panel with content only
+ *      spin({ content: '<p>Hello Again!</p>' });
  *
- * @name window.spin
- * @function
+ * @class spin
+ * @constructor
  * @throws
- * @param {Object}                    [cfg]         - Panel configuration object. Defaults to {title:'',content:''}.
- * @param {String}                    [cfg.title]   - Title of the panel (and its bread crumb). Defaults to an empty string.
- * @param {String}                    [cfg.content] - Content of the panel. Defaults to an empty string.
- * @param {String}                    [cfg.url]     - If given will fetch content from that url
- * @param {String|Number|HTMLElement} [cfg.panel]   - If given will use that panel instead of creating a new one.
- * @param {Boolean}                   [cfg.error]   - If given will create an error panel
+ * @param {Object}                    [cfg]         Panel configuration object. Defaults to {title:'',content:''}.
+ * @param {String}                    [cfg.title]   Title of the panel (and its bread crumb). Defaults to an empty string.
+ * @param {String}                    [cfg.content] Content of the panel. Defaults to an empty string.
+ * @param {String}                    [cfg.url]     If given will fetch content from that url
+ * @param {String|Number|HTMLElement} [cfg.panel]   If given will use that panel instead of creating a new one.
+ * @param {Boolean}                   [cfg.error]   If given will create an error panel
  * @returns {HTMLElement}
  */
 window.spin = function (cfg) {
@@ -158,23 +158,23 @@ spin.PANEL_SMALL       = 'small';
  * Returns corresponding panel.
  *
  * @example
- * // Returns the third panel (zero based index)
- * spin.getPanel(2);
+ *      // Returns the third panel (zero based index)
+ *      spin.getPanel(2);
  *
  * @example
- * // Returns the panel that contains that element
- * spin.getPanel('elementID');
+ *      // Returns the panel that contains that element
+ *      spin.getPanel('elementID');
  *
  * @example
- * // Previous example could be rewritten like this
- * spin.getPanel(document.getElementById('elementID'));
+ *      // Previous example could be rewritten like this
+ *      spin.getPanel(document.getElementById('elementID'));
  *
- * @name spin.getPanel
- * @function
+ * @method getPanel
  * @param {Number|HTMLElement|String} elt
  * @returns {HTMLElement}
  * @throws {Error} 'bad function call'
  * @throws {Error} 'panel not found'
+ * @static
  */
 spin.getPanel = function (elt) {
     if (!isNumber(elt) && !isElement(elt) && !isString(elt)) {
@@ -197,11 +197,11 @@ spin.getPanel = function (elt) {
 /**
  * Moves to corresponding panel.
  *
- * @name spin.moveTo
- * @function
+ * @method moveTo
  * @param {Number|String|HTMLElement} elt
  * @returns {HTMLElement}
  * @throws 'panel not found'
+ * @static
  */
 spin.moveTo = function (elt) {
     var dest,

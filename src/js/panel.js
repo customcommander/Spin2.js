@@ -7,10 +7,13 @@
 var spinId = 0;
 
 /**
- * Generates a panel
+ * Generates a panel.
+ *
+ * @class panel
+ * @constructor
+ * @param {Object} cfg Panel configuration object.
+ * @return {HTMLElement} The panel that has been created.
  * @private
- * @param {Object} cfg Panel configuration object
- * @returns {HTMLElement} The panel that has been created
  */
 function panel(cfg) {
     var div, pnl;
@@ -29,10 +32,13 @@ function panel(cfg) {
 }
 
 /**
- * Updates panel title
- * @private
+ * Updates panel title.
+ *
+ * @method setTitle
  * @param {HTMLElement} pnl corresponding dom element
  * @param {String} title panel title
+ * @private
+ * @static
  */
 panel.setTitle = function (pnl, title) {
     var oldtitle, newtitle;
@@ -44,10 +50,13 @@ panel.setTitle = function (pnl, title) {
 };
 
 /**
- * Updates panel content
- * @private
- * @param {HTMLElement} pnl corresponding dom element
+ * Updates panel content.
+ *
+ * @method setContent
+ * @param {HTMLElement} pnl corresponding dom element.
  * @param {String} content
+ * @private
+ * @static
  */
 panel.setContent = function (pnl, content) {
 
@@ -77,10 +86,13 @@ panel.setContent = function (pnl, content) {
 };
 
 /**
- * Sets or unsets a panel loading state
- * @private
- * @param {HTMLElement} pnl corresponding dom element
+ * Sets or unsets a panel loading state.
+ *
+ * @method setLoading
+ * @param {HTMLElement} pnl corresponding dom element.
  * @param {Boolean} loading
+ * @private
+ * @static
  */
 panel.setLoading = function (pnl, loading) {
     if (loading) {
@@ -91,10 +103,13 @@ panel.setLoading = function (pnl, loading) {
 };
 
 /**
- * Sets or unsets a panel error state
- * @private
- * @param {HTMLElement} pnl corresponding dom element
+ * Sets or unsets a panel error state.
+ *
+ * @method setError
+ * @param {HTMLElement} pnl corresponding dom element.
  * @param {Boolean} err
+ * @private
+ * @static
  */
 panel.setError = function (pnl, err) {
     if (err) {
@@ -105,9 +120,12 @@ panel.setError = function (pnl, err) {
 };
 
 /**
- * Appens a panel into the dom
- * @private
+ * Appens a panel into the dom.
+ *
+ * @method append
  * @param {HTMLElement} pnl corresponding dom element
+ * @private
+ * @static
  */
 panel.append = function (pnl) {
     document.querySelector('#spin-panels').appendChild(pnl);
@@ -115,9 +133,12 @@ panel.append = function (pnl) {
 
 /**
  * Deletes all panels after given panel.
- * @private
+ *
+ * @method deleteAfter
  * @param {HTMLElement} pnl corresponding dom element
- * @returns {HTMLElement}
+ * @return {HTMLElement}
+ * @private
+ * @static
  */
 panel.deleteAfter = function (pnl) {
     var panels = document.querySelector('#spin-panels');
@@ -129,9 +150,12 @@ panel.deleteAfter = function (pnl) {
 
 /**
  * True if given panel is currently visible.
+ *
+ * @method isVisible
+ * @param {HTMLElement} pnl.
+ * @return {Boolean}
  * @private
- * @param {HTMLElement} pnl
- * @returns {Boolean}
+ * @static
  */
 panel.isVisible = function (pnl) {
     var vis = panel.getVisibility(pnl);
@@ -141,10 +165,13 @@ panel.isVisible = function (pnl) {
 };
 
 /**
- * Returns the current visibility state of given panel
- * @private
+ * Returns the current visibility state of given panel.
+ *
+ * @method getVisibility
  * @param {HTMLElement} pnl
- * @returns {String}
+ * @return {String}
+ * @private
+ * @static
  */
 panel.getVisibility = function (pnl) {
     var state;
@@ -167,9 +194,12 @@ panel.getVisibility = function (pnl) {
 /**
  * Updates the visibility of given panel.
  * Doing so could trigger a panel animation.
- * @private
+ *
+ * @method setVisibility
  * @param {HTMLElement} pnl
  * @param {String} vis the new visibility state
+ * @private
+ * @static
  */
 panel.setVisibility = function (pnl, vis) {
     var cur = panel.getVisibility(pnl);
@@ -194,8 +224,11 @@ panel.setVisibility = function (pnl, vis) {
 
 /**
  * Executes when panel animation has finished.
- * @private
+ *
+ * @method onAnimEnd
  * @this {HTMLElement} panel
+ * @private
+ * @static
  */
 panel.onAnimEnd = function (e) {
     var animCls = e.animationName;                 // e.g. spin-full-small
@@ -210,9 +243,12 @@ panel.onAnimEnd = function (e) {
 
 /**
  * True if given panel is the home panel (i.e. the first panel).
- * @private
+ *
+ * @method isHome
  * @param {HTMLElement} pnl
- * @returns {Boolean}
+ * @return {Boolean}
+ * @private
+ * @static
  */
 panel.isHome = function (pnl) {
     return pnl.previousSibling === null;
@@ -220,9 +256,12 @@ panel.isHome = function (pnl) {
 
 /**
  * True if given panel is the last one.
- * @private
+ *
+ * @method isLast
  * @param {HTMLElement} pnl
- * @returns {Boolean}
+ * @return {Boolean}
+ * @private
+ * @static
  */
 panel.isLast = function (pnl) {
     return pnl.nextSibling === null;
@@ -230,9 +269,12 @@ panel.isLast = function (pnl) {
 
 /**
  * Returns the panel following given panel.
- * @private
+ *
+ * @method getNext
  * @param {HTMLElement} pnl
  * @returns {HTMLElement}
+ * @private
+ * @static
  */
 panel.getNext = function (pnl) {
     return pnl.nextSibling;
@@ -240,9 +282,12 @@ panel.getNext = function (pnl) {
 
 /**
  * Returns the panel preceding given panel.
- * @private
+ *
+ * @method getPrevious
  * @param {HTMLElement} pnl
- * @returns {HTMLElement}
+ * @return {HTMLElement}
+ * @private
+ * @static
  */
 panel.getPrevious = function (pnl) {
     return pnl.previousSibling;

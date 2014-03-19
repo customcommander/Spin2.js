@@ -1,9 +1,13 @@
  /**
-  * Generates a bread crumb
-  * @private
+  * Generates a bread crumb.
+  *
+  * @class breadcrumb
+  * @constructor
   * @param {String} id    panel id
   * @param {String} title panel title
-  * @returns {HTMLElement}
+  * @return {HTMLElement}
+  * @private
+  * @static
   */
 function breadcrumb(id, title) {
     var el = document.createElement('li');
@@ -14,20 +18,26 @@ function breadcrumb(id, title) {
 }
 
 /**
- * Returns bread crumb of given panel
+ * Returns bread crumb of given panel.
+ *
+ * @method get
+ * @param {HTMLElement} pnl panel dom element.
+ * @return {HTMLElement}
  * @private
- * @param {HTMLElement} pnl panel dom element
- * @returns {HTMLElement}
+ * @static
  */
 breadcrumb.get = function (pnl) {
     return document.querySelector('#' + pnl.id + '-crumb');
 };
 
 /**
- * Updates bread crumb title
- * @private
- * @param {HTMLElement} brd bread crumb dom element
+ * Updates bread crumb title.
+ *
+ * @method setTitle
+ * @param {HTMLElement} brd bread crumb dom element.
  * @param {String} title
+ * @private
+ * @static
  */
 breadcrumb.setTitle = function (brd, title) {
     var oldtitle, newtitle;
@@ -37,9 +47,12 @@ breadcrumb.setTitle = function (brd, title) {
 };
 
 /**
- * Appends a bread crumb to the dom
+ * Appends a bread crumb to the dom.
+ *
+ * @method append
+ * @param {HTMLElement} brd bread crumb dom element.
  * @private
- * @param {HTMLElement} brd bread crumb dom element
+ * @static
  */
 breadcrumb.append = function (brd) {
     document.querySelector('#spin-nav').appendChild(brd);
@@ -48,9 +61,12 @@ breadcrumb.append = function (brd) {
 /**
  * Returns the corresponding panel id.
  * A breadcrumb id contains a reference to the panel it is linked to.
- * @private
+ *
+ * @method getPanelId
  * @param {HTMLElement} brd
- * @returns {String}
+ * @return {String}
+ * @private
+ * @static
  */
 breadcrumb.getPanelId = function (brd) {
     // "spin-id99-crumb" ~> "spin-id99"
@@ -59,9 +75,12 @@ breadcrumb.getPanelId = function (brd) {
 
 /**
  * Returns the css class corresponding to the visibility of given panel.
- * @private
+ *
+ * @method getClassFromPanel
  * @param {HTMLElement} pnl
- * @returns {String}
+ * @return {String}
+ * @private
+ * @static
  */
 breadcrumb.getClassFromPanel = function (pnl) {
     if (panel.isLast(pnl)) {
@@ -74,8 +93,11 @@ breadcrumb.getClassFromPanel = function (pnl) {
 };
 
 /**
- * Synchronizes all bread crumbs with the current state of the view
+ * Synchronizes all bread crumbs with the current state of the view.
+ *
+ * @method syncAll
  * @private
+ * @static
  */
 breadcrumb.syncAll = function () {
 
