@@ -6,7 +6,14 @@
 </head>
 <body>
     <script>
-        YUI().use('unit-config-tests', function (Y) {
+        YUI({
+            filters: {
+                'dev-config': {
+                    searchExp: '.js$',
+                    replaceStr: '-coverage.js'
+                }
+            }
+        }).use('unit-config-tests', function (Y) {
             Y.Test.Runner.run();
         });
     </script>
