@@ -34,4 +34,4 @@ devcoverage:
 test: devcoverage
 	@grover --coverage tests/unit/testrunner-*
 
-.PHONY: all
+.PHONY: all buildjs buildcss copyassets coverage devcoverage test
