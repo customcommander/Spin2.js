@@ -2,6 +2,7 @@
  * Spin.js - User Interface For Web Applications
  * @fileoverview This is the source code for Spin.js
  * @author Julien Gonzalez
+ * @module spin
  */
 (function (window, document) {
 
@@ -10,7 +11,7 @@ var toString = Object.prototype.toString;
 
 // Returns true if o is undefined
 function isUndefined(o) {
-    return toString.call(o) == '[object Undefined]';
+    return o === undefined;
 }
 
 // Returns true if o is a boolean
@@ -65,9 +66,13 @@ function getNav(el) {
 }
 
 /**
- * Generates, validates and normalizes the panel configuration object
- * @private
+ * Generates, validates and normalizes the panel configuration object.
+ *
+ * @class config
+ * @constructor
  * @param {Object|HTMLElement} [o]
+ * @return {Object} a configuration object.
+ * @private
  */
 function config(o) {
     var cfg;
@@ -85,9 +90,13 @@ function config(o) {
 }
 
 /**
- * Gets a config object out of a dom element
- * @private
+ * Gets a config object out of a dom element.
+ *
+ * @method get
  * @param {HTMLElement} el
+ * @return {Object} the configuration object.
+ * @private
+ * @static
  */
 config.get = function (el) {
     var cfg = {};
@@ -101,10 +110,13 @@ config.get = function (el) {
 };
 
 /**
- * Makes sure that the configuration object is valid
- * @param {Object} cfg key/value pairs object
- * @returns {Object} the configuration object
+ * Makes sure that the configuration object is valid.
+ *
+ * @method validate
+ * @param {Object} cfg key/value pairs object.
+ * @return {Object} the configuration object.
  * @private
+ * @static
  */
 config.validate = function (cfg) {
     if (!isObject(cfg)) {
@@ -129,10 +141,13 @@ config.validate = function (cfg) {
 };
 
 /**
- * Adds in default properties if they were not given
+ * Adds in default properties if they were not given.
+ *
+ * @method defaults
+ * @param {Object} cfg key/value pairs object.
+ * @return {Object} the configuration object.
  * @private
- * @param {Object} cfg key/value pairs object
- * @returns {Object} the configuration object
+ * @static
  */
 config.defaults = function (cfg) {
     if (!cfg.hasOwnProperty('title')) {
@@ -148,10 +163,13 @@ config.defaults = function (cfg) {
 };
 
 /**
- * Makes sure that values are what they are expected to be
+ * Makes sure that values are what they are expected to be.
+ *
+ * @method normalize
+ * @param {Object} cfg key/value pairs object.
+ * @return {Object} the configuration object.
  * @private
- * @param {Object} cfg key/value pairs object
- * @returns {Object} the configuration object
+ * @static
  */
 config.normalize = function (cfg) {
     if (cfg.hasOwnProperty('panel') && !isElement(cfg.panel)) {
@@ -168,10 +186,13 @@ config.normalize = function (cfg) {
 var spinId = 0;
 
 /**
- * Generates a panel
+ * Generates a panel.
+ *
+ * @class panel
+ * @constructor
+ * @param {Object} cfg Panel configuration object.
+ * @return {HTMLElement} The panel that has been created.
  * @private
- * @param {Object} cfg Panel configuration object
- * @returns {HTMLElement} The panel that has been created
  */
 function panel(cfg) {
     var div, pnl;
@@ -190,10 +211,13 @@ function panel(cfg) {
 }
 
 /**
- * Updates panel title
- * @private
+ * Updates panel title.
+ *
+ * @method setTitle
  * @param {HTMLElement} pnl corresponding dom element
  * @param {String} title panel title
+ * @private
+ * @static
  */
 panel.setTitle = function (pnl, title) {
     var oldtitle, newtitle;
@@ -205,10 +229,13 @@ panel.setTitle = function (pnl, title) {
 };
 
 /**
- * Updates panel content
- * @private
- * @param {HTMLElement} pnl corresponding dom element
+ * Updates panel content.
+ *
+ * @method setContent
+ * @param {HTMLElement} pnl corresponding dom element.
  * @param {String} content
+ * @private
+ * @static
  */
 panel.setContent = function (pnl, content) {
 
@@ -238,10 +265,13 @@ panel.setContent = function (pnl, content) {
 };
 
 /**
- * Sets or unsets a panel loading state
- * @private
- * @param {HTMLElement} pnl corresponding dom element
+ * Sets or unsets a panel loading state.
+ *
+ * @method setLoading
+ * @param {HTMLElement} pnl corresponding dom element.
  * @param {Boolean} loading
+ * @private
+ * @static
  */
 panel.setLoading = function (pnl, loading) {
     if (loading) {
@@ -252,10 +282,13 @@ panel.setLoading = function (pnl, loading) {
 };
 
 /**
- * Sets or unsets a panel error state
- * @private
- * @param {HTMLElement} pnl corresponding dom element
+ * Sets or unsets a panel error state.
+ *
+ * @method setError
+ * @param {HTMLElement} pnl corresponding dom element.
  * @param {Boolean} err
+ * @private
+ * @static
  */
 panel.setError = function (pnl, err) {
     if (err) {
@@ -266,9 +299,12 @@ panel.setError = function (pnl, err) {
 };
 
 /**
- * Appens a panel into the dom
- * @private
+ * Appens a panel into the dom.
+ *
+ * @method append
  * @param {HTMLElement} pnl corresponding dom element
+ * @private
+ * @static
  */
 panel.append = function (pnl) {
     document.querySelector('#spin-panels').appendChild(pnl);
@@ -276,9 +312,12 @@ panel.append = function (pnl) {
 
 /**
  * Deletes all panels after given panel.
- * @private
+ *
+ * @method deleteAfter
  * @param {HTMLElement} pnl corresponding dom element
- * @returns {HTMLElement}
+ * @return {HTMLElement}
+ * @private
+ * @static
  */
 panel.deleteAfter = function (pnl) {
     var panels = document.querySelector('#spin-panels');
@@ -290,9 +329,12 @@ panel.deleteAfter = function (pnl) {
 
 /**
  * True if given panel is currently visible.
+ *
+ * @method isVisible
+ * @param {HTMLElement} pnl.
+ * @return {Boolean}
  * @private
- * @param {HTMLElement} pnl
- * @returns {Boolean}
+ * @static
  */
 panel.isVisible = function (pnl) {
     var vis = panel.getVisibility(pnl);
@@ -302,10 +344,13 @@ panel.isVisible = function (pnl) {
 };
 
 /**
- * Returns the current visibility state of given panel
- * @private
+ * Returns the current visibility state of given panel.
+ *
+ * @method getVisibility
  * @param {HTMLElement} pnl
- * @returns {String}
+ * @return {String}
+ * @private
+ * @static
  */
 panel.getVisibility = function (pnl) {
     var state;
@@ -328,9 +373,12 @@ panel.getVisibility = function (pnl) {
 /**
  * Updates the visibility of given panel.
  * Doing so could trigger a panel animation.
- * @private
+ *
+ * @method setVisibility
  * @param {HTMLElement} pnl
  * @param {String} vis the new visibility state
+ * @private
+ * @static
  */
 panel.setVisibility = function (pnl, vis) {
     var cur = panel.getVisibility(pnl);
@@ -355,8 +403,11 @@ panel.setVisibility = function (pnl, vis) {
 
 /**
  * Executes when panel animation has finished.
- * @private
+ *
+ * @method onAnimEnd
  * @this {HTMLElement} panel
+ * @private
+ * @static
  */
 panel.onAnimEnd = function (e) {
     var animCls = e.animationName;                 // e.g. spin-full-small
@@ -371,9 +422,12 @@ panel.onAnimEnd = function (e) {
 
 /**
  * True if given panel is the home panel (i.e. the first panel).
- * @private
+ *
+ * @method isHome
  * @param {HTMLElement} pnl
- * @returns {Boolean}
+ * @return {Boolean}
+ * @private
+ * @static
  */
 panel.isHome = function (pnl) {
     return pnl.previousSibling === null;
@@ -381,9 +435,12 @@ panel.isHome = function (pnl) {
 
 /**
  * True if given panel is the last one.
- * @private
+ *
+ * @method isLast
  * @param {HTMLElement} pnl
- * @returns {Boolean}
+ * @return {Boolean}
+ * @private
+ * @static
  */
 panel.isLast = function (pnl) {
     return pnl.nextSibling === null;
@@ -391,9 +448,12 @@ panel.isLast = function (pnl) {
 
 /**
  * Returns the panel following given panel.
- * @private
+ *
+ * @method getNext
  * @param {HTMLElement} pnl
  * @returns {HTMLElement}
+ * @private
+ * @static
  */
 panel.getNext = function (pnl) {
     return pnl.nextSibling;
@@ -401,19 +461,26 @@ panel.getNext = function (pnl) {
 
 /**
  * Returns the panel preceding given panel.
- * @private
+ *
+ * @method getPrevious
  * @param {HTMLElement} pnl
- * @returns {HTMLElement}
+ * @return {HTMLElement}
+ * @private
+ * @static
  */
 panel.getPrevious = function (pnl) {
     return pnl.previousSibling;
 };
  /**
-  * Generates a bread crumb
-  * @private
+  * Generates a bread crumb.
+  *
+  * @class breadcrumb
+  * @constructor
   * @param {String} id    panel id
   * @param {String} title panel title
-  * @returns {HTMLElement}
+  * @return {HTMLElement}
+  * @private
+  * @static
   */
 function breadcrumb(id, title) {
     var el = document.createElement('li');
@@ -424,20 +491,26 @@ function breadcrumb(id, title) {
 }
 
 /**
- * Returns bread crumb of given panel
+ * Returns bread crumb of given panel.
+ *
+ * @method get
+ * @param {HTMLElement} pnl panel dom element.
+ * @return {HTMLElement}
  * @private
- * @param {HTMLElement} pnl panel dom element
- * @returns {HTMLElement}
+ * @static
  */
 breadcrumb.get = function (pnl) {
     return document.querySelector('#' + pnl.id + '-crumb');
 };
 
 /**
- * Updates bread crumb title
- * @private
- * @param {HTMLElement} brd bread crumb dom element
+ * Updates bread crumb title.
+ *
+ * @method setTitle
+ * @param {HTMLElement} brd bread crumb dom element.
  * @param {String} title
+ * @private
+ * @static
  */
 breadcrumb.setTitle = function (brd, title) {
     var oldtitle, newtitle;
@@ -447,9 +520,12 @@ breadcrumb.setTitle = function (brd, title) {
 };
 
 /**
- * Appends a bread crumb to the dom
+ * Appends a bread crumb to the dom.
+ *
+ * @method append
+ * @param {HTMLElement} brd bread crumb dom element.
  * @private
- * @param {HTMLElement} brd bread crumb dom element
+ * @static
  */
 breadcrumb.append = function (brd) {
     document.querySelector('#spin-nav').appendChild(brd);
@@ -458,9 +534,12 @@ breadcrumb.append = function (brd) {
 /**
  * Returns the corresponding panel id.
  * A breadcrumb id contains a reference to the panel it is linked to.
- * @private
+ *
+ * @method getPanelId
  * @param {HTMLElement} brd
- * @returns {String}
+ * @return {String}
+ * @private
+ * @static
  */
 breadcrumb.getPanelId = function (brd) {
     // "spin-id99-crumb" ~> "spin-id99"
@@ -469,9 +548,12 @@ breadcrumb.getPanelId = function (brd) {
 
 /**
  * Returns the css class corresponding to the visibility of given panel.
- * @private
+ *
+ * @method getClassFromPanel
  * @param {HTMLElement} pnl
- * @returns {String}
+ * @return {String}
+ * @private
+ * @static
  */
 breadcrumb.getClassFromPanel = function (pnl) {
     if (panel.isLast(pnl)) {
@@ -484,8 +566,11 @@ breadcrumb.getClassFromPanel = function (pnl) {
 };
 
 /**
- * Synchronizes all bread crumbs with the current state of the view
+ * Synchronizes all bread crumbs with the current state of the view.
+ *
+ * @method syncAll
  * @private
+ * @static
  */
 breadcrumb.syncAll = function () {
 
@@ -578,26 +663,26 @@ function registerClickHandler() {
  * Appends a new panel and returns it.
  *
  * @example
- * // Adds an empty panel (no content, no title)
- * spin();
+ *      // Adds an empty panel (no content, no title)
+ *      spin();
  *
  * @example
- * // Adds a panel with content and title
- * spin({ content: '<p>Hello World!</p>', title: 'Hi' });
+ *      // Adds a panel with content and title
+ *      spin({ content: '<p>Hello World!</p>', title: 'Hi' });
  *
  * @example
- * // Adds a panel with content only
- * spin({ content: '<p>Hello Again!</p>' });
+ *      // Adds a panel with content only
+ *      spin({ content: '<p>Hello Again!</p>' });
  *
- * @name window.spin
- * @function
+ * @class spin
+ * @constructor
  * @throws
- * @param {Object}                    [cfg]         - Panel configuration object. Defaults to {title:'',content:''}.
- * @param {String}                    [cfg.title]   - Title of the panel (and its bread crumb). Defaults to an empty string.
- * @param {String}                    [cfg.content] - Content of the panel. Defaults to an empty string.
- * @param {String}                    [cfg.url]     - If given will fetch content from that url
- * @param {String|Number|HTMLElement} [cfg.panel]   - If given will use that panel instead of creating a new one.
- * @param {Boolean}                   [cfg.error]   - If given will create an error panel
+ * @param {Object}                    [cfg]         Panel configuration object. Defaults to {title:'',content:''}.
+ * @param {String}                    [cfg.title]   Title of the panel (and its bread crumb). Defaults to an empty string.
+ * @param {String}                    [cfg.content] Content of the panel. Defaults to an empty string.
+ * @param {String}                    [cfg.url]     If given will fetch content from that url
+ * @param {String|Number|HTMLElement} [cfg.panel]   If given will use that panel instead of creating a new one.
+ * @param {Boolean}                   [cfg.error]   If given will create an error panel
  * @returns {HTMLElement}
  */
 window.spin = function (cfg) {
@@ -670,23 +755,23 @@ spin.PANEL_SMALL       = 'small';
  * Returns corresponding panel.
  *
  * @example
- * // Returns the third panel (zero based index)
- * spin.getPanel(2);
+ *      // Returns the third panel (zero based index)
+ *      spin.getPanel(2);
  *
  * @example
- * // Returns the panel that contains that element
- * spin.getPanel('elementID');
+ *      // Returns the panel that contains that element
+ *      spin.getPanel('elementID');
  *
  * @example
- * // Previous example could be rewritten like this
- * spin.getPanel(document.getElementById('elementID'));
+ *      // Previous example could be rewritten like this
+ *      spin.getPanel(document.getElementById('elementID'));
  *
- * @name spin.getPanel
- * @function
+ * @method getPanel
  * @param {Number|HTMLElement|String} elt
  * @returns {HTMLElement}
  * @throws {Error} 'bad function call'
  * @throws {Error} 'panel not found'
+ * @static
  */
 spin.getPanel = function (elt) {
     if (!isNumber(elt) && !isElement(elt) && !isString(elt)) {
@@ -709,11 +794,11 @@ spin.getPanel = function (elt) {
 /**
  * Moves to corresponding panel.
  *
- * @name spin.moveTo
- * @function
+ * @method moveTo
  * @param {Number|String|HTMLElement} elt
  * @returns {HTMLElement}
  * @throws 'panel not found'
+ * @static
  */
 spin.moveTo = function (elt) {
     var dest,
@@ -776,11 +861,9 @@ spin.moveTo = function (elt) {
     return dest;
 };
 
-window.addEventListener('load', function () {
-    dropBaseMarkup();
-    registerClickHandler();
-    spin(config(document.body));
-}, false);
+dropBaseMarkup();
+registerClickHandler();
+spin(config(document.body));
 
 
 })(window, document);
