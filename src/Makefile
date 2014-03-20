@@ -30,4 +30,8 @@ coverage:
 devcoverage:
 	@istanbul instrument js/config.js >js/config-coverage.js
 
+# run unit tests
+test: devcoverage
+	@grover --coverage tests/unit/testrunner-*
+
 .PHONY: all
