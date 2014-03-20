@@ -26,4 +26,8 @@ copyassets:
 coverage:
 	@istanbul instrument ../build/spin/spin.js >../build/spin/spin-coverage.js
 
+# adding code coverage for unit tests
+devcoverage:
+	@istanbul instrument js/config.js >js/config-coverage.js
+
 .PHONY: all
