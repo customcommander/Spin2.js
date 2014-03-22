@@ -26,12 +26,8 @@ copyassets:
 coverage:
 	@istanbul instrument ../build/spin/spin.js >../build/spin/spin-coverage.js
 
-# adding code coverage for unit tests
-devcoverage:
-	@istanbul instrument js/config.js >js/config-coverage.js
-
 # run unit tests
-test: devcoverage
-	@grover --coverage tests/unit/testrunner-*
+test: buildjs buildcss copyassets
+	@grover tests/unit/testrunner-*
 
-.PHONY: all buildjs buildcss copyassets coverage devcoverage test
+.PHONY: all buildjs buildcss copyassets coverage test
