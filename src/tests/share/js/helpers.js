@@ -64,6 +64,15 @@ Y.helpers = {
     },
 
     /**
+     * Helper that returns the title of given panel.
+     * @param {HTMLElement} panel
+     * @return {String}
+     */
+    getPanelTitle: function (panel) {
+        return panel.querySelector('.spin-title').textContent;
+    },
+
+    /**
      * Removes all panels.
      */
     removeAllPanels: function () {
