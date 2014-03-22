@@ -15,7 +15,6 @@ suite.add(new Y.Test.Case({
         var self = this;
 
         Y.helpers.loadPanel()() // home panel, i.e. panel 0
-            .then(Y.helpers.waitUntilNothingMoves)
             .then(function () {
 
                 var panel = Y.one( spin.getPanel(0) );
@@ -45,9 +44,7 @@ suite.add(new Y.Test.Case({
         var self = this;
 
         Y.helpers.loadPanel()()
-            .then( Y.helpers.waitUntilNothingMoves )
             .then( Y.helpers.loadPanel() )
-            .then( Y.helpers.waitUntilNothingMoves )
             .then(function () {
 
                 var panel = Y.one( spin.getPanel(0) );
@@ -66,9 +63,7 @@ suite.add(new Y.Test.Case({
         var self = this;
 
         Y.helpers.loadPanel()()
-            .then( Y.helpers.waitUntilNothingMoves )
             .then( Y.helpers.loadPanel() )
-            .then( Y.helpers.waitUntilNothingMoves )
             .then(function () {
 
                 var panel = Y.one( spin.getPanel(0) );
@@ -98,9 +93,7 @@ suite.add(new Y.Test.Case({
         var self = this;
 
         Y.helpers.loadPanel()()                       // panel 0
-            .then(Y.helpers.waitUntilNothingMoves)
             .then(Y.helpers.loadPanel())              // panel 1
-            .then(Y.helpers.waitUntilNothingMoves)
             .then(function () {
 
                 var panel = Y.one( spin.getPanel(1) );
@@ -122,9 +115,7 @@ suite.add(new Y.Test.Case({
         var self = this;
 
         Y.helpers.loadPanel()()
-            .then( Y.helpers.waitUntilNothingMoves )
             .then( Y.helpers.loadPanel() )
-            .then( Y.helpers.waitUntilNothingMoves )
             .then(function () {
 
                 var panel = Y.one( spin.getPanel(1) );

@@ -10,14 +10,12 @@ suite.add(new Y.Test.Case({
 
     "when a panel loads, a bread crumb should be added to the dom": function () {
 
-        Y.helpers.loadPanel()()
-            .then(Y.helpers.waitUntilNothingMoves)
-            .then(Y.bind(function () {
-                this.resume(function () {
-                    var nav = Y.one('#spin-nav');
-                    Y.Assert.isTrue(nav.get('children').size()>0);
-                });
-            }, this));
+        Y.helpers.loadPanel()().then(Y.bind(function () {
+            this.resume(function () {
+                var nav = Y.one('#spin-nav');
+                Y.Assert.isTrue(nav.get('children').size()>0);
+            });
+        }, this));
 
         this.wait();
     },
@@ -25,13 +23,9 @@ suite.add(new Y.Test.Case({
     "the number of panels and breadcrumbs should be the same": function () {
 
         Y.helpers.loadPanel()()                    // panel 0
-            .then(Y.helpers.waitUntilNothingMoves)
             .then(Y.helpers.loadPanel())           // panel 1
-            .then(Y.helpers.waitUntilNothingMoves)
             .then(Y.helpers.loadPanel())           // panel 2
-            .then(Y.helpers.waitUntilNothingMoves)
             .then(Y.helpers.loadPanel())           // panel 3
-            .then(Y.helpers.waitUntilNothingMoves)
             .then(Y.helpers.loadPanel())           // panel 4
             .then(Y.bind(function () {
 
@@ -60,11 +54,8 @@ suite.add(new Y.Test.Case({
         }
 
         Y.helpers.loadPanel()()                      // panel 0
-            .then(Y.helpers.waitUntilNothingMoves)
             .then(Y.helpers.loadPanel())             // panel 1
-            .then(Y.helpers.waitUntilNothingMoves)
             .then(Y.helpers.loadPanel())             // panel 2, at this point panel 0 should be hidden
-            .then(Y.helpers.waitUntilNothingMoves)
             .then(clickOnTheFirstBreadCrumb)
             .then(Y.helpers.waitUntilNothingMoves)
             .then(Y.bind(function () {

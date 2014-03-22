@@ -19,7 +19,6 @@ suite.add(new Y.Test.Case({
 
     initTest: function () {
         return Y.helpers.loadPanel({ url: './assets/panels/tubemap.html' })()
-            .then(Y.helpers.waitUntilNothingMoves)
             .then(this.clickNonNav);
     },
 
@@ -65,7 +64,6 @@ suite.add(new Y.Test.Case({
 
     initTest: function () {
         return Y.helpers.loadPanel({ url: './assets/panels/tubemap.html' })()
-            .then(Y.helpers.waitUntilNothingMoves)
             .then(this.clickOnNav);
     },
 
@@ -98,7 +96,6 @@ suite.add(new Y.Test.Case({
 
     initTest: function () {
         return Y.helpers.loadPanel({ url: './assets/panels/tubemap.html' })()
-            .then(Y.helpers.waitUntilNothingMoves)
             .then(this.clickOnNav)
             .then(Y.helpers.waitUntilNothingMoves)
             .then(this.clickOnNav);

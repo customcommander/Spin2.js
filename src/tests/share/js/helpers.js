@@ -50,15 +50,19 @@ Y.helpers = {
     },
 
     /**
-     * Helper to be used in a Promise chain.
+     * Returns a function that loads a panel and returns a `Promise` that automatically
+     * resolves when the panel is loaded and doesn't move.
+     *
      * @param {Object} [cfg] A config object that will be given to `spin()`.
-     * @return {Function} A function that returns a Promise to load a panel.
+     * @return {Function}
      */
     loadPanel: function (cfg) {
         return function () {
+            var panel = spin(cfg);
             return new Y.Promise(function (resolve) {
-                spin(cfg);
-                resolve();
+                Y.helpers.waitUntilNothingMoves().then(function () {
+                    resolve(panel);
+                });
             });
         };
     },

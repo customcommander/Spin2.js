@@ -12,24 +12,22 @@ suite.add(new Y.Test.Case({
 
         var self = this;
 
-        Y.helpers.loadPanel()()
-            .then(Y.helpers.waitUntilNothingMoves)
-            .then(function () {
+        Y.helpers.loadPanel()().then(function () {
 
-                var panel,
-                    panel_width,
-                    win_width;
+            var panel,
+                panel_width,
+                win_width;
 
-                panel = spin.getPanel(0);
-                panel = Y.one(panel);
+            panel = spin.getPanel(0);
+            panel = Y.one(panel);
 
-                panel_width = parseInt(panel.getComputedStyle('width'), 10);
-                win_width   = Y.one(panel).get('winWidth');
+            panel_width = parseInt(panel.getComputedStyle('width'), 10);
+            win_width   = Y.one(panel).get('winWidth');
 
-                self.resume(function () {
-                    Y.Assert.isTrue(panel_width === win_width);
-                });
+            self.resume(function () {
+                Y.Assert.isTrue(panel_width === win_width);
             });
+        });
 
         this.wait();
     },
@@ -39,9 +37,7 @@ suite.add(new Y.Test.Case({
         var self  = this;
 
         Y.helpers.loadPanel()()
-            .then(Y.helpers.waitUntilNothingMoves)
             .then(Y.helpers.loadPanel())
-            .then(Y.helpers.waitUntilNothingMoves)
             .then(function () {
                 var panel,
                     panel_width,
@@ -69,9 +65,7 @@ suite.add(new Y.Test.Case({
         var self = this;
 
         Y.helpers.loadPanel()()
-            .then(Y.helpers.waitUntilNothingMoves)
             .then(Y.helpers.loadPanel())
-            .then(Y.helpers.waitUntilNothingMoves)
             .then(function () {
 
                 var panel,
