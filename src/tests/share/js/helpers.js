@@ -73,6 +73,15 @@ Y.helpers = {
     },
 
     /**
+     * Helper that returns the content of given panel.
+     * @param {HTMLElement} panel
+     * @return {String}
+     */
+    getPanelContent: function (panel) {
+        return panel.querySelector('.spin-panel-bd').innerHTML;
+    },
+
+    /**
      * Removes all panels.
      */
     removeAllPanels: function () {
