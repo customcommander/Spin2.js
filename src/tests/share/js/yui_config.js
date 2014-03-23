@@ -83,6 +83,12 @@ YUI_config = {
                     'node-event-simulate',
                     'css-for-tests',
                     'helpers-for-tests'
+                ],
+                // same as above (@todo merge?)
+                'unit-test-resources': [
+                    'test',
+                    'node',
+                    'helpers-for-tests'
                 ]
             },
             modules: {
@@ -96,7 +102,7 @@ YUI_config = {
                 },
                 'unit-config-tests': {
                     path: 'config-tests.js',
-                    requires: ['test', 'node', 'dev-config']
+                    requires: ['unit-test-resources']
                 },
                 'unit-breadcrumb-tests': {
                     path: 'breadcrumb-tests.js',

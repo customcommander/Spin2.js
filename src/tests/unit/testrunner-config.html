@@ -1,21 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="../../../build/spin/spin.css"/>
     <script src="../share/js/yui_config.js"></script>
     <script src="http://yui.yahooapis.com/3.14.1/build/yui/yui-min.js"></script>
 </head>
 <body>
     <script>
-        YUI({
-            filters: {
-                'dev-config': {
-                    searchExp: '.js$',
-                    replaceStr: '-coverage.js'
-                }
-            }
-        }).use('unit-config-tests', function (Y) {
+        YUI().use('unit-config-tests', function (Y) {
             Y.Test.Runner.run();
         });
     </script>
+    <script src="../../../build/spin/spin.js"></script>
 </body>
 </html>

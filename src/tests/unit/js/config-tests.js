@@ -4,108 +4,88 @@ var suite = new Y.Test.Suite("config tests");
 
 suite.add(new Y.Test.Case({
 
-    name: "config()",
+    name: "configuration properties - smoke tests",
 
-    "returns an object": function () {
-        Y.one('body').append('<div id="foo"></div>');
-        Y.Assert.isObject( config() );
-        Y.Assert.isObject( config( Y.one('#foo').getDOMNode() ) );
-        Y.Assert.isObject( config( {} ) );
-        Y.one('#foo').remove();
-    }
-}));
-
-suite.add(new Y.Test.Case({
-
-    name: "config.get()",
-
-    "reads the d  ata-url attribute from the element": function () {
-        var cfg;
-        Y.one('body').append('<div id="nav" data-url="this_url"></div>');
-        cfg = config.get( Y.one('#nav').getDOMNode() );
-        Y.Assert.areSame('this_url', cfg.url);
-        Y.one('#nav').remove();
+    _should: {
+        // temporary! phantomjs runs a webkit engine and the current css animations only support firefox
+        ignore: {
+            "title: should default to an empty string if not given": Y.UA.phantomjs,
+            "content: should default to an empty string if not given": Y.UA.phantomjs
+        }
     },
 
-    "reads the data-title attribute from the element": function () {
-        var cfg;
-        Y.one('body').append('<div id="nav" data-title="this_title"></div>');
-        cfg = config.get( Y.one('#nav').getDOMNode() );
-        Y.Assert.areSame('this_title', cfg.title);
-        Y.one('#nav').remove();
-    }
-}));
-
-suite.add(new Y.Test.Case({
-
-    name: "config.validate()",
-
-    "returns an object": function () {
-        Y.Assert.isObject(config.validate({}));
+    /**
+     * @param {Object} [cfg] Configuration object that will be given to `spin()`.
+     * @return {Function} Returns a function that will make a call to `spin()` with the provided config object.
+     */
+    makeABadCall: function (cfg) {
+        return function () {
+            spin(cfg);
+        };
     },
 
-    "throws if cfg is not an object": function () {
-        Y.Assert.throwsError(Error, function () {
-            config.validate();
-        });
+    setUp: function () {
+        Y.helpers.removeAllPanels();
     },
 
-    "throws if cfg.title is not a string": function () {
-        Y.Assert.throwsError(Error, function () {
-            config.validate({ title: [] });
-        });
+    "title: should default to an empty string if not given": function () {
+
+        var self = this;
+
+        function assertPanelTitleIsEmpty(panel) {
+            var title = Y.helpers.getPanelTitle(panel);
+            self.resume(function () {
+                Y.Assert.areSame('', title);
+            });
+        }
+
+        Y.helpers.loadPanel({})().then(assertPanelTitleIsEmpty);
+        this.wait();
     },
 
-    "throws if cfg.content is not a string": function () {
-        Y.Assert.throwsError(Error, function () {
-            config.validate({ content: [] });
-        });
+    "content: should default to an empty string if not given": function () {
+
+        var self = this;
+
+        function assertPanelContentIsEmpty(panel) {
+            var content = Y.helpers.getPanelContent(panel);
+            self.resume(function () {
+                Y.Assert.areSame('', content);
+            });
+        }
+
+        Y.helpers.loadPanel({})().then(assertPanelContentIsEmpty);
+        this.wait();
     },
 
-    "throws if cfg.url is not valid": function () {
-        Y.Assert.throwsError(Error, function () {
-            config.validate({ url: [] });
-        });
-        Y.Assert.throwsError(Error, function () {
-            config.validate({ url: '' });
-        });
-        Y.Assert.throwsError(Error, function () {
-            config.validate({ url: '  ' });
-        });
+    "title: should throw an error if not valid": function () {
+        Y.Assert.throwsError(Error, this.makeABadCall({ title: [] }), 'expected an array not to be a valid title');
+        Y.Assert.throwsError(Error, this.makeABadCall({ title: {} }), 'expected an object not to be a valid title');
+        Y.Assert.throwsError(Error, this.makeABadCall({ title: 99 }), 'expected a number not to be a valid title');
     },
 
-    "throws if cfg.panel is not valid": function () {
-        Y.Assert.throwsError(Error, function () {
-            config.validate({ panel: [] });
-        });
+    "content: should throw an error if not valid": function () {
+        Y.Assert.throwsError(Error, this.makeABadCall({ content: [] }), 'expected an array not to be a valid content');
+        Y.Assert.throwsError(Error, this.makeABadCall({ content: {} }), 'expected an object not to be a valid content');
+        Y.Assert.throwsError(Error, this.makeABadCall({ content: 99 }), 'expected a number not to be a valid content');
     },
 
-    "throws if cfg.error is not valid": function () {
-        Y.Assert.throwsError(Error, function () {
-            config.validate({ error: [] });
-        });
-    }
-}));
-
-suite.add(new Y.Test.Case({
-
-    name: "config.defaults(cfg)",
-
-    "adds default values if they are not present": function () {
-        var cfg = {};
-        cfg = config.defaults(cfg);
-        Y.ObjectAssert.ownsKeys(['title','content','error'], cfg, 'some default values have not been added');
-        Y.Assert.areSame(''   , cfg.title  , 'expected default value for title to be an empty string');
-        Y.Assert.areSame(''   , cfg.content, 'expected default value for content to be an empty string');
-        Y.Assert.areSame(false, cfg.error  , 'expected default value for error to be false');
+    "url: should throw if not valid": function () {
+        Y.Assert.throwsError(Error, this.makeABadCall({ url: [] }), 'expected an array not to be a valid url');
+        Y.Assert.throwsError(Error, this.makeABadCall({ url: 99 }), 'expected a number not to be a valid url');
+        Y.Assert.throwsError(Error, this.makeABadCall({ url: ''}) , 'expected an empty string not to be a valid url');
+        Y.Assert.throwsError(Error, this.makeABadCall({ url: ' '}), 'expected a white spaces only string not to be a valid url');
     },
 
-    "do not touch existing values": function () {
-        var cfg = { title: 'aa', content: 'bb', error: true };
-        cfg = config.defaults(cfg);
-        Y.Assert.areSame('aa', cfg.title  , 'expected cfg.title to be "aa"');
-        Y.Assert.areSame('bb', cfg.content, 'expected cfg.content to be "bb"');
-        Y.Assert.areSame(true, cfg.error  , 'expected cfg.error to be true')
+    "panel: should throw if not valid": function () {
+        Y.Assert.throwsError(Error, this.makeABadCall({ panel: [] })  , 'expected an array not to be a valid value for panel');
+        Y.Assert.throwsError(Error, this.makeABadCall({ panel: true }), 'expected a boolean not to be a valid value for panel');
+        Y.Assert.throwsError(Error, this.makeABadCall({ panel: 9999 }), 'expected an error to be thrown if panel is out of range');
+    },
+
+    "error: should throw if not valid": function () {
+        Y.Assert.throwsError(Error, this.makeABadCall({ error: [] }), 'expected an array not to be a valid value for error');
+        Y.Assert.throwsError(Error, this.makeABadCall({ error: 99 }), 'expected a number not to be a valid value for error');
     }
 }));
 
