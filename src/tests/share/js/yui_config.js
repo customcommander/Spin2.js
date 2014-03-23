@@ -94,7 +94,7 @@ YUI_config = {
             modules: {
                 'unit-onload-tests': {
                     path: 'onload-tests.js',
-                    requires: ['test', 'node', 'dev-spin']
+                    requires: ['unit-test-resources']
                 },
                 'unit-utils-tests': {
                     path: 'utils-tests.js',
