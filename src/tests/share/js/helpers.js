@@ -68,6 +68,23 @@ Y.helpers = {
     },
 
     /**
+     * Returns a function that returns a Promise to move to given panel.
+     * The Promise resolves when we reached out the panel.
+     * @param {Number|String|HTMLElement} el
+     * @return {Function}
+     */
+    moveToPanel: function (el) {
+        return function () {
+            var panel = spin.moveTo(el);
+            return new Y.Promise(function (resolve) {
+                Y.helpers.waitUntilNothingMoves().then(function () {
+                    resolve(panel);
+                });
+            });
+        };
+    },
+
+    /**
      * Helper that returns the title of given panel.
      * @param {HTMLElement} panel
      * @return {String}
