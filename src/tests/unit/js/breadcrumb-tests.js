@@ -57,6 +57,46 @@ suite.add(new Y.Test.Case({
     }
 }));
 
+suite.add(new Y.Test.Case({
+
+    name: "breadcrumb states",
+
+    _should: {
+        ignore: {
+            "crumb1: applied to the last panel if it is not visible": true
+        }
+    },
+
+    setUp: function () {
+        Y.helpers.removeAllPanels();
+    },
+
+    destroy: function () {
+        Y.helpers.removeAllPanels();
+    },
+
+    getBreadcrumb: function (panel) {
+        return Y.one('#' + panel.id + '-crumb').getDOMNode();
+    },
+
+    "crumb1: applied to the last panel if it is not visible": function () {
+
+        var self = this;
+
+        Y.helpers.loadPanel()()
+            .then(Y.helpers.loadPanel())
+            .then(Y.helpers.moveToPanel(0))
+            .then(function () {
+                self.resume(function () {
+                    var crumb = self.getBreadcrumb(spin.getPanel(1));
+                    Y.Assert.areSame('crumb1', crumb.className);
+                });
+            });
+
+        this.wait();
+    }
+}));
+
 Y.Test.Runner.add(suite);
 
 });
