@@ -106,7 +106,7 @@ YUI_config = {
                 },
                 'unit-breadcrumb-tests': {
                     path: 'breadcrumb-tests.js',
-                    requires: ['test', 'node', 'dev-breadcrumb']
+                    requires: ['unit-test-resources']
                 },
 
 // functional tests
