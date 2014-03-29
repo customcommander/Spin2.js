@@ -7,7 +7,10 @@
 </head>
 <body>
     <script>
-        YUI().use('unit-breadcrumb-tests', function (Y) {
+        YUI().use('unit-onload-tests',
+                  'unit-config-tests',
+                  'unit-breadcrumb-tests', function (Y) {
+
             Y.Test.Runner.run();
         });
     </script>
