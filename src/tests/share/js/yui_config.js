@@ -104,6 +104,10 @@ YUI_config = {
                     path: 'breadcrumb-tests.js',
                     requires: ['unit-test-resources']
                 },
+                'unit-getpanel-tests': {
+                    path: 'getpanel-tests.js',
+                    requires: ['unit-test-resources']
+                },
 
 // functional tests
 //
