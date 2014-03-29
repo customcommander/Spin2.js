@@ -96,10 +96,6 @@ YUI_config = {
                     path: 'onload-tests.js',
                     requires: ['unit-test-resources']
                 },
-                'unit-utils-tests': {
-                    path: 'utils-tests.js',
-                    requires: ['test', 'node', 'dev-utils']
-                },
                 'unit-config-tests': {
                     path: 'config-tests.js',
                     requires: ['unit-test-resources']
