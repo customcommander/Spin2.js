@@ -90,6 +90,14 @@ suite.add(new Y.Test.Case({
                 spin.getPanel(document.body);
             });
         });
+    },
+
+    "throws an error if argument is invalid": function () {
+        Y.Assert.throwsError(Error, function () { spin.getPanel(); });
+        Y.Assert.throwsError(Error, function () { spin.getPanel([]); });
+        Y.Assert.throwsError(Error, function () { spin.getPanel({}); });
+        Y.Assert.throwsError(Error, function () { spin.getPanel(true); });
+        Y.Assert.throwsError(Error, function () { spin.getPanel(NaN); });
     }
 }));
 
