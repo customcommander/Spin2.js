@@ -1,4 +1,8 @@
 {
     "basedir": ".",
-    "glob": "src/tests/**/testrunner*.html"
+    "glob": "src/tests/**/testrunner*.html",
+    "coverageOptions": {
+        "instrument": false,
+        "query": "filter=coverage"
+    }
 }

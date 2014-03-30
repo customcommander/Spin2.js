@@ -1,20 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="../../../build/spin/spin.css"/>
     <script src="../share/js/yui_config.js"></script>
     <script src="http://yui.yahooapis.com/3.14.1/build/yui/yui-min.js"></script>
 </head>
 <body>
     <script>
-        YUI().use('unit-onload-tests',
-                  'unit-config-tests',
-                  'unit-breadcrumb-tests',
-                  'unit-getpanel-tests', function (Y) {
+        YUI({
+            filters: (function (coverage) {
+                return !coverage ? {} : {
+                    'spinjs': {
+                        searchExp: '/spin.js$',
+                        replaceStr: '/spin-coverage.js'
+                    }
+                };
+            }(document.location.search.indexOf('filter=coverage')>-1))
+        }).use('unit-onload-tests',
+               'unit-config-tests',
+               'unit-breadcrumb-tests',
+               'unit-getpanel-tests', function (Y) {
 
             Y.Test.Runner.run();
         });
     </script>
-    <script src="../../../build/spin/spin.js"></script>
 </body>
 </html>

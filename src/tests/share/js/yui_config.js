@@ -94,19 +94,19 @@ YUI_config = {
             modules: {
                 'unit-onload-tests': {
                     path: 'onload-tests.js',
-                    requires: ['unit-test-resources']
+                    requires: ['unit-test-resources', 'spinjs']
                 },
                 'unit-config-tests': {
                     path: 'config-tests.js',
-                    requires: ['unit-test-resources']
+                    requires: ['unit-test-resources', 'spinjs']
                 },
                 'unit-breadcrumb-tests': {
                     path: 'breadcrumb-tests.js',
-                    requires: ['unit-test-resources']
+                    requires: ['unit-test-resources', 'spinjs']
                 },
                 'unit-getpanel-tests': {
                     path: 'getpanel-tests.js',
-                    requires: ['unit-test-resources']
+                    requires: ['unit-test-resources', 'spinjs']
                 },
 
 // functional tests
