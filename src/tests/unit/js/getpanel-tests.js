@@ -35,17 +35,17 @@ suite.add(new Y.Test.Case({
         });
     },
 
-    "returns the panel that contains an element with given html id": function () {
-        var panel = spin({ content: '<p id="foo">bar</p>' });
+    "returns the panel that contains an element matching given css selector": function () {
+        var panel = spin({ content: '<p id="foo" class="bar">bar</p>' });
         this.waitFor(this._panelExists, function () {
-            Y.Assert.areSame(panel, spin.getPanel('foo'));
+            Y.Assert.areSame(panel, spin.getPanel('#foo.bar'));
         });
     },
 
-    "returns the panel with given html id": function () {
+    "returns the panel matching given css selector": function () {
         var panel = spin();
         this.waitFor(this._panelExists, function () {
-            Y.Assert.areSame(panel, spin.getPanel(panel.id));
+            Y.Assert.areSame(panel, spin.getPanel('#'+panel.id));
         });
     },
 
