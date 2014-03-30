@@ -28,6 +28,6 @@ coverage:
 
 # run unit tests
 test: buildjs buildcss copyassets
-	@grover tests/unit/testrunner-*
+	@grover tests/unit/testrunner.html
 
 .PHONY: all buildjs buildcss copyassets coverage test
