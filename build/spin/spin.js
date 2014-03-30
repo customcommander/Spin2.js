@@ -754,20 +754,26 @@ spin.PANEL_SMALL       = 'small';
 /**
  * Returns corresponding panel.
  *
- * @example
- *      // Returns the third panel (zero based index)
- *      spin.getPanel(2);
+ * The parameter can be of three different types:
  *
- * @example
- *      // Returns the panel that contains that element
- *      spin.getPanel('elementID');
+ * -    Number: the method returns the panel at given position (zero based index).
  *
- * @example
- *      // Previous example could be rewritten like this
- *      spin.getPanel(document.getElementById('elementID'));
+ *          // Returns the third panel (zero based index)
+ *          spin.getPanel(2);
+ *
+ * -    String: the method assumes a css selector and returns the first panel matching it
+ *      or containing a matching element.
+ *
+ *          // Returns the first panel containing an element that matches given css selector.
+ *          spin.getPanel('#html_id');
+ *
+ * -    HTMLElement: the method returns the panel that contains given element.
+ *
+ *          // Previous example could be rewritten like this
+ *          spin.getPanel(document.querySelector('#html_id'));
  *
  * @method getPanel
- * @param {Number|HTMLElement|String} elt
+ * @param {Number|HTMLElement|String} elt.
  * @returns {HTMLElement}
  * @throws {Error} 'bad function call'
  * @throws {Error} 'panel not found'
@@ -780,7 +786,7 @@ spin.getPanel = function (elt) {
     if (isNumber(elt)) {
         elt = document.querySelector('#spin-panels').childNodes[elt];
     } else if (isString(elt)) {
-        elt = document.getElementById(elt);
+        elt = document.querySelector(elt);
     }
     while (isElement(elt)) {
         if (isPanel(elt)) {
