@@ -1,0 +1,26 @@
+{
+  "name": "Spin2.js",
+  "version": "1.0.0",
+  "description": "Spin.js helps you build web applications as a continuous and logical flow of screens.",
+  "scripts": {
+    "test": "./node_modules/karma/bin/karma start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/customcommander/Spin2.js.git"
+  },
+  "author": "Julien Gonzalez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/customcommander/Spin2.js/issues"
+  },
+  "homepage": "https://github.com/customcommander/Spin2.js",
+  "devDependencies": {
+    "chai": "^2.1.2",
+    "karma": "^0.12.31",
+    "karma-mocha": "^0.1.10",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "mocha": "^2.2.1",
+    "phantomjs": "^1.9.16"
+  }
+}
