@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Spin.js helps you build web applications as a continuous and logical flow of screens.",
   "scripts": {
-    "test": "./node_modules/karma/bin/karma start"
+    "test": "make test"
   },
   "repository": {
     "type": "git",
