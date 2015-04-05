@@ -16,6 +16,14 @@ module.exports = function (config) {
 
         browsers: ['PhantomJS'],
 
+        reporters: ['mocha'],
+
+        plugins:[
+            'karma-mocha',
+            'karma-mocha-reporter',
+            'karma-phantomjs-launcher'
+        ],
+
         singleRun: true
     });
 
