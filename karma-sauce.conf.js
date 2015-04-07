@@ -9,7 +9,7 @@ module.exports = function (config) {
         frameworks: ['mocha'],
 
         files: [
-            { pattern: './src/tests/wd-temp.js'       , watched: false, included: false, served: false }
+            { pattern: './src/tests/wd-temp.js'       , watched: false, included: false, served: true }
         ],
 
         browsers: ['sauceFirefox29','sauceFirefox28'],
