@@ -31,7 +31,10 @@ module.exports = function (config) {
             }
         },
 
-        reporters: ['mocha'],
+        reporters: [
+            'mocha',
+            'saucelabs'
+        ],
 
         plugins:[
             'karma-mocha',
