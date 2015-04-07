@@ -4,5 +4,6 @@ describe('Spin', function () {
 
     it('should do awesome stuff', function () {
         var driver = WebDriver.Builder().build();
+        driver.quit();
     });
 });
