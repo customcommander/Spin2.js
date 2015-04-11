@@ -5,5 +5,7 @@ env:
   global:
     - secure: g8007Wa3/T7YvmvMJtCoIIZKvOXqsli6mbgGT/fSCgUg3fxqIRg3py4pT26ZbojzOxpbujaT0+LMgro/kp/+C9LQLL1x1bhx8MkGsD4s0SahaTfv7eiDlJw3NTge3KmfOnT0vbmsTWMI+tnb7o5gzEKNAh4IloHkke23wYMnRqI=
     - secure: KlBwNxD4XiwH1WZmZ18/bdMp+dvFj8KRFZGwuLJv4kLpiIAfH/YitA65VcSQHx4YmguBFEEEYOVpSULNSGHCtopdJyunsMuz1VxF2+QfyeirsxupLIWg1F4j7jvhdDtMa45h1OGGGt+vs6+faSdzOWJPxynZmKiaWeyxUUr0Kn8=
+addons:
+    sauce_connect: true
 script:
-    - ./node_modules/karma/bin/karma start karma-sauce.conf.js
+    - ./node_modules/.bin/mocha src/tests/wd-temp.js
