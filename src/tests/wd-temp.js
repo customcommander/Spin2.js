@@ -1,9 +1,9 @@
 describe('Spin', function () {
 
-    var WebDriver = require('selenium-webdriver');
+    var webdriver = require('selenium-webdriver');
 
     it('should do awesome stuff', function () {
-        var driver = WebDriver.Builder().build();
+        var driver = new webdriver.Builder().build();
         driver.quit();
     });
 });
